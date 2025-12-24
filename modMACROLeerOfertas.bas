@@ -1,17 +1,13 @@
 Attribute VB_Name = "modMACROLeerOfertas"
 '=========================================================
-' M”DULO DE MACROS PARA PRUEBAS Y OPERACIONES CON OFERTAS
+' M√ìDULO DE MACROS PARA PRUEBAS Y OPERACIONES CON OFERTAS
 '=========================================================
-
-' FIXME: HAY REFERENCIAS DE CATALOGO QUE NO SE RESUELVEN: PARA LOS CILINDROS, REFRIGERADORES,ETC!! deben actualizarse, y actualizar LEEROFERTACOMPLETA para mostrarlos...
-' fixme: buscar fixme y todo...
-
 Option Explicit
 
 Const RUTA_BD As String = "C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Ofertas_Gas.mdb"
 
 '=========================================================
-' FUNCI”N AUXILIAR - VALIDACI”N DE GUID
+' FUNCI√ìN AUXILIAR - VALIDACI√ìN DE GUID
 '=========================================================
 Function isGUID(ByVal strGUID As Variant) As Boolean
     On Error GoTo ErrHandler
@@ -31,16 +27,7 @@ Function isGUID(ByVal strGUID As Variant) As Boolean
 ErrHandler:
     isGUID = False
 End Function
-Sub Macro1()
-    Dim shname
-    On Error Resume Next
-    For Each shname In Array("Oferta", "OfertasOtros", "Ofertas", "Catalogos", "TestCompleto")
-    With Sheets.Add(After:=ActiveSheet)
-        .Name = shname
-    End With
-    Next
-    On Error GoTo 0
-End Sub
+
 '=========================================================
 '@Description: Lee una oferta y vuelca sus datos generales en Excel
 '@Scope: Prueba desde Excel
@@ -49,7 +36,7 @@ End Sub
 Public Sub Test_LeerOfertaDatosGenerales()
     On Error GoTo ErrHandler
     
-    Const OFER_ID As String = "44F01822-094A-4959-97B4-2FA8C3549BC6"  ' ? CAMBIAR POR GUID REAL
+    Const OFER_ID As String = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  ' ‚Üê CAMBIAR POR GUID REAL
     
     Dim ctx As clsDBContext
     Dim cat As clsCatalogos
@@ -62,14 +49,14 @@ Public Sub Test_LeerOfertaDatosGenerales()
     Set ws = ThisWorkbook.Worksheets("Oferta")
     ws.Cells.Clear
     
-    ' Conectar y cargar cat·logos
+    ' Conectar y cargar cat√°logos
     Set ctx = New clsDBContext
     ctx.Conectar RUTA_BD
     
     Set cat = New clsCatalogos
-    Debug.Print "Cargando cat·logos..."
+    Debug.Print "Cargando cat√°logos..."
     cat.CargarTodos ctx
-    Debug.Print "Cat·logos cargados."
+    Debug.Print "Cat√°logos cargados."
     
     ' Configurar repositorio
     Set repo = New clsOfertaRepository
@@ -89,7 +76,7 @@ Public Sub Test_LeerOfertaDatosGenerales()
     
     ' Datos
     ws.Range("A2").Value = dg.OFER_ID
-    ws.Range("B2").Value = "'" & dg.OFER_NUM_OFERTA
+    ws.Range("B2").Value = dg.OFER_NUM_OFERTA
     ws.Range("C2").Value = dg.OFER_FECHA
     ws.Range("D2").Value = dg.OFER_CLIENTE
     ws.Range("E2").Value = dg.OFER_USUARIO_FINAL
@@ -99,9 +86,9 @@ Public Sub Test_LeerOfertaDatosGenerales()
     ws.Range("I2").Value = dg.OFER_CALD_EXTRA
     ws.Range("J2").Value = dg.OFER_CALD_ASME
     ws.Range("K2").Value = dg.OFER_CALD_INOX
-    ws.Range("L2").Value = IIf(of.EstaCompleta(), "SÕ", "NO")
+    ws.Range("L2").Value = IIf(of.EstaCompleta(), "S√ç", "NO")
     
-    ' Si no est· completa, mostrar quÈ falta
+    ' Si no est√° completa, mostrar qu√© falta
     If Not of.EstaCompleta() Then
         Dim faltantes As Variant
         faltantes = of.TablasFaltantes()
@@ -126,7 +113,7 @@ End Sub
 Public Sub Test_LeerOfertaConOtros()
     On Error GoTo ErrHandler
     
-    Const OFER_ID As String = "02AB2383-3451-4837-BB80-1562CFD37F27"  ' ? CAMBIAR POR GUID REAL
+    Const OFER_ID As String = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  ' ‚Üê CAMBIAR POR GUID REAL
     
     Dim ctx As clsDBContext
     Dim cat As clsCatalogos
@@ -179,8 +166,8 @@ End Sub
 
 '=========================================================
 '@Description: Lee todas las ofertas y las vuelca en una hoja
-'@Scope: Excel VBA ? Base de datos Access (lectura masiva)
-'@Category: ExportaciÛn
+'@Scope: Excel VBA ‚Üí Base de datos Access (lectura masiva)
+'@Category: Exportaci√≥n
 '=========================================================
 Public Sub Test_VolcarTodasLasOfertasAExcel()
     On Error GoTo ErrHandler
@@ -209,9 +196,9 @@ Public Sub Test_VolcarTodasLasOfertasAExcel()
     ctx.Conectar RUTA_BD
     
     Set cat = New clsCatalogos
-    Debug.Print "Cargando cat·logos..."
+    Debug.Print "Cargando cat√°logos..."
     cat.CargarTodos ctx
-    Debug.Print "Cat·logos cargados."
+    Debug.Print "Cat√°logos cargados."
     
     Set repo = New clsOfertaRepository
     repo.SetDBContext ctx
@@ -220,7 +207,7 @@ Public Sub Test_VolcarTodasLasOfertasAExcel()
     ' Leer repositorio completo
     Debug.Print "Leyendo todas las ofertas..."
     Set ofertas = repo.LeerTodas()
-    Debug.Print "Ofertas leÌdas: " & ofertas.Count
+    Debug.Print "Ofertas le√≠das: " & ofertas.Count
     
     ' Volcado masivo
     For Each of In ofertas
@@ -231,7 +218,7 @@ Public Sub Test_VolcarTodasLasOfertasAExcel()
         ws.Cells(fila, 3).Value = dg.OFER_FECHA
         ws.Cells(fila, 4).Value = dg.OFER_CLIENTE
         ws.Cells(fila, 5).Value = of.ObtenerNombreGas()
-        ws.Cells(fila, 6).Value = IIf(of.EstaCompleta(), "SÕ", "NO")
+        ws.Cells(fila, 6).Value = IIf(of.EstaCompleta(), "S√ç", "NO")
         ws.Cells(fila, 7).Value = of.CalcularTotal()
         ws.Cells(fila, 8).Value = of.Otros.Count
         
@@ -250,8 +237,8 @@ ErrHandler:
 End Sub
 
 '=========================================================
-'@Description: Prueba de acceso a cat·logos
-'@Scope: Test de cat·logos
+'@Description: Prueba de acceso a cat√°logos
+'@Scope: Test de cat√°logos
 '@Category: Test
 '=========================================================
 Public Sub Test_Catalogos()
@@ -271,14 +258,14 @@ Public Sub Test_Catalogos()
     Set ctx = New clsDBContext
     ctx.Conectar RUTA_BD
     
-    ' Cargar cat·logos
+    ' Cargar cat√°logos
     Set cat = New clsCatalogos
-    Debug.Print "Cargando cat·logos..."
+    Debug.Print "Cargando cat√°logos..."
     cat.CargarTodos ctx
-    Debug.Print "Cat·logos cargados."
+    Debug.Print "Cat√°logos cargados."
     
     ' Probar acceso (cambiar IDs por valores reales de tu BD)
-    ws.Range("A1").Value = "Prueba de cat·logos:"
+    ws.Range("A1").Value = "Prueba de cat√°logos:"
     
     ' Chasis ID 1 (ejemplo)
     On Error Resume Next
@@ -306,7 +293,7 @@ Public Sub Test_Catalogos()
     
     ctx.Desconectar
     
-    MsgBox "Prueba de cat·logos completada. Revisa la hoja 'Catalogos'", vbInformation
+    MsgBox "Prueba de cat√°logos completada. Revisa la hoja 'Catalogos'", vbInformation
     Exit Sub
     
 ErrHandler:
@@ -322,7 +309,7 @@ End Sub
 Public Sub Test_OfertaCompleta()
     On Error GoTo ErrHandler
     
-    Const OFER_ID As String = "02AB2383-3451-4837-BB80-1562CFD37F27"  ' ? CAMBIAR POR GUID REAL
+    Const OFER_ID As String = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  ' ‚Üê CAMBIAR POR GUID REAL
     
     Dim ctx As clsDBContext
     Dim cat As clsCatalogos
@@ -351,12 +338,12 @@ Public Sub Test_OfertaCompleta()
     
     fila = 1
     
-    ' InformaciÛn general
-    ws.Cells(fila, 1).Value = "OFERTA COMPLETA - DIAGN”STICO"
+    ' Informaci√≥n general
+    ws.Cells(fila, 1).Value = "OFERTA COMPLETA - DIAGN√ìSTICO"
     ws.Cells(fila, 1).Font.Bold = True
     fila = fila + 2
     
-    ws.Cells(fila, 1).Value = "N˙mero de oferta:"
+    ws.Cells(fila, 1).Value = "N√∫mero de oferta:"
     ws.Cells(fila, 2).Value = of.DatosGenerales.OFER_NUM_OFERTA
     fila = fila + 1
     
@@ -373,7 +360,7 @@ Public Sub Test_OfertaCompleta()
     fila = fila + 2
     
     ws.Cells(fila, 1).Value = "Oferta completa:"
-    ws.Cells(fila, 2).Value = IIf(of.EstaCompleta(), "SÕ", "NO")
+    ws.Cells(fila, 2).Value = IIf(of.EstaCompleta(), "S√ç", "NO")
     ws.Cells(fila, 2).Font.Bold = True
     If Not of.EstaCompleta() Then
         ws.Cells(fila, 2).Font.Color = RGB(255, 0, 0)
@@ -394,15 +381,15 @@ Public Sub Test_OfertaCompleta()
     fila = fila + 1
     ws.Cells(fila, 1).Value = "Total calculado:"
     ws.Cells(fila, 2).Value = of.CalcularTotal()
-    ws.Cells(fila, 2).NumberFormat = "#,##0.00 Ä"
+    ws.Cells(fila, 2).NumberFormat = "#,##0.00 ‚Ç¨"
     fila = fila + 1
     
-    ws.Cells(fila, 1).Value = "N˙mero de 'Otros':"
+    ws.Cells(fila, 1).Value = "N√∫mero de 'Otros':"
     ws.Cells(fila, 2).Value = of.Otros.Count
     fila = fila + 2
     
-    ' DescripciÛn del chasis (prueba de acceso a cat·logo)
-    ws.Cells(fila, 1).Value = "DescripciÛn Chasis:"
+    ' Descripci√≥n del chasis (prueba de acceso a cat√°logo)
+    ws.Cells(fila, 1).Value = "Descripci√≥n Chasis:"
     ws.Cells(fila, 2).Value = of.ObtenerDescripcionChasis()
     
     ctx.Desconectar

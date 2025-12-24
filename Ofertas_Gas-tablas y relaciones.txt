@@ -1,0 +1,1342 @@
+Estructura de la base de datos: Ofertas_Gas
+Fecha de exportación: 30/06/2025 10:03:15
+==================================================
+
+Tabla: AcoplamientosDirecto (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ACOD_ID (Long) [Origen: ACOD_ID]
+  ACOD_MODELO (Text) [Origen: ACOD_MODELO]
+  ACOD_DESCRIPCION (Text) [Origen: ACOD_DESCRIPCION]
+  ACOD_ADVERTENCIA (Text) [Origen: ACOD_ADVERTENCIA]
+  ACOD_PRE_COSTE (Double) [Origen: ACOD_PRE_COSTE]
+
+Tabla: Advertencias (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ADVG_ID (Long) [Origen: ADVG_ID]
+  GASE_ID (Long) [Origen: GASE_ID]
+  AREA_ID (Long) [Origen: AREA_ID]
+  ADVG_GENE_ID (Long) [Origen: ADVG_GENE_ID]
+  ADVG_ADVERTENCIA (Text) [Origen: ADVG_ADVERTENCIA]
+
+Tabla: Aeros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  AERO_ID (Long) [Origen: AERO_ID]
+  AERO_MODELO (Text) [Origen: AERO_MODELO]
+  AERO_DESCRIPCION (Text) [Origen: AERO_DESCRIPCION]
+  AERO_ADVERTENCIA (Text) [Origen: AERO_ADVERTENCIA]
+  AERO_PRE_COSTE (Double) [Origen: AERO_PRE_COSTE]
+
+Tabla: Areas (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  AREA_ID (Long) [Origen: AREA_ID]
+  AREA_DENOMINACION (Text) [Origen: AREA_DENOMINACION]
+  AREA_GENE_NOMBRE (Text) [Origen: AREA_GENE_NOMBRE]
+  AREA_NUMERO_CAMPO (Long) [Origen: AREA_NUMERO_CAMPO]
+
+Tabla: ArrancadoresControl (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ARR3_ID (Long) [Origen: ARR3_ID]
+  ARR3_MODELO (Text) [Origen: ARR3_MODELO]
+  ARR3_DESCRIPCION (Text) [Origen: ARR3_DESCRIPCION]
+  ARR3_ADVERTENCIA (Text) [Origen: ARR3_ADVERTENCIA]
+  ARR3_PRE_COSTE (Double) [Origen: ARR3_PRE_COSTE]
+
+Tabla: ArrancadoresFuerza (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ARR1_ID (Long) [Origen: ARR1_ID]
+  ARR1_MODELO (Text) [Origen: ARR1_MODELO]
+  ARR1_DESCRIPCION (Text) [Origen: ARR1_DESCRIPCION]
+  ARR1_ADVERTENCIA (Text) [Origen: ARR1_ADVERTENCIA]
+  ARR1_PRE_COSTE (Double) [Origen: ARR1_PRE_COSTE]
+
+Tabla: ArrancadoresFuerzaControl (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ARR2_ID (Long) [Origen: ARR2_ID]
+  ARR2_MODELO (Text) [Origen: ARR2_MODELO]
+  ARR2_DESCRIPCION (Text) [Origen: ARR2_DESCRIPCION]
+  ARR2_ADVERTENCIA (Text) [Origen: ARR2_ADVERTENCIA]
+  ARR2_PRE_COSTE (Double) [Origen: ARR2_PRE_COSTE]
+
+Tabla: ArrancadoresFuerzaControlPET (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ARR4_ID (Long) [Origen: ARR4_ID]
+  ARR4_MODELO (Text) [Origen: ARR4_MODELO]
+  ARR4_DESCRIPCION (Text) [Origen: ARR4_DESCRIPCION]
+  ARR4_ADVERTENCIA (Text) [Origen: ARR4_ADVERTENCIA]
+  ARR4_PRE_COSTE (Double) [Origen: ARR4_PRE_COSTE]
+
+Tabla: Cabezales (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CABE_ID (Long) [Origen: CABE_ID]
+  CABE_MODELO (Text) [Origen: CABE_MODELO]
+  CABE_DESCRIPCION (Text) [Origen: CABE_DESCRIPCION]
+  CABE_ADVERTENCIA (Text) [Origen: CABE_ADVERTENCIA]
+  CABE_PRE_COSTE (Double) [Origen: CABE_PRE_COSTE]
+  CABE_BLOQUE_SAS (Text) [Origen: CABE_BLOQUE_SAS]
+
+Tabla: CajaLocal (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CALO_ID (Long) [Origen: CALO_ID]
+  CALO_MODELO (Text) [Origen: CALO_MODELO]
+  CALO_DESCRIPCION (Text) [Origen: CALO_DESCRIPCION]
+  CALO_ADVERTENCIA (Text) [Origen: CALO_ADVERTENCIA]
+  CALO_PRE_COSTE (Double) [Origen: CALO_PRE_COSTE]
+
+Tabla: Calderines (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CALD_ID (Long) [Origen: CALD_ID]
+  CALD_MODELO (Text) [Origen: CALD_MODELO]
+  CALD_DESCRIPCION (Text) [Origen: CALD_DESCRIPCION]
+  CALD_ADVERTENCIA (Text) [Origen: CALD_ADVERTENCIA]
+
+Tabla: CalderinesCostes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CACO_ID (Long) [Origen: CACO_ID]
+  CALD_ID (Long) [Origen: CALD_ID]
+  VOLU_ID (Long) [Origen: VOLU_ID]
+  CACO_PRE_COSTE (Double) [Origen: CACO_PRE_COSTE]
+  CACO_DESCRIPCION (Text) [Origen: CACO_DESCRIPCION]
+
+Tabla: CalderinesPredeterminados (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CALP_ID (Long) [Origen: CALP_ID]
+  CALP_MODELO (Text) [Origen: CALP_MODELO]
+  CVA1_ID (Long) [Origen: CVA1_ID]
+  CLA1_ID (Long) [Origen: CLA1_ID]
+  CALP_CLA1_CANTIDAD (Long) [Origen: CALP_CLA1_CANTIDAD]
+  CVE1_ID (Long) [Origen: CVE1_ID]
+  CLE1_ID (Long) [Origen: CLE1_ID]
+  CALP_CLE1_CANTIDAD (Long) [Origen: CALP_CLE1_CANTIDAD]
+  CVA2_ID (Long) [Origen: CVA2_ID]
+  CLA2_ID (Long) [Origen: CLA2_ID]
+  CALP_CLA2_CANTIDAD (Long) [Origen: CALP_CLA2_CANTIDAD]
+  CVE2_ID (Long) [Origen: CVE2_ID]
+  CLE2_ID (Long) [Origen: CLE2_ID]
+  CALP_CLE2_CANTIDAD (Long) [Origen: CALP_CLE2_CANTIDAD]
+  CVA3_ID (Long) [Origen: CVA3_ID]
+  CLA3_ID (Long) [Origen: CLA3_ID]
+  CALP_CLA3_CANTIDAD (Long) [Origen: CALP_CLA3_CANTIDAD]
+  CVE3_ID (Long) [Origen: CVE3_ID]
+  CLE3_ID (Long) [Origen: CLE3_ID]
+  CALP_CLE3_CANTIDAD (Long) [Origen: CALP_CLE3_CANTIDAD]
+  CVA4_ID (Long) [Origen: CVA4_ID]
+  CLA4_ID (Long) [Origen: CLA4_ID]
+  CALP_CLA4_CANTIDAD (Long) [Origen: CALP_CLA4_CANTIDAD]
+  CVE4_ID (Long) [Origen: CVE4_ID]
+  CLE4_ID (Long) [Origen: CLE4_ID]
+  CALP_CLE4_CANTIDAD (Long) [Origen: CALP_CLE4_CANTIDAD]
+  CVA5_ID (Long) [Origen: CVA5_ID]
+  CLA5_ID (Long) [Origen: CLA5_ID]
+  CALP_CLA5_CANTIDAD (Long) [Origen: CALP_CLA5_CANTIDAD]
+  CVE5_ID (Long) [Origen: CVE5_ID]
+  CLE5_ID (Long) [Origen: CLE5_ID]
+  CALP_CLE5_CANTIDAD (Long) [Origen: CALP_CLE5_CANTIDAD]
+  CVA6_ID (Long) [Origen: CVA6_ID]
+  CLA6_ID (Long) [Origen: CLA6_ID]
+  CALP_CLA6_CANTIDAD (Long) [Origen: CALP_CLA6_CANTIDAD]
+  CVE6_ID (Long) [Origen: CVE6_ID]
+  CLE6_ID (Long) [Origen: CLE6_ID]
+  CALP_CLE6_CANTIDAD (Long) [Origen: CALP_CLE6_CANTIDAD]
+
+Tabla: Chasis (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CHAS_ID (Long) [Origen: CHAS_ID]
+  CHAS_MODELO (Text) [Origen: CHAS_MODELO]
+  CHAS_DESCRIPCION (Text) [Origen: CHAS_DESCRIPCION]
+  CHAS_ADVERTENCIA (Text) [Origen: CHAS_ADVERTENCIA]
+  CHAS_PRE_COSTE (Double) [Origen: CHAS_PRE_COSTE]
+
+Tabla: Cilindros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CILI_ID (Long) [Origen: CILI_ID]
+  CILI_MODELO (Text) [Origen: CILI_MODELO]
+  CILI_DESCRIPCION (Text) [Origen: CILI_DESCRIPCION]
+  CILI_ADVERTENCIA (Text) [Origen: CILI_ADVERTENCIA]
+  CILI_PRE_COSTE (Double) [Origen: CILI_PRE_COSTE]
+  CILI_T2_COSTE (Double) [Origen: CILI_T2_COSTE]
+  CILI_CO2_COSTE (Double) [Origen: CILI_CO2_COSTE]
+  CILI_CPI_COSTE (Double) [Origen: CILI_CPI_COSTE]
+  CILI_SAS_COSTE (Double) [Origen: CILI_SAS_COSTE]
+  CILI_EMP_COSTE (Double) [Origen: CILI_EMP_COSTE]
+
+Tabla: Comerciales (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  COME_ID (Long) [Origen: COME_ID]
+  COME_NOMBRE (Text) [Origen: COME_NOMBRE]
+
+Tabla: Correas (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  CORR_ID (Long) [Origen: CORR_ID]
+  CORR_MODELO (Text) [Origen: CORR_MODELO]
+  CORR_DESCRIPCION (Text) [Origen: CORR_DESCRIPCION]
+  CORR_ADVERTENCIA (Text) [Origen: CORR_ADVERTENCIA]
+  CORR_PRE_COSTE (Double) [Origen: CORR_PRE_COSTE]
+  CORR_ATEX_COSTE (Double) [Origen: CORR_ATEX_COSTE]
+
+Tabla: DepositosEntrada (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  DEPE_ID (Long) [Origen: DEPE_ID]
+  DEPE_MODELO (Text) [Origen: DEPE_MODELO]
+  DEPE_DESCRIPCION (Text) [Origen: DEPE_DESCRIPCION]
+  DEPE_ADVERTENCIA (Text) [Origen: DEPE_ADVERTENCIA]
+  DEPE_PRE_COSTE (Double) [Origen: DEPE_PRE_COSTE]
+
+Tabla: DepositosFinal (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  DEPF_ID (Long) [Origen: DEPF_ID]
+  DEPF_MODELO (Text) [Origen: DEPF_MODELO]
+  DEPF_DESCRIPCION (Text) [Origen: DEPF_DESCRIPCION]
+  DEPF_ADVERTENCIA (Text) [Origen: DEPF_ADVERTENCIA]
+  DEPF_PRE_COSTE (Double) [Origen: DEPF_PRE_COSTE]
+
+Tabla: Electrovalvulas (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ELEC_ID (Long) [Origen: ELEC_ID]
+  ELEC_MODELO (Text) [Origen: ELEC_MODELO]
+  ELEC_DESCRIPCION (Text) [Origen: ELEC_DESCRIPCION]
+  ELEC_ADVERTENCIA (Text) [Origen: ELEC_ADVERTENCIA]
+  ELEC_PRE_COSTE (Double) [Origen: ELEC_PRE_COSTE]
+
+Tabla: ElectrovalvulasRegulacion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ELER_ID (Long) [Origen: ELER_ID]
+  ELER_MODELO (Text) [Origen: ELER_MODELO]
+  ELER_DESCRIPCION (Text) [Origen: ELER_DESCRIPCION]
+  ELER_ADVERTENCIA (Text) [Origen: ELER_ADVERTENCIA]
+  ELER_PRE_COSTE (Double) [Origen: ELER_PRE_COSTE]
+  Campo1 (Long) [Origen: Campo1]
+
+Tabla: Embalajes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  EMBA_ID (Long) [Origen: EMBA_ID]
+  EMBA_MODELO (Text) [Origen: EMBA_MODELO]
+  EMBA_DESCRIPCION (Text) [Origen: EMBA_DESCRIPCION]
+  EMBA_ADVERTENCIA (Text) [Origen: EMBA_ADVERTENCIA]
+  EMBA_PRE_COSTE (Double) [Origen: EMBA_PRE_COSTE]
+
+Tabla: EngraseCilindros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  ENCI_ID (Long) [Origen: ENCI_ID]
+  ENCI_MODELO (Text) [Origen: ENCI_MODELO]
+  ENCI_DESCRIPCION (Text) [Origen: ENCI_DESCRIPCION]
+  ENCI_ADVERTENCIA (Text) [Origen: ENCI_ADVERTENCIA]
+  ENCI_PRE_COSTE (Double) [Origen: ENCI_PRE_COSTE]
+
+Tabla: Filtros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  FILT_ID (Long) [Origen: FILT_ID]
+  FILT_MODELO (Text) [Origen: FILT_MODELO]
+  FILT_DESCRIPCION (Text) [Origen: FILT_DESCRIPCION]
+  FILT_ADVERTENCIA (Text) [Origen: FILT_ADVERTENCIA]
+  FILT_PRE_COSTE (Double) [Origen: FILT_PRE_COSTE]
+
+Tabla: Gases (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  GASE_ID (Long) [Origen: GASE_ID]
+  GASE_DENOMINACION (Text) [Origen: GASE_DENOMINACION]
+
+Tabla: GruposEngrase (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  GREN_ID (Long) [Origen: GREN_ID]
+  GREN_MODELO (Text) [Origen: GREN_MODELO]
+  GREN_DESCRIPCION (Text) [Origen: GREN_DESCRIPCION]
+  GREN_ADVERTENCIA (Text) [Origen: GREN_ADVERTENCIA]
+  GREN_PRE_COSTE (Double) [Origen: GREN_PRE_COSTE]
+
+Tabla: Instrumentaciones (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  INTR_ID (Long) [Origen: INTR_ID]
+  INTR_MODELO (Text) [Origen: INTR_MODELO]
+  INTR_DESCRIPCION (Text) [Origen: INTR_DESCRIPCION]
+  INTR_ADVERTENCIA (Text) [Origen: INTR_ADVERTENCIA]
+  TRAT_ID (Long) [Origen: TRAT_ID]
+  INTR_TRAT_CANTIDAD (Long) [Origen: INTR_TRAT_CANTIDAD]
+  TRAP_ID (Long) [Origen: TRAP_ID]
+  INTR_TRAP_CANTIDAD (Long) [Origen: INTR_TRAP_CANTIDAD]
+  TERM_ID (Long) [Origen: TERM_ID]
+  INTR_TERM_CANTIDAD (Long) [Origen: INTR_TERM_CANTIDAD]
+  MANO_ID (Long) [Origen: MANO_ID]
+  INTR_MANO_CANTIDAD (Long) [Origen: INTR_MANO_CANTIDAD]
+  ELER_ID (Long) [Origen: ELER_ID]
+  INTR_ELER_CANTIDAD (Long) [Origen: INTR_ELER_CANTIDAD]
+  SECV_ID (Long) [Origen: SECV_ID]
+  INTR_SECV_CANTIDAD (Long) [Origen: INTR_SECV_CANTIDAD]
+  INTV_ID (Long) [Origen: INTV_ID]
+  INTR_INTV_CANTIDAD (Long) [Origen: INTR_INTV_CANTIDAD]
+  INTA_ID (Long) [Origen: INTA_ID]
+  INTR_INTA_CANTIDAD (Long) [Origen: INTR_INTA_CANTIDAD]
+  NIVC_ID (Long) [Origen: NIVC_ID]
+  INTR_NIVC_CANTIDAD (Long) [Origen: INTR_NIVC_CANTIDAD]
+  VATE_ID (Long) [Origen: VATE_ID]
+  INTR_VATE_CANTIDAD (Long) [Origen: INTR_VATE_CANTIDAD]
+
+Tabla: InterruptoresNivelAceite (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  INTA_ID (Long) [Origen: INTA_ID]
+  INTA_MODELO (Text) [Origen: INTA_MODELO]
+  INTA_DESCRIPCION (Text) [Origen: INTA_DESCRIPCION]
+  INTA_ADVERTENCIA (Text) [Origen: INTA_ADVERTENCIA]
+  INTA_PRE_COSTE (Double) [Origen: INTA_PRE_COSTE]
+
+Tabla: InterruptoresVibracion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  INTV_ID (Long) [Origen: INTV_ID]
+  INTV_MODELO (Text) [Origen: INTV_MODELO]
+  INTV_DESCRIPCION (Text) [Origen: INTV_DESCRIPCION]
+  INTV_ADVERTENCIA (Text) [Origen: INTV_ADVERTENCIA]
+  INTV_PRE_COSTE (Double) [Origen: INTV_PRE_COSTE]
+
+Tabla: LlavesEntrada (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  LLEN_ID (Long) [Origen: LLEN_ID]
+  LLEN_MODELO (Text) [Origen: LLEN_MODELO]
+  LLEN_DESCRIPCION (Text) [Origen: LLEN_DESCRIPCION]
+  LLEN_ADVERTENCIA (Text) [Origen: LLEN_ADVERTENCIA]
+  LLEN_PRE_COSTE (Double) [Origen: LLEN_PRE_COSTE]
+
+Tabla: LlavesSalida (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  LLSA_ID (Long) [Origen: LLSA_ID]
+  LLSA_MODELO (Text) [Origen: LLSA_MODELO]
+  LLSA_DESCRIPCION (Text) [Origen: LLSA_DESCRIPCION]
+  LLSA_ADVERTENCIA (Text) [Origen: LLSA_ADVERTENCIA]
+  LLSA_PRE_COSTE (Double) [Origen: LLSA_PRE_COSTE]
+
+Tabla: Manometros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MANO_ID (Long) [Origen: MANO_ID]
+  MANO_MODELO (Text) [Origen: MANO_MODELO]
+  MANO_DESCRIPCION (Text) [Origen: MANO_DESCRIPCION]
+  MANO_ADVERTENCIA (Text) [Origen: MANO_ADVERTENCIA]
+  MANO_PRE_COSTE (Double) [Origen: MANO_PRE_COSTE]
+
+Tabla: ManoObraCabezales (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MAOC_ID (Long) [Origen: MAOC_ID]
+  MAOC_MODELO (Text) [Origen: MAOC_MODELO]
+  MAOC_FASE1_HORAS (Double) [Origen: MAOC_FASE1_HORAS]
+  MAOC_FASE1_PRECIO (Double) [Origen: MAOC_FASE1_PRECIO]
+  MAOC_FASE2_HORAS (Double) [Origen: MAOC_FASE2_HORAS]
+  MAOC_FASE2_PRECIO (Double) [Origen: MAOC_FASE2_PRECIO]
+  MAOC_SOLDA_HORAS (Double) [Origen: MAOC_SOLDA_HORAS]
+  MAOC_SOLDA_PRECIO (Double) [Origen: MAOC_SOLDA_PRECIO]
+  MAOC_PROBA_HORAS (Double) [Origen: MAOC_PROBA_HORAS]
+  MAOC_PROBA_PRECIO (Double) [Origen: MAOC_PROBA_PRECIO]
+  MAOC_PINTU_HORAS (Double) [Origen: MAOC_PINTU_HORAS]
+  MAOC_PINTU_PRECIO (Double) [Origen: MAOC_PINTU_PRECIO]
+  MAOC_ELECT_HORAS (Double) [Origen: MAOC_ELECT_HORAS]
+  MAOC_ELECT_PRECIO (Double) [Origen: MAOC_ELECT_PRECIO]
+
+Tabla: ManoObraIngenierias (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MAOI_ID (Long) [Origen: MAOI_ID]
+  MAOI_MODELO (Text) [Origen: MAOI_MODELO]
+  MAOI_INGEN_HORAS (Double) [Origen: MAOI_INGEN_HORAS]
+  MAOI_INGEN_PRECIO (Double) [Origen: MAOI_INGEN_PRECIO]
+
+Tabla: Motores (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MOTO_ID (Long) [Origen: MOTO_ID]
+  MOTO_MODELO (Text) [Origen: MOTO_MODELO]
+  MOTO_DESCRIPCION (Text) [Origen: MOTO_DESCRIPCION]
+  MOTO_ADVERTENCIA (Text) [Origen: MOTO_ADVERTENCIA]
+  MOTO_PRE_COSTE (Double) [Origen: MOTO_PRE_COSTE]
+  MTNO_ID (Long) [Origen: MTNO_ID]
+  MTCL_ID (Long) [Origen: MTCL_ID]
+  MTFB_ID (Long) [Origen: MTFB_ID]
+  MTTN_ID (Long) [Origen: MTTN_ID]
+
+Tabla: MotoresClass (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MTCL_ID (Long) [Origen: MTCL_ID]
+  MTCL_NOMBRE (Text) [Origen: MTCL_NOMBRE]
+
+Tabla: MotoresEspeciales (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MTSP_ID (Long) [Origen: MTSP_ID]
+  MTSP_MODELO (Text) [Origen: MTSP_MODELO]
+  MTSP_PRE_COSTE (Double) [Origen: MTSP_PRE_COSTE]
+
+Tabla: MotoresFabrica (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MTFB_ID (Long) [Origen: MTFB_ID]
+  MTFB_NOMBRE (Text) [Origen: MTFB_NOMBRE]
+
+Tabla: MotoresNormativas (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MTNO_ID (Long) [Origen: MTNO_ID]
+  MTNO_NOMBRE (Text) [Origen: MTNO_NOMBRE]
+
+Tabla: MotoresTension (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  MTTN_ID (Long) [Origen: MTTN_ID]
+  MTTN_NOMBRE (Text) [Origen: MTTN_NOMBRE]
+
+Tabla: NivelesCondensados (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  NIVC_ID (Long) [Origen: NIVC_ID]
+  NIVC_MODELO (Text) [Origen: NIVC_MODELO]
+  NIVC_DESCRIPCION (Text) [Origen: NIVC_DESCRIPCION]
+  NIVC_ADVERTENCIA (Text) [Origen: NIVC_ADVERTENCIA]
+  NIVC_PRE_COSTE (Double) [Origen: NIVC_PRE_COSTE]
+
+Tabla: NormativasCompresor (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  NORC_ID (Long) [Origen: NORC_ID]
+  NORC_MODELO (Text) [Origen: NORC_MODELO]
+  NORC_DESCRIPCION (Text) [Origen: NORC_DESCRIPCION]
+  NORC_ADVERTENCIA (Text) [Origen: NORC_ADVERTENCIA]
+  NORC_PRE_COSTE (Double) [Origen: NORC_PRE_COSTE]
+
+Tabla: Ofertantes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  OFTN_ID (Long) [Origen: OFTN_ID]
+  OFTN_NOMBRE (Text) [Origen: OFTN_NOMBRE]
+
+Tabla: OfertasAccesorios
+Origen: Base de datos local
+----------------------------------------
+  OFAC_ID (GUID)
+  OFER_ID (GUID)
+  MOTO_ID (Long)
+  OFAC_MOTO_PRE_COSTE (Double)
+  OFAC_MOTO_IMPORTE (Double)
+  OFAC_MOTO_DESCRIPCION (Text)
+  OFAC_MOTO_OBSERVA (Text)
+  OFAC_MOTO_ADVERTENCIA (Text)
+  OFAC_MOTO_TIPO (Long)
+  OFAC_MOTO_ESP (Text)
+  OFAC_MOTO_ESP_IMPORTE (Double)
+  ARRA_ID (Long)
+  OFAC_ARRA_PRE_COSTE (Double)
+  OFAC_ARRA_IMPORTE (Double)
+  OFAC_ARRA_DESCRIPCION (Text)
+  OFAC_ARRA_OBSERVA (Text)
+  OFAC_ARRA_ADVERTENCIA (Text)
+  OFAC_ARRA_CANTIDAD (Long)
+  OFAC_ARRA_TIPO (Long)
+  CALO_ID (Long)
+  OFAC_CALO_PRE_COSTE (Double)
+  OFAC_CALO_IMPORTE (Double)
+  OFAC_CALO_DESCRIPCION (Text)
+  OFAC_CALO_OBSERVA (Text)
+  OFAC_CALO_ADVERTENCIA (Text)
+  FILT_ID (Long)
+  OFAC_FILT_PRE_COSTE (Double)
+  OFAC_FILT_IMPORTE (Double)
+  OFAC_FILT_DESCRIPCION (Text)
+  OFAC_FILT_OBSERVA (Text)
+  OFAC_FILT_ADVERTENCIA (Text)
+  AERO_ID (Double)
+  OFAC_AERO_PRE_COSTE (Double)
+  OFAC_AERO_IMPORTE (Double)
+  OFAC_AERO_DESCRIPCION (Text)
+  OFAC_AERO_OBSERVA (Text)
+  OFAC_AERO_ADVERTENCIA (Text)
+  LLEN_ID (Double)
+  OFAC_LLEN_PRE_COSTE (Double)
+  OFAC_LLEN_IMPORTE (Double)
+  OFAC_LLEN_DESCRIPCION (Text)
+  OFAC_LLEN_OBSERVA (Text)
+  OFAC_LLEN_ADVERTENCIA (Text)
+  LLSA_ID (Double)
+  OFAC_LLSA_PRE_COSTE (Double)
+  OFAC_LLSA_IMPORTE (Double)
+  OFAC_LLSA_DESCRIPCION (Text)
+  OFAC_LLSA_OBSERVA (Text)
+  OFAC_LLSA_ADVERTENCIA (Text)
+  GREN_ID (Double)
+  OFAC_GREN_PRE_COSTE (Double)
+  OFAC_GREN_IMPORTE (Double)
+  OFAC_GREN_DESCRIPCION (Text)
+  OFAC_GREN_OBSERVA (Text)
+  OFAC_GREN_ADVERTENCIA (Text)
+
+Tabla: OfertasCabezal
+Origen: Base de datos local
+----------------------------------------
+  OFCA_ID (GUID)
+  OFER_ID (GUID)
+  CABE_ID (Double)
+  OFCA_CABE_PRE_COSTE (Double)
+  OFCA_CABE_IMPORTE (Double)
+  OFCA_CABE_DESCRIPCION (Text)
+  OFCA_CABE_OBSERVA (Text)
+  OFCA_CABE_ADVERTENCIA (Text)
+  OFCA_NUM_ETAPAS (Long)
+  CIL1_ID (Long)
+  OFCA_CIL1_PRE_COSTE (Double)
+  OFCA_CIL1_IMPORTE (Double)
+  OFCA_CIL1_DESCRIPCION (Text)
+  OFCA_CIL1_OBSERVA (Text)
+  OFCA_CIL1_ADVERTENCIA (Text)
+  OFCA_CIL1_CANTIDAD (Long)
+  OFCA_CIL1_EMPA_SN (Text)
+  OFCA_CIL1_EMPA_PRE_COSTE (Double)
+  CIL2_ID (Long)
+  OFCA_CIL2_PRE_COSTE (Double)
+  OFCA_CIL2_IMPORTE (Double)
+  OFCA_CIL2_DESCRIPCION (Text)
+  OFCA_CIL2_OBSERVA (Text)
+  OFCA_CIL2_ADVERTENCIA (Text)
+  OFCA_CIL2_CANTIDAD (Long)
+  OFCA_CIL2_EMPA_SN (Text)
+  OFCA_CIL2_EMPA_PRE_COSTE (Double)
+  CIL3_ID (Long)
+  OFCA_CIL3_PRE_COSTE (Double)
+  OFCA_CIL3_IMPORTE (Double)
+  OFCA_CIL3_DESCRIPCION (Text)
+  OFCA_CIL3_OBSERVA (Text)
+  OFCA_CIL3_ADVERTENCIA (Text)
+  OFCA_CIL3_CANTIDAD (Long)
+  OFCA_CIL3_EMPA_SN (Text)
+  OFCA_CIL3_EMPA_PRE_COSTE (Double)
+  CIL4_ID (Long)
+  OFCA_CIL4_PRE_COSTE (Double)
+  OFCA_CIL4_IMPORTE (Double)
+  OFCA_CIL4_DESCRIPCION (Text)
+  OFCA_CIL4_OBSERVA (Text)
+  OFCA_CIL4_ADVERTENCIA (Text)
+  OFCA_CIL4_CANTIDAD (Long)
+  OFCA_CIL4_EMPA_SN (Text)
+  OFCA_CIL4_EMPA_PRE_COSTE (Double)
+  CIL5_ID (Long)
+  OFCA_CIL5_PRE_COSTE (Double)
+  OFCA_CIL5_IMPORTE (Double)
+  OFCA_CIL5_DESCRIPCION (Text)
+  OFCA_CIL5_OBSERVA (Text)
+  OFCA_CIL5_ADVERTENCIA (Text)
+  OFCA_CIL5_CANTIDAD (Long)
+  OFCA_CIL5_EMPA_SN (Text)
+  OFCA_CIL5_EMPA_PRE_COSTE (Double)
+  CIL6_ID (Long)
+  OFCA_CIL6_PRE_COSTE (Double)
+  OFCA_CIL6_IMPORTE (Double)
+  OFCA_CIL6_DESCRIPCION (Text)
+  OFCA_CIL6_OBSERVA (Text)
+  OFCA_CIL6_ADVERTENCIA (Text)
+  OFCA_CIL6_CANTIDAD (Long)
+  OFCA_CIL6_EMPA_SN (Text)
+  OFCA_CIL6_EMPA_PRE_COSTE (Double)
+  OFCA_ANSE_TIPO (Long)
+  OFCA_CIL1_ANSE_PRE_COSTE (Double)
+  OFCA_CIL2_ANSE_PRE_COSTE (Double)
+  OFCA_CIL3_ANSE_PRE_COSTE (Double)
+  OFCA_CIL4_ANSE_PRE_COSTE (Double)
+  OFCA_CIL5_ANSE_PRE_COSTE (Double)
+  OFCA_CIL6_ANSE_PRE_COSTE (Double)
+  OFCA_BSAS_SN (Text)
+  OFCA_BSAS_PRE_COSTE (Double)
+  OFCA_BSAS_IMPORTE (Double)
+  NORC_ID (Long)
+  OFCA_NORC_PRE_COSTE (Double)
+  OFCA_NORC_IMPORTE (Double)
+  OFCA_NORC_DESCRIPCION (Text)
+  OFCA_NORC_OBSERVA (Text)
+  OFCA_NORC_ADVERTENCIA (Text)
+  OFCA_CIL1_BSAS_PRE_COSTE (Double)
+  OFCA_CIL2_BSAS_PRE_COSTE (Double)
+  OFCA_CIL3_BSAS_PRE_COSTE (Double)
+  OFCA_CIL4_BSAS_PRE_COSTE (Double)
+  OFCA_CIL5_BSAS_PRE_COSTE (Double)
+  OFCA_CIL6_BSAS_PRE_COSTE (Double)
+
+Tabla: OfertasCalderines
+Origen: Base de datos local
+----------------------------------------
+  OFCL_ID (Long)
+  OFER_ID (GUID)
+  CALD_ID (Long)
+  CVA1_ID (Long)
+  CLA1_ID (Long)
+  OFCL_CLA1_MATERIAL (Long)
+  OFCL_CLA1_PRE_COSTE (Double)
+  OFCL_CLA1_DESCRIPCION (Text)
+  OFCL_CLA1_OBSERVA (Text)
+  OFCL_CLA1_ADVERTENCIA (Text)
+  OFCL_CLA1_CANTIDAD (Long)
+  CVE1_ID (Long)
+  CLE1_ID (Long)
+  OFCL_CLE1_MATERIAL (Long)
+  OFCL_CLE1_PRE_COSTE (Double)
+  OFCL_CLE1_DESCRIPCION (Text)
+  OFCL_CLE1_OBSERVA (Text)
+  OFCL_CLE1_ADVERTENCIA (Text)
+  OFCL_CLE1_CANTIDAD (Long)
+  OFCL_ETP1_IMPORTE (Double)
+  CVA2_ID (Long)
+  CLA2_ID (Long)
+  OFCL_CLA2_MATERIAL (Long)
+  OFCL_CLA2_PRE_COSTE (Double)
+  OFCL_CLA2_DESCRIPCION (Text)
+  OFCL_CLA2_OBSERVA (Text)
+  OFCL_CLA2_ADVERTENCIA (Text)
+  OFCL_CLA2_CANTIDAD (Long)
+  CVE2_ID (Long)
+  CLE2_ID (Long)
+  OFCL_CLE2_MATERIAL (Long)
+  OFCL_CLE2_PRE_COSTE (Double)
+  OFCL_CLE2_DESCRIPCION (Text)
+  OFCL_CLE2_OBSERVA (Text)
+  OFCL_CLE2_ADVERTENCIA (Text)
+  OFCL_CLE2_CANTIDAD (Long)
+  OFCL_ETP2_IMPORTE (Double)
+  CVA3_ID (Long)
+  CLA3_ID (Long)
+  OFCL_CLA3_MATERIAL (Long)
+  OFCL_CLA3_PRE_COSTE (Double)
+  OFCL_CLA3_DESCRIPCION (Text)
+  OFCL_CLA3_OBSERVA (Text)
+  OFCL_CLA3_ADVERTENCIA (Text)
+  OFCL_CLA3_CANTIDAD (Long)
+  CVE3_ID (Long)
+  CLE3_ID (Long)
+  OFCL_CLE3_MATERIAL (Long)
+  OFCL_CLE3_PRE_COSTE (Double)
+  OFCL_CLE3_DESCRIPCION (Text)
+  OFCL_CLE3_OBSERVA (Text)
+  OFCL_CLE3_ADVERTENCIA (Text)
+  OFCL_CLE3_CANTIDAD (Long)
+  OFCL_ETP3_IMPORTE (Double)
+  CVA4_ID (Long)
+  CLA4_ID (Long)
+  OFCL_CLA4_MATERIAL (Long)
+  OFCL_CLA4_PRE_COSTE (Double)
+  OFCL_CLA4_DESCRIPCION (Text)
+  OFCL_CLA4_OBSERVA (Text)
+  OFCL_CLA4_ADVERTENCIA (Text)
+  OFCL_CLA4_CANTIDAD (Long)
+  CVE4_ID (Long)
+  CLE4_ID (Long)
+  OFCL_CLE4_MATERIAL (Long)
+  OFCL_CLE4_PRE_COSTE (Double)
+  OFCL_CLE4_DESCRIPCION (Text)
+  OFCL_CLE4_OBSERVA (Text)
+  OFCL_CLE4_ADVERTENCIA (Text)
+  OFCL_CLE4_CANTIDAD (Long)
+  OFCL_ETP4_IMPORTE (Double)
+  CVA5_ID (Long)
+  CLA5_ID (Long)
+  OFCL_CLA5_MATERIAL (Long)
+  OFCL_CLA5_PRE_COSTE (Double)
+  OFCL_CLA5_DESCRIPCION (Text)
+  OFCL_CLA5_OBSERVA (Text)
+  OFCL_CLA5_ADVERTENCIA (Text)
+  OFCL_CLA5_CANTIDAD (Long)
+  CVE5_ID (Long)
+  CLE5_ID (Long)
+  OFCL_CLE5_MATERIAL (Long)
+  OFCL_CLE5_PRE_COSTE (Double)
+  OFCL_CLE5_DESCRIPCION (Text)
+  OFCL_CLE5_OBSERVA (Text)
+  OFCL_CLE5_ADVERTENCIA (Text)
+  OFCL_CLE5_CANTIDAD (Long)
+  OFCL_ETP5_IMPORTE (Double)
+  CVA6_ID (Long)
+  CLA6_ID (Long)
+  OFCL_CLA6_MATERIAL (Long)
+  OFCL_CLA6_PRE_COSTE (Double)
+  OFCL_CLA6_DESCRIPCION (Text)
+  OFCL_CLA6_OBSERVA (Text)
+  OFCL_CLA6_ADVERTENCIA (Text)
+  OFCL_CLA6_CANTIDAD (Long)
+  CVE6_ID (Long)
+  CLE6_ID (Long)
+  OFCL_CLE6_MATERIAL (Long)
+  OFCL_CLE6_PRE_COSTE (Double)
+  OFCL_CLE6_DESCRIPCION (Text)
+  OFCL_CLE6_OBSERVA (Text)
+  OFCL_CLE6_ADVERTENCIA (Text)
+  OFCL_CLE6_CANTIDAD (Long)
+  OFCL_ETP6_IMPORTE (Double)
+  OFCL_EXTRA_SN (Text)
+  OFCL_RADIO_SN (Text)
+  OFCL_ASME_SN (Text)
+  OFCL_SELLOU_SN (Text)
+  OFCL_SELLOU_IMPORTE (Long)
+  DEPE_ID (Long)
+  OFCL_DEPE_PRE_COSTE (Double)
+  OFCL_DEPE_IMPORTE (Double)
+  OFCL_DEPE_DESCRIPCION (Text)
+  OFCL_DEPE_OBSERVA (Text)
+  OFCL_DEPE_ADVERTENCIA (Text)
+  DEPF_ID (Long)
+  OFCL_DEPF_PRE_COSTE (Double)
+  OFCL_DEPF_IMPORTE (Double)
+  OFCL_DEPF_DESCRIPCION (Text)
+  OFCL_DEPF_OBSERVA (Text)
+  OFCL_DEPF_ADVERTENCIA (Text)
+
+Tabla: OfertasDatosGenerales
+Origen: Base de datos local
+----------------------------------------
+  OFER_ID (GUID)
+  OFER_NUM_OFERTA (Text)
+  OFER_FECHA (Date)
+  OFER_CLIENTE (Text)
+  OFER_USUARIO_FINAL (Text)
+  PAIS_ID (Long)
+  COME_ID (Long)
+  OFER_NUM_CALCULO (Text)
+  GASE_ID (Long)
+  OFER_OBSERVACIONES (Text)
+  OFER_ESTADO_OFERTA (Long)
+  OFTN_ID (Long)
+  OFER_FEC_ULT_MODIF (Date)
+  OFER_CALD_EXTRA (Double)
+  OFER_CALD_RADIO (Long)
+  OFER_CALD_ASME (Double)
+  OFER_CALD_INOX (Double)
+  OFER_CALD_SELLO (Long)
+
+Tabla: OfertasExtras
+Origen: Base de datos local
+----------------------------------------
+  OFEX_ID (GUID)
+  OFER_ID (GUID)
+  EMBA_ID (Long)
+  OFEX_EMBA_PRE_COSTE (Double)
+  OFEX_EMBA_IMPORTE (Double)
+  OFEX_EMBA_DESCRIPCION (Text)
+  OFEX_EMBA_OBSERVA (Text)
+  OFEX_EMBA_ADVERTENCIA (Text)
+  TRAN_ID (Long)
+  OFEX_TRAN_PRE_COSTE (Double)
+  OFEX_TRAN_IMPORTE (Double)
+  OFEX_TRAN_DESCRIPCION (Text)
+  OFEX_TRAN_OBSERVA (Text)
+  OFEX_TRAN_ADVERTENCIA (Text)
+  PUMA_ID (Long)
+  OFEX_PUMA_PRE_COSTE (Double)
+  OFEX_PUMA_IMPORTE (Double)
+  OFEX_PUMA_DESCRIPCION (Text)
+  OFEX_PUMA_OBSERVA (Text)
+  OFEX_PUMA_ADVERTENCIA (Text)
+  PRA1_ID (Long)
+  OFEX_PRA1_PRE_COSTE (Double)
+  OFEX_PRA1_IMPORTE (Double)
+  OFEX_PRA1_DESCRIPCION (Text)
+  OFEX_PRA1_OBSERVA (Text)
+  OFEX_PRA1_ADVERTENCIA (Text)
+  PRA2_ID (Long)
+  OFEX_PRA2_PRE_COSTE (Double)
+  OFEX_PRA2_IMPORTE (Double)
+  OFEX_PRA2_DESCRIPCION (Text)
+  OFEX_PRA2_OBSERVA (Text)
+  OFEX_PRA2_ADVERTENCIA (Text)
+  PRA3_ID (Long)
+  OFEX_PRA3_PRE_COSTE (Double)
+  OFEX_PRA3_IMPORTE (Double)
+  OFEX_PRA3_DESCRIPCION (Text)
+  OFEX_PRA3_OBSERVA (Text)
+  OFEX_PRA3_ADVERTENCIA (Text)
+  PRA4_ID (Long)
+  OFEX_PRA4_PRE_COSTE (Double)
+  OFEX_PRA4_IMPORTE (Double)
+  OFEX_PRA4_DESCRIPCION (Text)
+  OFEX_PRA4_OBSERVA (Text)
+  OFEX_PRA4_ADVERTENCIA (Text)
+
+Tabla: OfertasInstrumentacion
+Origen: Base de datos local
+----------------------------------------
+  OFIN_ID (GUID)
+  OFER_ID (GUID)
+  INTR_ID (Double)
+  OFIN_INTR_DESCRIPCION (Text)
+  OFIN_INTR_OBSERVA (Text)
+  OFIN_INTR_ADVERTENCIA (Text)
+  TRAT_ID (Double)
+  OFIN_TRAT_PRE_COSTE (Double)
+  OFIN_TRAT_IMPORTE (Double)
+  OFIN_TRAT_DESCRIPCION (Text)
+  OFIN_TRAT_OBSERVA (Text)
+  OFIN_TRAT_ADVERTENCIA (Text)
+  OFIN_TRAT_CANTIDAD (Long)
+  TRAP_ID (Double)
+  OFIN_TRAP_PRE_COSTE (Double)
+  OFIN_TRAP_IMPORTE (Double)
+  OFIN_TRAP_DESCRIPCION (Text)
+  OFIN_TRAP_OBSERVA (Text)
+  OFIN_TRAP_ADVERTENCIA (Text)
+  OFIN_TRAP_CANTIDAD (Long)
+  TERM_ID (Double)
+  OFIN_TERM_PRE_COSTE (Double)
+  OFIN_TERM_IMPORTE (Double)
+  OFIN_TERM_DESCRIPCION (Text)
+  OFIN_TERM_OBSERVA (Text)
+  OFIN_TERM_ADVERTENCIA (Text)
+  OFIN_TERM_CANTIDAD (Long)
+  MANO_ID (Double)
+  OFIN_MANO_PRE_COSTE (Double)
+  OFIN_MANO_IMPORTE (Double)
+  OFIN_MANO_DESCRIPCION (Text)
+  OFIN_MANO_OBSERVA (Text)
+  OFIN_MANO_ADVERTENCIA (Text)
+  OFIN_MANO_CANTIDAD (Long)
+  ELER_ID (Double)
+  OFIN_ELER_PRE_COSTE (Double)
+  OFIN_ELER_IMPORTE (Double)
+  OFIN_ELER_DESCRIPCION (Text)
+  OFIN_ELER_OBSERVA (Text)
+  OFIN_ELER_ADVERTENCIA (Text)
+  OFIN_ELER_CANTIDAD (Long)
+  SECV_ID (Double)
+  OFIN_SECV_PRE_COSTE (Double)
+  OFIN_SECV_IMPORTE (Double)
+  OFIN_SECV_DESCRIPCION (Text)
+  OFIN_SECV_OBSERVA (Text)
+  OFIN_SECV_ADVERTENCIA (Text)
+  OFIN_SECV_CANTIDAD (Long)
+  INTV_ID (Double)
+  OFIN_INTV_PRE_COSTE (Double)
+  OFIN_INTV_IMPORTE (Double)
+  OFIN_INTV_DESCRIPCION (Text)
+  OFIN_INTV_OBSERVA (Text)
+  OFIN_INTV_ADVERTENCIA (Text)
+  OFIN_INTV_CANTIDAD (Long)
+  INTA_ID (Double)
+  OFIN_INTA_PRE_COSTE (Double)
+  OFIN_INTA_IMPORTE (Double)
+  OFIN_INTA_DESCRIPCION (Text)
+  OFIN_INTA_OBSERVA (Text)
+  OFIN_INTA_ADVERTENCIA (Text)
+  OFIN_INTA_CANTIDAD (Long)
+  NIVC_ID (Double)
+  OFIN_NIVC_PRE_COSTE (Double)
+  OFIN_NIVC_IMPORTE (Double)
+  OFIN_NIVC_DESCRIPCION (Text)
+  OFIN_NIVC_OBSERVA (Text)
+  OFIN_NIVC_ADVERTENCIA (Text)
+  OFIN_NIVC_CANTIDAD (Long)
+  VATE_ID (Double)
+  OFIN_VATE_PRE_COSTE (Double)
+  OFIN_VATE_IMPORTE (Double)
+  OFIN_VATE_DESCRIPCION (Text)
+  OFIN_VATE_OBSERVA (Text)
+  OFIN_VATE_ADVERTENCIA (Text)
+  OFIN_VATE_CANTIDAD (Long)
+  OFIN_INS1_TEXTO (Text)
+  OFIN_INS1_CANTIDAD (Integer)
+  OFIN_INS1_IMPORTE (Double)
+  OFIN_INS2_TEXTO (Text)
+  OFIN_INS2_CANTIDAD (Integer)
+  OFIN_INS2_IMPORTE (Double)
+  OFIN_INS3_TEXTO (Text)
+  OFIN_INS3_CANTIDAD (Integer)
+  OFIN_INS3_IMPORTE (Double)
+  OFIN_INS4_TEXTO (Text)
+  OFIN_INS4_CANTIDAD (Integer)
+  OFIN_INS4_IMPORTE (Double)
+  OFIN_INS5_TEXTO (Text)
+  OFIN_INS5_CANTIDAD (Integer)
+  OFIN_INS5_IMPORTE (Double)
+  OFIN_INS6_TEXTO (Text)
+  OFIN_INS6_CANTIDAD (Integer)
+  OFIN_INS6_IMPORTE (Double)
+  OFIN_INS7_TEXTO (Text)
+  OFIN_INS7_CANTIDAD (Integer)
+  OFIN_INS7_IMPORTE (Double)
+
+Tabla: OfertasManoObra
+Origen: Base de datos local
+----------------------------------------
+  OFMA_ID (GUID)
+  OFER_ID (GUID)
+  MOCA_ID (Double)
+  OFMA_MOCA_FASE1_HORAS (Double)
+  OFMA_MOCA_FASE1_PRECIO (Double)
+  OFMA_MOCA_FASE2_HORAS (Double)
+  OFMA_MOCA_FASE2_PRECIO (Double)
+  OFMA_MOCA_SOLDA_HORAS (Double)
+  OFMA_MOCA_SOLDA_PRECIO (Double)
+  OFMA_MOCA_PROBA_HORAS (Double)
+  OFMA_MOCA_PROBA_PRECIO (Double)
+  OFMA_MOCA_PINTU_HORAS (Double)
+  OFMA_MOCA_PINTU_PRECIO (Double)
+  OFMA_MOCA_ELECT_HORAS (Double)
+  OFMA_MOCA_ELECT_PRECIO (Double)
+  MOIN_ID (Double)
+  OFMA_MOIN_INGEN_HORAS (Double)
+  OFMA_MOIN_INGEN_PRECIO (Double)
+  OFMA_IMPORTE (Double)
+
+Tabla: OfertasModelo
+Origen: Base de datos local
+----------------------------------------
+  OFMO_ID (GUID)
+  OFER_ID (GUID)
+  CHAS_ID (Double)
+  OFMO_CHAS_PRE_COSTE (Double)
+  OFMO_CHAS_IMPORTE (Double)
+  OFMO_CHAS_DESCRIPCION (Text)
+  OFMO_CHAS_OBSERVA (Text)
+  OFMO_CHAS_ADVERTENCIA (Text)
+  CORR_ID (Double)
+  OFMO_CORR_PRE_COSTE (Double)
+  OFMO_CORR_IMPORTE (Double)
+  OFMO_CORR_DESCRIPCION (Text)
+  OFMO_CORR_OBSERVA (Text)
+  OFMO_CORR_ADVERTENCIA (Text)
+  ACOD_ID (Double)
+  OFMO_ACOD_PRE_COSTE (Double)
+  OFMO_ACOD_IMPORTE (Double)
+  OFMO_ACOD_DESCRIPCION (Text)
+  OFMO_ACOD_OBSERVA (Text)
+  OFMO_ACOD_ADVERTENCIA (Text)
+  REDU_ID (Double)
+  OFMO_REDU_PRE_COSTE (Double)
+  OFMO_REDU_IMPORTE (Double)
+  OFMO_REDU_DESCRIPCION (Text)
+  OFMO_REDU_OBSERVA (Text)
+  OFMO_REDU_ADVERTENCIA (Text)
+  OFMO_TRAN_TIPO (Long)
+  OFMO_ATEX_SN (Text)
+  OFMO_ATEX_PRE_COSTE (Double)
+  TUAI_ID (Long)
+  TUDI_ID (Double)
+  OFMO_TUDI_PRE_COSTE (Double)
+  OFMO_TUDI_IMPORTE (Double)
+  OFMO_TUDI_DESCRIPCION (Text)
+  OFMO_TUDI_OBSERVA (Text)
+  OFMO_TUDI_ADVERTENCIA (Text)
+  OFMO_TUDI_CANTIDAD (Long)
+  TUAG_ID (Double)
+  OFMO_TUAG_PRE_COSTE (Double)
+  OFMO_TUAG_IMPORTE (Double)
+  OFMO_TUAG_DESCRIPCION (Text)
+  OFMO_TUAG_OBSERVA (Text)
+  OFMO_TUAG_ADVERTENCIA (Text)
+
+Tabla: OfertasOpciones
+Origen: Base de datos local
+----------------------------------------
+  OFOP_ID (GUID)
+  OFER_ID (GUID)
+  VARE_ID (Double)
+  OFOP_VARE_PRE_COSTE (Double)
+  OFOP_VARE_IMPORTE (Double)
+  OFOP_VARE_DESCRIPCION (Text)
+  OFOP_VARE_OBSERVA (Text)
+  OFOP_VARE_ADVERTENCIA (Text)
+  ELEC_ID (Double)
+  OFOP_ELEC_PRE_COSTE (Double)
+  OFOP_ELEC_IMPORTE (Double)
+  OFOP_ELEC_DESCRIPCION (Text)
+  OFOP_ELEC_OBSERVA (Text)
+  OFOP_ELEC_ADVERTENCIA (Text)
+  VAPR_ID (Double)
+  OFOP_VAPR_PRE_COSTE (Double)
+  OFOP_VAPR_IMPORTE (Double)
+  OFOP_VAPR_DESCRIPCION (Text)
+  OFOP_VAPR_OBSERVA (Text)
+  OFOP_VAPR_ADVERTENCIA (Text)
+  ENCI_ID (Double)
+  OFOP_ENCI_PRE_COSTE (Double)
+  OFOP_ENCI_IMPORTE (Double)
+  OFOP_ENCI_DESCRIPCION (Text)
+  OFOP_ENCI_OBSERVA (Text)
+  OFOP_ENCI_ADVERTENCIA (Text)
+  PURG_ID (Double)
+  OFOP_PURG_PRE_COSTE (Double)
+  OFOP_PURG_IMPORTE (Double)
+  OFOP_PURG_DESCRIPCION (Text)
+  OFOP_PURG_OBSERVA (Text)
+  OFOP_PURG_ADVERTENCIA (Text)
+  OFOP_PURG_CANTIDAD (Integer)
+  RESC_ID (Double)
+  OFOP_RESC_PRE_COSTE (Double)
+  OFOP_RESC_IMPORTE (Double)
+  OFOP_RESC_DESCRIPCION (Text)
+  OFOP_RESC_OBSERVA (Text)
+  OFOP_RESC_ADVERTENCIA (Text)
+  VARG_ID (Double)
+  OFOP_VARG_PRE_COSTE (Double)
+  OFOP_VARG_IMPORTE (Double)
+  OFOP_VARG_DESCRIPCION (Text)
+  OFOP_VARG_OBSERVA (Text)
+  OFOP_VARG_ADVERTENCIA (Text)
+
+Tabla: OfertasOtros
+Origen: Base de datos local
+----------------------------------------
+  OFOT_ID (GUID)
+  OFER_ID (GUID)
+  OFOT_LINEA (Long)
+  OFOT_DESCRIPCION (Text)
+  OFOT_PRE_COSTE (Double)
+
+Tabla: OfertasRefrigeradores
+Origen: Base de datos local
+----------------------------------------
+  OFRF_ID (GUID)
+  OFER_ID (GUID)
+  TITU_ID (Long)
+  REF1_ID (Long)
+  OFRF_REF1_TIPO (Long)
+  OFRF_REF1_PN (Long)
+  OFRF_REF1_CE (Long)
+  OFRF_REF1_CS (Long)
+  OFRF_REF1_PRE_COSTE (Double)
+  OFRF_REF1_CE_COSTE (Double)
+  OFRF_REF1_CS_COSTE (Double)
+  OFRF_REF1_IMPORTE (Double)
+  OFRF_REF1_DESCRIPCION (Text)
+  OFRF_REF1_OBSERVA (Text)
+  OFRF_REF1_ADVERTENCIA (Text)
+  OFRF_REF1_CANTIDAD (Long)
+  REF2_ID (Long)
+  OFRF_REF2_TIPO (Long)
+  OFRF_REF2_PN (Long)
+  OFRF_REF2_CE (Long)
+  OFRF_REF2_CS (Long)
+  OFRF_REF2_PRE_COSTE (Double)
+  OFRF_REF2_CE_COSTE (Double)
+  OFRF_REF2_CS_COSTE (Double)
+  OFRF_REF2_IMPORTE (Double)
+  OFRF_REF2_DESCRIPCION (Text)
+  OFRF_REF2_OBSERVA (Text)
+  OFRF_REF2_ADVERTENCIA (Text)
+  OFRF_REF2_CANTIDAD (Long)
+  REF3_ID (Long)
+  OFRF_REF3_TIPO (Long)
+  OFRF_REF3_PN (Long)
+  OFRF_REF3_CE (Long)
+  OFRF_REF3_CS (Long)
+  OFRF_REF3_PRE_COSTE (Double)
+  OFRF_REF3_CE_COSTE (Double)
+  OFRF_REF3_CS_COSTE (Double)
+  OFRF_REF3_IMPORTE (Double)
+  OFRF_REF3_DESCRIPCION (Text)
+  OFRF_REF3_OBSERVA (Text)
+  OFRF_REF3_ADVERTENCIA (Text)
+  OFRF_REF3_CANTIDAD (Long)
+  REF4_ID (Long)
+  OFRF_REF4_TIPO (Long)
+  OFRF_REF4_PN (Long)
+  OFRF_REF4_CE (Long)
+  OFRF_REF4_CS (Long)
+  OFRF_REF4_PRE_COSTE (Double)
+  OFRF_REF4_CE_COSTE (Double)
+  OFRF_REF4_CS_COSTE (Double)
+  OFRF_REF4_IMPORTE (Double)
+  OFRF_REF4_DESCRIPCION (Text)
+  OFRF_REF4_OBSERVA (Text)
+  OFRF_REF4_ADVERTENCIA (Text)
+  OFRF_REF4_CANTIDAD (Long)
+  REF5_ID (Long)
+  OFRF_REF5_TIPO (Long)
+  OFRF_REF5_PN (Long)
+  OFRF_REF5_CE (Long)
+  OFRF_REF5_CS (Long)
+  OFRF_REF5_PRE_COSTE (Double)
+  OFRF_REF5_CE_COSTE (Double)
+  OFRF_REF5_CS_COSTE (Double)
+  OFRF_REF5_IMPORTE (Double)
+  OFRF_REF5_DESCRIPCION (Text)
+  OFRF_REF5_OBSERVA (Text)
+  OFRF_REF5_ADVERTENCIA (Text)
+  OFRF_REF5_CANTIDAD (Long)
+  REF6_ID (Long)
+  OFRF_REF6_TIPO (Long)
+  OFRF_REF6_PN (Long)
+  OFRF_REF6_CE (Long)
+  OFRF_REF6_CS (Long)
+  OFRF_REF6_PRE_COSTE (Double)
+  OFRF_REF6_CE_COSTE (Double)
+  OFRF_REF6_CS_COSTE (Double)
+  OFRF_REF6_IMPORTE (Double)
+  OFRF_REF6_DESCRIPCION (Text)
+  OFRF_REF6_OBSERVA (Text)
+  OFRF_REF6_ADVERTENCIA (Text)
+  OFRF_REF6_CANTIDAD (Long)
+  OFRF_EXTRA_SN (Text)
+  OFRF_RADIO_SN (Text)
+  OFRF_ASME_SN (Text)
+  OFRF_SELLOU_SN (Text)
+  OFRF_SELLOU_IMPORTE (Long)
+  VASE_ID (Long)
+  OFRF_VASE_PRE_COSTE (Double)
+  OFRF_VASE_IMPORTE (Double)
+  OFRF_VASE_DESCRIPCION (Text)
+  OFRF_VASE_OBSERVA (Text)
+  OFRF_VASE_ADVERTENCIA (Text)
+  OFRF_VASE_CANTIDAD (Long)
+
+Tabla: Paises (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  pais_id (Double) [Origen: pais_id]
+  pais_iso3166_1n (Text) [Origen: pais_iso3166_1n]
+  pais_iso3166_1an2 (Text) [Origen: pais_iso3166_1an2]
+  pais_iso3166_1an3 (Text) [Origen: pais_iso3166_1an3]
+  pais_nombre (Text) [Origen: pais_nombre]
+
+Tabla: Parametros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  PARA_ID (Long) [Origen: PARA_ID]
+  PARA_CALD_EXTRA (Double) [Origen: PARA_CALD_EXTRA]
+  PARA_CALD_RADIO (Long) [Origen: PARA_CALD_RADIO]
+  PARA_CALD_ASME (Double) [Origen: PARA_CALD_ASME]
+  PARA_CALD_INOX (Double) [Origen: PARA_CALD_INOX]
+  PARA_CALD_SELLO (Long) [Origen: PARA_CALD_SELLO]
+  PARA_FEC_ULT_MODIF (Date) [Origen: PARA_FEC_ULT_MODIF]
+
+Tabla: PruebasAsistencia (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  PRAS_ID (Long) [Origen: PRAS_ID]
+  PRAS_MODELO (Text) [Origen: PRAS_MODELO]
+  PRAS_DESCRIPCION (Text) [Origen: PRAS_DESCRIPCION]
+  PRAS_ADVERTENCIA (Text) [Origen: PRAS_ADVERTENCIA]
+  PRAS_PRE_COSTE (Double) [Origen: PRAS_PRE_COSTE]
+
+Tabla: PuestasMarcha (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  PUMA_ID (Long) [Origen: PUMA_ID]
+  PUMA_MODELO (Text) [Origen: PUMA_MODELO]
+  PUMA_DESCRIPCION (Text) [Origen: PUMA_DESCRIPCION]
+  PUMA_ADVERTENCIA (Text) [Origen: PUMA_ADVERTENCIA]
+  PUMA_PRE_COSTE (Double) [Origen: PUMA_PRE_COSTE]
+
+Tabla: Purgadores (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  PURG_ID (Long) [Origen: PURG_ID]
+  PURG_MODELO (Text) [Origen: PURG_MODELO]
+  PURG_DESCRIPCION (Text) [Origen: PURG_DESCRIPCION]
+  PURG_ADVERTENCIA (Text) [Origen: PURG_ADVERTENCIA]
+  PURG_PRE_COSTE (Double) [Origen: PURG_PRE_COSTE]
+
+Tabla: Reductores (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  REDU_ID (Long) [Origen: REDU_ID]
+  REDU_MODELO (Text) [Origen: REDU_MODELO]
+  REDU_DESCRIPCION (Text) [Origen: REDU_DESCRIPCION]
+  REDU_ADVERTENCIA (Text) [Origen: REDU_ADVERTENCIA]
+  REDU_PRE_COSTE (Double) [Origen: REDU_PRE_COSTE]
+  REDU_ATEX_COSTE (Double) [Origen: REDU_ATEX_COSTE]
+
+Tabla: Refrigeradores (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  REFR_ID (Long) [Origen: REFR_ID]
+  REFR_MODELO (Text) [Origen: REFR_MODELO]
+  REFR_DESCRIPCION (Text) [Origen: REFR_DESCRIPCION]
+  REFR_ADVERTENCIA (Text) [Origen: REFR_ADVERTENCIA]
+
+Tabla: RefrigeradoresCostes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  RECO_ID (Long) [Origen: RECO_ID]
+  REFR_ID (Long) [Origen: REFR_ID]
+  TIPN_ID (Long) [Origen: TIPN_ID]
+  RECO_INOX_PRE_COSTE (Double) [Origen: RECO_INOX_PRE_COSTE]
+  RECO_COBRE_PRE_COSTE (Double) [Origen: RECO_COBRE_PRE_COSTE]
+  RECO_CENT_PRE_COSTE (Double) [Origen: RECO_CENT_PRE_COSTE]
+  RECO_CSAL_PRE_COSTE (Double) [Origen: RECO_CSAL_PRE_COSTE]
+
+Tabla: RefrigeradoresEspeciales (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  REES_ID (Long) [Origen: REES_ID]
+  REES_MODELO (Text) [Origen: REES_MODELO]
+  REES_DESCRIPCION (Text) [Origen: REES_DESCRIPCION]
+  REES_ADVERTENCIA (Text) [Origen: REES_ADVERTENCIA]
+  REES_PRE_COSTE (Double) [Origen: REES_PRE_COSTE]
+
+Tabla: ResistenciasCalefaccion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  RESC_ID (Long) [Origen: RESC_ID]
+  RESC_MODELO (Text) [Origen: RESC_MODELO]
+  RESC_DESCRIPCION (Text) [Origen: RESC_DESCRIPCION]
+  RESC_ADVERTENCIA (Text) [Origen: RESC_ADVERTENCIA]
+  RESC_PRE_COSTE (Double) [Origen: RESC_PRE_COSTE]
+
+Tabla: SensoresCaidaVastago (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  SECV_ID (Long) [Origen: SECV_ID]
+  SECV_MODELO (Text) [Origen: SECV_MODELO]
+  SECV_DESCRIPCION (Text) [Origen: SECV_DESCRIPCION]
+  SECV_ADVERTENCIA (Text) [Origen: SECV_ADVERTENCIA]
+  SECV_PRE_COSTE (Double) [Origen: SECV_PRE_COSTE]
+
+Tabla: Termometros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TERM_ID (Long) [Origen: TERM_ID]
+  TERM_MODELO (Text) [Origen: TERM_MODELO]
+  TERM_DESCRIPCION (Text) [Origen: TERM_DESCRIPCION]
+  TERM_ADVERTENCIA (Text) [Origen: TERM_ADVERTENCIA]
+  TERM_PRE_COSTE (Double) [Origen: TERM_PRE_COSTE]
+
+Tabla: TiposMaterial (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TIMA_ID (Long) [Origen: TIMA_ID]
+  TIMA_MATERIAL (Text) [Origen: TIMA_MATERIAL]
+
+Tabla: TiposPresionNominal (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TIPN_ID (Long) [Origen: TIPN_ID]
+  TIPN_PRESION (Long) [Origen: TIPN_PRESION]
+
+Tabla: TiposTubos (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TITU_ID (Long) [Origen: TITU_ID]
+  TITU_MATERIAL (Text) [Origen: TITU_MATERIAL]
+
+Tabla: TransmisoresPresion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TRAP_ID (Long) [Origen: TRAP_ID]
+  TRAP_MODELO (Text) [Origen: TRAP_MODELO]
+  TRAP_DESCRIPCION (Text) [Origen: TRAP_DESCRIPCION]
+  TRAP_ADVERTENCIA (Text) [Origen: TRAP_ADVERTENCIA]
+  TRAP_PRE_COSTE (Double) [Origen: TRAP_PRE_COSTE]
+
+Tabla: TransmisoresTemperatura (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TRAT_ID (Long) [Origen: TRAT_ID]
+  TRAT_MODELO (Text) [Origen: TRAT_MODELO]
+  TRAT_DESCRIPCION (Text) [Origen: TRAT_DESCRIPCION]
+  TRAT_ADVERTENCIA (Text) [Origen: TRAT_ADVERTENCIA]
+  TRAT_PRE_COSTE (Double) [Origen: TRAT_PRE_COSTE]
+
+Tabla: Transportes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TRAN_ID (Long) [Origen: TRAN_ID]
+  TRAN_MODELO (Text) [Origen: TRAN_MODELO]
+  TRAN_DESCRIPCION (Text) [Origen: TRAN_DESCRIPCION]
+  TRAN_ADVERTENCIA (Text) [Origen: TRAN_ADVERTENCIA]
+  TRAN_PRE_COSTE (Double) [Origen: TRAN_PRE_COSTE]
+
+Tabla: TuberiasAgua (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TUAG_ID (Long) [Origen: TUAG_ID]
+  TUAG_MODELO (Text) [Origen: TUAG_MODELO]
+  TUAG_DESCRIPCION (Text) [Origen: TUAG_DESCRIPCION]
+  TUAG_ADVERTENCIA (Text) [Origen: TUAG_ADVERTENCIA]
+  TUAG_PRE_COSTE (Double) [Origen: TUAG_PRE_COSTE]
+
+Tabla: TuberiasAire (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TUAI_ID (Long) [Origen: TUAI_ID]
+  TUAI_MODELO (Text) [Origen: TUAI_MODELO]
+
+Tabla: TuberiasAireDiametros (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  TUDI_ID (Long) [Origen: TUDI_ID]
+  TUAI_ID (Long) [Origen: TUAI_ID]
+  TUDI_DIAMETRO (Double) [Origen: TUDI_DIAMETRO]
+  TUDI_MODELO (Text) [Origen: TUDI_MODELO]
+  TUDI_DESCRIPCION (Text) [Origen: TUDI_DESCRIPCION]
+  TUDI_ADVERTENCIA (Text) [Origen: TUDI_ADVERTENCIA]
+  TUDI_PRE_COSTE (Double) [Origen: TUDI_PRE_COSTE]
+
+Tabla: ValvulasPresion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VAPR_ID (Long) [Origen: VAPR_ID]
+  VAPR_MODELO (Text) [Origen: VAPR_MODELO]
+  VAPR_DESCRIPCION (Text) [Origen: VAPR_DESCRIPCION]
+  VAPR_ADVERTENCIA (Text) [Origen: VAPR_ADVERTENCIA]
+  VAPR_PRE_COSTE (Double) [Origen: VAPR_PRE_COSTE]
+
+Tabla: ValvulasReguladoras (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VARG_ID (Long) [Origen: VARG_ID]
+  VARG_MODELO (Text) [Origen: VARG_MODELO]
+  VARG_DESCRIPCION (Text) [Origen: VARG_DESCRIPCION]
+  VARG_ADVERTENCIA (Text) [Origen: VARG_ADVERTENCIA]
+  VARG_PRE_COSTE (Double) [Origen: VARG_PRE_COSTE]
+
+Tabla: ValvulasRetencion (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VARE_ID (Long) [Origen: VARE_ID]
+  VARE_MODELO (Text) [Origen: VARE_MODELO]
+  VARE_DESCRIPCION (Text) [Origen: VARE_DESCRIPCION]
+  VARE_ADVERTENCIA (Text) [Origen: VARE_ADVERTENCIA]
+  VARE_PRE_COSTE (Double) [Origen: VARE_PRE_COSTE]
+
+Tabla: ValvulasSeguridad (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VASE_ID (Long) [Origen: VASE_ID]
+  VASE_MODELO (Text) [Origen: VASE_MODELO]
+  VASE_DESCRIPCION (Text) [Origen: VASE_DESCRIPCION]
+  VASE_ADVERTENCIA (Text) [Origen: VASE_ADVERTENCIA]
+  VASE_PRE_COSTE (Double) [Origen: VASE_PRE_COSTE]
+
+Tabla: ValvulasTermostaticas (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VATE_ID (Long) [Origen: VATE_ID]
+  VATE_MODELO (Text) [Origen: VATE_MODELO]
+  VATE_DESCRIPCION (Text) [Origen: VATE_DESCRIPCION]
+  VATE_ADVERTENCIA (Text) [Origen: VATE_ADVERTENCIA]
+  VATE_PRE_COSTE (Double) [Origen: VATE_PRE_COSTE]
+
+Tabla: Volumenes (VINCULADA)
+Origen: ;DATABASE=C:\Program Files (x86)\Ofertas_Gas\BaseDatos\Maestros_OferGas.mdb
+----------------------------------------
+  VOLU_ID (Long) [Origen: VOLU_ID]
+  VOLU_CANTIDAD (Text) [Origen: VOLU_CANTIDAD]
+
