@@ -16,7 +16,7 @@ Public Type tOfertasDatosGenerales
     OFER_FECHA As Date
     OFER_CLIENTE As String
     OFER_USUARIO_FINAL As String
-    PAIS_ID As Long
+    pais_id As Long
     COME_ID As Long
     OFER_NUM_CALCULO As String
     GASE_ID As Long
