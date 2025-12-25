@@ -438,16 +438,121 @@ End Sub
 '
 
 Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
-    ' Esta versión es solo un esqueleto
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim cb As tOfertasCabezal
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM OfertasCabezal WHERE OFER_ID={" & OferID & "}")
     If Not rs.EOF Then
-        cb.OFCA_ID = NormalizarGUID(rs("OFCA_ID"))
-        cb.OFER_ID = NormalizarGUID(rs("OFER_ID"))
-        ' ... FALTA IMPLEMENTAR 6 CILINDROS ...
+        With cb
+            .OFCA_ID = NormalizarGUID(rs("OFCA_ID"))
+            .OFER_ID = NormalizarGUID(rs("OFER_ID"))
+            ' Cabezal
+            .CABE_ID = NzLong(rs("CABE_ID"))
+            .OFCA_CABE_PRE_COSTE = NzDouble(rs("OFCA_CABE_PRE_COSTE"))
+            .OFCA_CABE_IMPORTE = NzDouble(rs("OFCA_CABE_IMPORTE"))
+            .OFCA_CABE_DESCRIPCION = NzVBA(rs("OFCA_CABE_DESCRIPCION"))
+            .OFCA_CABE_OBSERVA = NzVBA(rs("OFCA_CABE_OBSERVA"))
+            .OFCA_CABE_ADVERTENCIA = NzVBA(rs("OFCA_CABE_ADVERTENCIA"))
+            .OFCA_NUM_ETAPAS = NzLong(rs("OFCA_NUM_ETAPAS"))
+            ' Cilindro 1
+            .CIL1_ID = NzLong(rs("CIL1_ID"))
+            .OFCA_CIL1_PRE_COSTE = NzDouble(rs("OFCA_CIL1_PRE_COSTE"))
+            .OFCA_CIL1_IMPORTE = NzDouble(rs("OFCA_CIL1_IMPORTE"))
+            .OFCA_CIL1_DESCRIPCION = NzVBA(rs("OFCA_CIL1_DESCRIPCION"))
+            .OFCA_CIL1_OBSERVA = NzVBA(rs("OFCA_CIL1_OBSERVA"))
+            .OFCA_CIL1_ADVERTENCIA = NzVBA(rs("OFCA_CIL1_ADVERTENCIA"))
+            .OFCA_CIL1_CANTIDAD = NzLong(rs("OFCA_CIL1_CANTIDAD"))
+            .OFCA_CIL1_EMPA_SN = NzVBA(rs("OFCA_CIL1_EMPA_SN"))
+            .OFCA_CIL1_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL1_EMPA_PRE_COSTE"))
+            .OFCA_CIL1_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL1_ANSE_PRE_COSTE"))
+            .OFCA_CIL1_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL1_BSAS_PRE_COSTE"))
+            ' Cilindro 2
+            .CIL2_ID = NzLong(rs("CIL2_ID"))
+            .OFCA_CIL2_PRE_COSTE = NzDouble(rs("OFCA_CIL2_PRE_COSTE"))
+            .OFCA_CIL2_IMPORTE = NzDouble(rs("OFCA_CIL2_IMPORTE"))
+            .OFCA_CIL2_DESCRIPCION = NzVBA(rs("OFCA_CIL2_DESCRIPCION"))
+            .OFCA_CIL2_OBSERVA = NzVBA(rs("OFCA_CIL2_OBSERVA"))
+            .OFCA_CIL2_ADVERTENCIA = NzVBA(rs("OFCA_CIL2_ADVERTENCIA"))
+            .OFCA_CIL2_CANTIDAD = NzLong(rs("OFCA_CIL2_CANTIDAD"))
+            .OFCA_CIL2_EMPA_SN = NzVBA(rs("OFCA_CIL2_EMPA_SN"))
+            .OFCA_CIL2_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL2_EMPA_PRE_COSTE"))
+            .OFCA_CIL2_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL2_ANSE_PRE_COSTE"))
+            .OFCA_CIL2_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL2_BSAS_PRE_COSTE"))
+            ' Cilindro 3
+            .CIL3_ID = NzLong(rs("CIL3_ID"))
+            .OFCA_CIL3_PRE_COSTE = NzDouble(rs("OFCA_CIL3_PRE_COSTE"))
+            .OFCA_CIL3_IMPORTE = NzDouble(rs("OFCA_CIL3_IMPORTE"))
+            .OFCA_CIL3_DESCRIPCION = NzVBA(rs("OFCA_CIL3_DESCRIPCION"))
+            .OFCA_CIL3_OBSERVA = NzVBA(rs("OFCA_CIL3_OBSERVA"))
+            .OFCA_CIL3_ADVERTENCIA = NzVBA(rs("OFCA_CIL3_ADVERTENCIA"))
+            .OFCA_CIL3_CANTIDAD = NzLong(rs("OFCA_CIL3_CANTIDAD"))
+            .OFCA_CIL3_EMPA_SN = NzVBA(rs("OFCA_CIL3_EMPA_SN"))
+            .OFCA_CIL3_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL3_EMPA_PRE_COSTE"))
+            .OFCA_CIL3_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL3_ANSE_PRE_COSTE"))
+            .OFCA_CIL3_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL3_BSAS_PRE_COSTE"))
+            ' Cilindro 4
+            .CIL4_ID = NzLong(rs("CIL4_ID"))
+            .OFCA_CIL4_PRE_COSTE = NzDouble(rs("OFCA_CIL4_PRE_COSTE"))
+            .OFCA_CIL4_IMPORTE = NzDouble(rs("OFCA_CIL4_IMPORTE"))
+            .OFCA_CIL4_DESCRIPCION = NzVBA(rs("OFCA_CIL4_DESCRIPCION"))
+            .OFCA_CIL4_OBSERVA = NzVBA(rs("OFCA_CIL4_OBSERVA"))
+            .OFCA_CIL4_ADVERTENCIA = NzVBA(rs("OFCA_CIL4_ADVERTENCIA"))
+            .OFCA_CIL4_CANTIDAD = NzLong(rs("OFCA_CIL4_CANTIDAD"))
+            .OFCA_CIL4_EMPA_SN = NzVBA(rs("OFCA_CIL4_EMPA_SN"))
+            .OFCA_CIL4_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL4_EMPA_PRE_COSTE"))
+            .OFCA_CIL4_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL4_ANSE_PRE_COSTE"))
+            .OFCA_CIL4_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL4_BSAS_PRE_COSTE"))
+            ' Cilindro 5
+            .CIL5_ID = NzLong(rs("CIL5_ID"))
+            .OFCA_CIL5_PRE_COSTE = NzDouble(rs("OFCA_CIL5_PRE_COSTE"))
+            .OFCA_CIL5_IMPORTE = NzDouble(rs("OFCA_CIL5_IMPORTE"))
+            .OFCA_CIL5_DESCRIPCION = NzVBA(rs("OFCA_CIL5_DESCRIPCION"))
+            .OFCA_CIL5_OBSERVA = NzVBA(rs("OFCA_CIL5_OBSERVA"))
+            .OFCA_CIL5_ADVERTENCIA = NzVBA(rs("OFCA_CIL5_ADVERTENCIA"))
+            .OFCA_CIL5_CANTIDAD = NzLong(rs("OFCA_CIL5_CANTIDAD"))
+            .OFCA_CIL5_EMPA_SN = NzVBA(rs("OFCA_CIL5_EMPA_SN"))
+            .OFCA_CIL5_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL5_EMPA_PRE_COSTE"))
+            .OFCA_CIL5_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL5_ANSE_PRE_COSTE"))
+            .OFCA_CIL5_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL5_BSAS_PRE_COSTE"))
+            ' Cilindro 6
+            .CIL6_ID = NzLong(rs("CIL6_ID"))
+            .OFCA_CIL6_PRE_COSTE = NzDouble(rs("OFCA_CIL6_PRE_COSTE"))
+            .OFCA_CIL6_IMPORTE = NzDouble(rs("OFCA_CIL6_IMPORTE"))
+            .OFCA_CIL6_DESCRIPCION = NzVBA(rs("OFCA_CIL6_DESCRIPCION"))
+            .OFCA_CIL6_OBSERVA = NzVBA(rs("OFCA_CIL6_OBSERVA"))
+            .OFCA_CIL6_ADVERTENCIA = NzVBA(rs("OFCA_CIL6_ADVERTENCIA"))
+            .OFCA_CIL6_CANTIDAD = NzLong(rs("OFCA_CIL6_CANTIDAD"))
+            .OFCA_CIL6_EMPA_SN = NzVBA(rs("OFCA_CIL6_EMPA_SN"))
+            .OFCA_CIL6_EMPA_PRE_COSTE = NzDouble(rs("OFCA_CIL6_EMPA_PRE_COSTE"))
+            .OFCA_CIL6_ANSE_PRE_COSTE = NzDouble(rs("OFCA_CIL6_ANSE_PRE_COSTE"))
+            .OFCA_CIL6_BSAS_PRE_COSTE = NzDouble(rs("OFCA_CIL6_BSAS_PRE_COSTE"))
+            ' Anti-surge y Bloque SAS
+            .OFCA_ANSE_TIPO = NzLong(rs("OFCA_ANSE_TIPO"))
+            .OFCA_BSAS_SN = NzVBA(rs("OFCA_BSAS_SN"))
+            .OFCA_BSAS_PRE_COSTE = NzDouble(rs("OFCA_BSAS_PRE_COSTE"))
+            .OFCA_BSAS_IMPORTE = NzDouble(rs("OFCA_BSAS_IMPORTE"))
+            ' Normativa compresor
+            .NORC_ID = NzLong(rs("NORC_ID"))
+            .OFCA_NORC_PRE_COSTE = NzDouble(rs("OFCA_NORC_PRE_COSTE"))
+            .OFCA_NORC_IMPORTE = NzDouble(rs("OFCA_NORC_IMPORTE"))
+            .OFCA_NORC_DESCRIPCION = NzVBA(rs("OFCA_NORC_DESCRIPCION"))
+            .OFCA_NORC_OBSERVA = NzVBA(rs("OFCA_NORC_OBSERVA"))
+            .OFCA_NORC_ADVERTENCIA = NzVBA(rs("OFCA_NORC_ADVERTENCIA"))
+
+            ' Resolver FK de normativa compresor
+            If .NORC_ID > 0 Then
+                Dim norc As tCatalogNormativasCompresor
+                norc = m_Catalogos.ObtenerNormativasCompresor(.NORC_ID)
+                If .OFCA_NORC_DESCRIPCION = "" Then
+                    .OFCA_NORC_DESCRIPCION = norc.NORC_MODELO & " - " & norc.NORC_DESCRIPCION
+                End If
+                If .OFCA_NORC_PRE_COSTE = 0 Then
+                    .OFCA_NORC_PRE_COSTE = norc.NORC_PRE_COSTE
+                End If
+            End If
+
+            .ImporteCalculado = False
+        End With
         Oferta.Cabezal = cb
     End If
     rs.Close
@@ -496,15 +601,187 @@ ErrHandler:
 End Sub
 
 Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim ac As tOfertasAccesorios
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM OfertasAccesorios WHERE OFER_ID={" & OferID & "}")
     If Not rs.EOF Then
-        ac.OFAC_ID = NormalizarGUID(rs("OFAC_ID"))
-        ac.OFER_ID = NormalizarGUID(rs("OFER_ID"))
-        ' ... FALTA IMPLEMENTAR TODOS LOS ACCESORIOS ...
+        With ac
+            .OFAC_ID = NormalizarGUID(rs("OFAC_ID"))
+            .OFER_ID = NormalizarGUID(rs("OFER_ID"))
+            ' Motor
+            .MOTO_ID = NzLong(rs("MOTO_ID"))
+            .OFAC_MOTO_PRE_COSTE = NzDouble(rs("OFAC_MOTO_PRE_COSTE"))
+            .OFAC_MOTO_IMPORTE = NzDouble(rs("OFAC_MOTO_IMPORTE"))
+            .OFAC_MOTO_DESCRIPCION = NzVBA(rs("OFAC_MOTO_DESCRIPCION"))
+            .OFAC_MOTO_OBSERVA = NzVBA(rs("OFAC_MOTO_OBSERVA"))
+            .OFAC_MOTO_ADVERTENCIA = NzVBA(rs("OFAC_MOTO_ADVERTENCIA"))
+            .OFAC_MOTO_TIPO = NzLong(rs("OFAC_MOTO_TIPO"))
+            .OFAC_MOTO_ESP = NzVBA(rs("OFAC_MOTO_ESP"))
+            .OFAC_MOTO_ESP_IMPORTE = NzDouble(rs("OFAC_MOTO_ESP_IMPORTE"))
+            ' Arrancador
+            .ARRA_ID = NzLong(rs("ARRA_ID"))
+            .OFAC_ARRA_PRE_COSTE = NzDouble(rs("OFAC_ARRA_PRE_COSTE"))
+            .OFAC_ARRA_IMPORTE = NzDouble(rs("OFAC_ARRA_IMPORTE"))
+            .OFAC_ARRA_DESCRIPCION = NzVBA(rs("OFAC_ARRA_DESCRIPCION"))
+            .OFAC_ARRA_OBSERVA = NzVBA(rs("OFAC_ARRA_OBSERVA"))
+            .OFAC_ARRA_ADVERTENCIA = NzVBA(rs("OFAC_ARRA_ADVERTENCIA"))
+            .OFAC_ARRA_CANTIDAD = NzLong(rs("OFAC_ARRA_CANTIDAD"))
+            .OFAC_ARRA_TIPO = NzLong(rs("OFAC_ARRA_TIPO"))
+            ' Caja local
+            .CALO_ID = NzLong(rs("CALO_ID"))
+            .OFAC_CALO_PRE_COSTE = NzDouble(rs("OFAC_CALO_PRE_COSTE"))
+            .OFAC_CALO_IMPORTE = NzDouble(rs("OFAC_CALO_IMPORTE"))
+            .OFAC_CALO_DESCRIPCION = NzVBA(rs("OFAC_CALO_DESCRIPCION"))
+            .OFAC_CALO_OBSERVA = NzVBA(rs("OFAC_CALO_OBSERVA"))
+            .OFAC_CALO_ADVERTENCIA = NzVBA(rs("OFAC_CALO_ADVERTENCIA"))
+            ' Filtro
+            .FILT_ID = NzLong(rs("FILT_ID"))
+            .OFAC_FILT_PRE_COSTE = NzDouble(rs("OFAC_FILT_PRE_COSTE"))
+            .OFAC_FILT_IMPORTE = NzDouble(rs("OFAC_FILT_IMPORTE"))
+            .OFAC_FILT_DESCRIPCION = NzVBA(rs("OFAC_FILT_DESCRIPCION"))
+            .OFAC_FILT_OBSERVA = NzVBA(rs("OFAC_FILT_OBSERVA"))
+            .OFAC_FILT_ADVERTENCIA = NzVBA(rs("OFAC_FILT_ADVERTENCIA"))
+            ' Aero
+            .AERO_ID = NzLong(rs("AERO_ID"))
+            .OFAC_AERO_PRE_COSTE = NzDouble(rs("OFAC_AERO_PRE_COSTE"))
+            .OFAC_AERO_IMPORTE = NzDouble(rs("OFAC_AERO_IMPORTE"))
+            .OFAC_AERO_DESCRIPCION = NzVBA(rs("OFAC_AERO_DESCRIPCION"))
+            .OFAC_AERO_OBSERVA = NzVBA(rs("OFAC_AERO_OBSERVA"))
+            .OFAC_AERO_ADVERTENCIA = NzVBA(rs("OFAC_AERO_ADVERTENCIA"))
+            ' Llave entrada
+            .LLEN_ID = NzLong(rs("LLEN_ID"))
+            .OFAC_LLEN_PRE_COSTE = NzDouble(rs("OFAC_LLEN_PRE_COSTE"))
+            .OFAC_LLEN_IMPORTE = NzDouble(rs("OFAC_LLEN_IMPORTE"))
+            .OFAC_LLEN_DESCRIPCION = NzVBA(rs("OFAC_LLEN_DESCRIPCION"))
+            .OFAC_LLEN_OBSERVA = NzVBA(rs("OFAC_LLEN_OBSERVA"))
+            .OFAC_LLEN_ADVERTENCIA = NzVBA(rs("OFAC_LLEN_ADVERTENCIA"))
+            ' Llave salida
+            .LLSA_ID = NzLong(rs("LLSA_ID"))
+            .OFAC_LLSA_PRE_COSTE = NzDouble(rs("OFAC_LLSA_PRE_COSTE"))
+            .OFAC_LLSA_IMPORTE = NzDouble(rs("OFAC_LLSA_IMPORTE"))
+            .OFAC_LLSA_DESCRIPCION = NzVBA(rs("OFAC_LLSA_DESCRIPCION"))
+            .OFAC_LLSA_OBSERVA = NzVBA(rs("OFAC_LLSA_OBSERVA"))
+            .OFAC_LLSA_ADVERTENCIA = NzVBA(rs("OFAC_LLSA_ADVERTENCIA"))
+            ' Grupo engrase
+            .GREN_ID = NzLong(rs("GREN_ID"))
+            .OFAC_GREN_PRE_COSTE = NzDouble(rs("OFAC_GREN_PRE_COSTE"))
+            .OFAC_GREN_IMPORTE = NzDouble(rs("OFAC_GREN_IMPORTE"))
+            .OFAC_GREN_DESCRIPCION = NzVBA(rs("OFAC_GREN_DESCRIPCION"))
+            .OFAC_GREN_OBSERVA = NzVBA(rs("OFAC_GREN_OBSERVA"))
+            .OFAC_GREN_ADVERTENCIA = NzVBA(rs("OFAC_GREN_ADVERTENCIA"))
+
+            ' Resolver FKs de accesorios
+            If .AERO_ID > 0 Then
+                Dim aero As tCatalogAeros
+                aero = m_Catalogos.ObtenerAeros(.AERO_ID)
+                If .OFAC_AERO_DESCRIPCION = "" Then
+                    .OFAC_AERO_DESCRIPCION = aero.AERO_MODELO & " - " & aero.AERO_DESCRIPCION
+                End If
+                If .OFAC_AERO_PRE_COSTE = 0 Then
+                    .OFAC_AERO_PRE_COSTE = aero.AERO_PRE_COSTE
+                End If
+            End If
+
+            If .CALO_ID > 0 Then
+                Dim calo As tCatalogCajaLocal
+                calo = m_Catalogos.ObtenerCajaLocal(.CALO_ID)
+                If .OFAC_CALO_DESCRIPCION = "" Then
+                    .OFAC_CALO_DESCRIPCION = calo.CALO_MODELO & " - " & calo.CALO_DESCRIPCION
+                End If
+                If .OFAC_CALO_PRE_COSTE = 0 Then
+                    .OFAC_CALO_PRE_COSTE = calo.CALO_PRE_COSTE
+                End If
+            End If
+
+            If .FILT_ID > 0 Then
+                Dim filt As tCatalogFiltros
+                filt = m_Catalogos.ObtenerFiltros(.FILT_ID)
+                If .OFAC_FILT_DESCRIPCION = "" Then
+                    .OFAC_FILT_DESCRIPCION = filt.FILT_MODELO & " - " & filt.FILT_DESCRIPCION
+                End If
+                If .OFAC_FILT_PRE_COSTE = 0 Then
+                    .OFAC_FILT_PRE_COSTE = filt.FILT_PRE_COSTE
+                End If
+            End If
+
+            If .LLEN_ID > 0 Then
+                Dim llen As tCatalogLlavesEntrada
+                llen = m_Catalogos.ObtenerLlavesEntrada(.LLEN_ID)
+                If .OFAC_LLEN_DESCRIPCION = "" Then
+                    .OFAC_LLEN_DESCRIPCION = llen.LLEN_MODELO & " - " & llen.LLEN_DESCRIPCION
+                End If
+                If .OFAC_LLEN_PRE_COSTE = 0 Then
+                    .OFAC_LLEN_PRE_COSTE = llen.LLEN_PRE_COSTE
+                End If
+            End If
+
+            If .LLSA_ID > 0 Then
+                Dim llsa As tCatalogLlavesSalida
+                llsa = m_Catalogos.ObtenerLlavesSalida(.LLSA_ID)
+                If .OFAC_LLSA_DESCRIPCION = "" Then
+                    .OFAC_LLSA_DESCRIPCION = llsa.LLSA_MODELO & " - " & llsa.LLSA_DESCRIPCION
+                End If
+                If .OFAC_LLSA_PRE_COSTE = 0 Then
+                    .OFAC_LLSA_PRE_COSTE = llsa.LLSA_PRE_COSTE
+                End If
+            End If
+
+            If .GREN_ID > 0 Then
+                Dim gren As tCatalogGruposEngrase
+                gren = m_Catalogos.ObtenerGruposEngrase(.GREN_ID)
+                If .OFAC_GREN_DESCRIPCION = "" Then
+                    .OFAC_GREN_DESCRIPCION = gren.GREN_MODELO & " - " & gren.GREN_DESCRIPCION
+                End If
+                If .OFAC_GREN_PRE_COSTE = 0 Then
+                    .OFAC_GREN_PRE_COSTE = gren.GREN_PRE_COSTE
+                End If
+            End If
+
+            ' Resolver FK de arrancador con lógica especial según OFAC_ARRA_TIPO
+            If .ARRA_ID > 0 And .OFAC_ARRA_TIPO > 0 Then
+                Select Case .OFAC_ARRA_TIPO
+                    Case 1  ' ArrancadoresFuerza
+                        Dim arr1 As tCatalogArrancadoresFuerza
+                        arr1 = m_Catalogos.ObtenerArrancadoresFuerza(.ARRA_ID)
+                        If .OFAC_ARRA_DESCRIPCION = "" Then
+                            .OFAC_ARRA_DESCRIPCION = arr1.ARR1_MODELO & " - " & arr1.ARR1_DESCRIPCION
+                        End If
+                        If .OFAC_ARRA_PRE_COSTE = 0 Then
+                            .OFAC_ARRA_PRE_COSTE = arr1.ARR1_PRE_COSTE
+                        End If
+                    Case 2  ' ArrancadoresFuerzaControl
+                        Dim arr2 As tCatalogArrancadoresFuerzaControl
+                        arr2 = m_Catalogos.ObtenerArrancadoresFuerzaControl(.ARRA_ID)
+                        If .OFAC_ARRA_DESCRIPCION = "" Then
+                            .OFAC_ARRA_DESCRIPCION = arr2.ARR2_MODELO & " - " & arr2.ARR2_DESCRIPCION
+                        End If
+                        If .OFAC_ARRA_PRE_COSTE = 0 Then
+                            .OFAC_ARRA_PRE_COSTE = arr2.ARR2_PRE_COSTE
+                        End If
+                    Case 3  ' ArrancadoresControl
+                        Dim arr3 As tCatalogArrancadoresControl
+                        arr3 = m_Catalogos.ObtenerArrancadoresControl(.ARRA_ID)
+                        If .OFAC_ARRA_DESCRIPCION = "" Then
+                            .OFAC_ARRA_DESCRIPCION = arr3.ARR3_MODELO & " - " & arr3.ARR3_DESCRIPCION
+                        End If
+                        If .OFAC_ARRA_PRE_COSTE = 0 Then
+                            .OFAC_ARRA_PRE_COSTE = arr3.ARR3_PRE_COSTE
+                        End If
+                    Case 4  ' ArrancadoresFuerzaControlPET
+                        Dim arr4 As tCatalogArrancadoresFuerzaControlPET
+                        arr4 = m_Catalogos.ObtenerArrancadoresFuerzaControlPET(.ARRA_ID)
+                        If .OFAC_ARRA_DESCRIPCION = "" Then
+                            .OFAC_ARRA_DESCRIPCION = arr4.ARR4_MODELO & " - " & arr4.ARR4_DESCRIPCION
+                        End If
+                        If .OFAC_ARRA_PRE_COSTE = 0 Then
+                            .OFAC_ARRA_PRE_COSTE = arr4.ARR4_PRE_COSTE
+                        End If
+                End Select
+            End If
+
+            .ImporteCalculado = False
+        End With
         Oferta.Accesorios = ac
     End If
     rs.Close
@@ -515,15 +792,235 @@ ErrHandler:
 End Sub
 
 Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim inst As tOfertasInstrumentacion
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM OfertasInstrumentacion WHERE OFER_ID={" & OferID & "}")
     If Not rs.EOF Then
-        inst.OFIN_ID = NormalizarGUID(rs("OFIN_ID"))
-        inst.OFER_ID = NormalizarGUID(rs("OFER_ID"))
-        ' ... FALTA IMPLEMENTAR TODA LA INSTRUMENTACIÓN ...
+        With inst
+            .OFIN_ID = NormalizarGUID(rs("OFIN_ID"))
+            .OFER_ID = NormalizarGUID(rs("OFER_ID"))
+            ' Base instrumentación
+            .INTR_ID = NzLong(rs("INTR_ID"))
+            .OFIN_INTR_DESCRIPCION = NzVBA(rs("OFIN_INTR_DESCRIPCION"))
+            .OFIN_INTR_OBSERVA = NzVBA(rs("OFIN_INTR_OBSERVA"))
+            .OFIN_INTR_ADVERTENCIA = NzVBA(rs("OFIN_INTR_ADVERTENCIA"))
+            ' Transmisor temperatura
+            .TRAT_ID = NzLong(rs("TRAT_ID"))
+            .OFIN_TRAT_PRE_COSTE = NzDouble(rs("OFIN_TRAT_PRE_COSTE"))
+            .OFIN_TRAT_IMPORTE = NzDouble(rs("OFIN_TRAT_IMPORTE"))
+            .OFIN_TRAT_DESCRIPCION = NzVBA(rs("OFIN_TRAT_DESCRIPCION"))
+            .OFIN_TRAT_OBSERVA = NzVBA(rs("OFIN_TRAT_OBSERVA"))
+            .OFIN_TRAT_ADVERTENCIA = NzVBA(rs("OFIN_TRAT_ADVERTENCIA"))
+            .OFIN_TRAT_CANTIDAD = NzLong(rs("OFIN_TRAT_CANTIDAD"))
+            ' Transmisor presión
+            .TRAP_ID = NzLong(rs("TRAP_ID"))
+            .OFIN_TRAP_PRE_COSTE = NzDouble(rs("OFIN_TRAP_PRE_COSTE"))
+            .OFIN_TRAP_IMPORTE = NzDouble(rs("OFIN_TRAP_IMPORTE"))
+            .OFIN_TRAP_DESCRIPCION = NzVBA(rs("OFIN_TRAP_DESCRIPCION"))
+            .OFIN_TRAP_OBSERVA = NzVBA(rs("OFIN_TRAP_OBSERVA"))
+            .OFIN_TRAP_ADVERTENCIA = NzVBA(rs("OFIN_TRAP_ADVERTENCIA"))
+            .OFIN_TRAP_CANTIDAD = NzLong(rs("OFIN_TRAP_CANTIDAD"))
+            ' Termómetro
+            .TERM_ID = NzLong(rs("TERM_ID"))
+            .OFIN_TERM_PRE_COSTE = NzDouble(rs("OFIN_TERM_PRE_COSTE"))
+            .OFIN_TERM_IMPORTE = NzDouble(rs("OFIN_TERM_IMPORTE"))
+            .OFIN_TERM_DESCRIPCION = NzVBA(rs("OFIN_TERM_DESCRIPCION"))
+            .OFIN_TERM_OBSERVA = NzVBA(rs("OFIN_TERM_OBSERVA"))
+            .OFIN_TERM_ADVERTENCIA = NzVBA(rs("OFIN_TERM_ADVERTENCIA"))
+            .OFIN_TERM_CANTIDAD = NzLong(rs("OFIN_TERM_CANTIDAD"))
+            ' Manómetro
+            .MANO_ID = NzLong(rs("MANO_ID"))
+            .OFIN_MANO_PRE_COSTE = NzDouble(rs("OFIN_MANO_PRE_COSTE"))
+            .OFIN_MANO_IMPORTE = NzDouble(rs("OFIN_MANO_IMPORTE"))
+            .OFIN_MANO_DESCRIPCION = NzVBA(rs("OFIN_MANO_DESCRIPCION"))
+            .OFIN_MANO_OBSERVA = NzVBA(rs("OFIN_MANO_OBSERVA"))
+            .OFIN_MANO_ADVERTENCIA = NzVBA(rs("OFIN_MANO_ADVERTENCIA"))
+            .OFIN_MANO_CANTIDAD = NzLong(rs("OFIN_MANO_CANTIDAD"))
+            ' Electroválvula regulación
+            .ELER_ID = NzLong(rs("ELER_ID"))
+            .OFIN_ELER_PRE_COSTE = NzDouble(rs("OFIN_ELER_PRE_COSTE"))
+            .OFIN_ELER_IMPORTE = NzDouble(rs("OFIN_ELER_IMPORTE"))
+            .OFIN_ELER_DESCRIPCION = NzVBA(rs("OFIN_ELER_DESCRIPCION"))
+            .OFIN_ELER_OBSERVA = NzVBA(rs("OFIN_ELER_OBSERVA"))
+            .OFIN_ELER_ADVERTENCIA = NzVBA(rs("OFIN_ELER_ADVERTENCIA"))
+            .OFIN_ELER_CANTIDAD = NzLong(rs("OFIN_ELER_CANTIDAD"))
+            ' Sensor caída vástago
+            .SECV_ID = NzLong(rs("SECV_ID"))
+            .OFIN_SECV_PRE_COSTE = NzDouble(rs("OFIN_SECV_PRE_COSTE"))
+            .OFIN_SECV_IMPORTE = NzDouble(rs("OFIN_SECV_IMPORTE"))
+            .OFIN_SECV_DESCRIPCION = NzVBA(rs("OFIN_SECV_DESCRIPCION"))
+            .OFIN_SECV_OBSERVA = NzVBA(rs("OFIN_SECV_OBSERVA"))
+            .OFIN_SECV_ADVERTENCIA = NzVBA(rs("OFIN_SECV_ADVERTENCIA"))
+            .OFIN_SECV_CANTIDAD = NzLong(rs("OFIN_SECV_CANTIDAD"))
+            ' Interruptor vibración
+            .INTV_ID = NzLong(rs("INTV_ID"))
+            .OFIN_INTV_PRE_COSTE = NzDouble(rs("OFIN_INTV_PRE_COSTE"))
+            .OFIN_INTV_IMPORTE = NzDouble(rs("OFIN_INTV_IMPORTE"))
+            .OFIN_INTV_DESCRIPCION = NzVBA(rs("OFIN_INTV_DESCRIPCION"))
+            .OFIN_INTV_OBSERVA = NzVBA(rs("OFIN_INTV_OBSERVA"))
+            .OFIN_INTV_ADVERTENCIA = NzVBA(rs("OFIN_INTV_ADVERTENCIA"))
+            .OFIN_INTV_CANTIDAD = NzLong(rs("OFIN_INTV_CANTIDAD"))
+            ' Interruptor nivel aceite
+            .INTA_ID = NzLong(rs("INTA_ID"))
+            .OFIN_INTA_PRE_COSTE = NzDouble(rs("OFIN_INTA_PRE_COSTE"))
+            .OFIN_INTA_IMPORTE = NzDouble(rs("OFIN_INTA_IMPORTE"))
+            .OFIN_INTA_DESCRIPCION = NzVBA(rs("OFIN_INTA_DESCRIPCION"))
+            .OFIN_INTA_OBSERVA = NzVBA(rs("OFIN_INTA_OBSERVA"))
+            .OFIN_INTA_ADVERTENCIA = NzVBA(rs("OFIN_INTA_ADVERTENCIA"))
+            .OFIN_INTA_CANTIDAD = NzLong(rs("OFIN_INTA_CANTIDAD"))
+            ' Nivel condensados
+            .NIVC_ID = NzLong(rs("NIVC_ID"))
+            .OFIN_NIVC_PRE_COSTE = NzDouble(rs("OFIN_NIVC_PRE_COSTE"))
+            .OFIN_NIVC_IMPORTE = NzDouble(rs("OFIN_NIVC_IMPORTE"))
+            .OFIN_NIVC_DESCRIPCION = NzVBA(rs("OFIN_NIVC_DESCRIPCION"))
+            .OFIN_NIVC_OBSERVA = NzVBA(rs("OFIN_NIVC_OBSERVA"))
+            .OFIN_NIVC_ADVERTENCIA = NzVBA(rs("OFIN_NIVC_ADVERTENCIA"))
+            .OFIN_NIVC_CANTIDAD = NzLong(rs("OFIN_NIVC_CANTIDAD"))
+            ' Válvula termostática
+            .VATE_ID = NzLong(rs("VATE_ID"))
+            .OFIN_VATE_PRE_COSTE = NzDouble(rs("OFIN_VATE_PRE_COSTE"))
+            .OFIN_VATE_IMPORTE = NzDouble(rs("OFIN_VATE_IMPORTE"))
+            .OFIN_VATE_DESCRIPCION = NzVBA(rs("OFIN_VATE_DESCRIPCION"))
+            .OFIN_VATE_OBSERVA = NzVBA(rs("OFIN_VATE_OBSERVA"))
+            .OFIN_VATE_ADVERTENCIA = NzVBA(rs("OFIN_VATE_ADVERTENCIA"))
+            .OFIN_VATE_CANTIDAD = NzLong(rs("OFIN_VATE_CANTIDAD"))
+            ' Instrumentación libre (7 líneas)
+            .OFIN_INS1_TEXTO = NzVBA(rs("OFIN_INS1_TEXTO"))
+            .OFIN_INS1_CANTIDAD = NzInteger(rs("OFIN_INS1_CANTIDAD"))
+            .OFIN_INS1_IMPORTE = NzDouble(rs("OFIN_INS1_IMPORTE"))
+            .OFIN_INS2_TEXTO = NzVBA(rs("OFIN_INS2_TEXTO"))
+            .OFIN_INS2_CANTIDAD = NzInteger(rs("OFIN_INS2_CANTIDAD"))
+            .OFIN_INS2_IMPORTE = NzDouble(rs("OFIN_INS2_IMPORTE"))
+            .OFIN_INS3_TEXTO = NzVBA(rs("OFIN_INS3_TEXTO"))
+            .OFIN_INS3_CANTIDAD = NzInteger(rs("OFIN_INS3_CANTIDAD"))
+            .OFIN_INS3_IMPORTE = NzDouble(rs("OFIN_INS3_IMPORTE"))
+            .OFIN_INS4_TEXTO = NzVBA(rs("OFIN_INS4_TEXTO"))
+            .OFIN_INS4_CANTIDAD = NzInteger(rs("OFIN_INS4_CANTIDAD"))
+            .OFIN_INS4_IMPORTE = NzDouble(rs("OFIN_INS4_IMPORTE"))
+            .OFIN_INS5_TEXTO = NzVBA(rs("OFIN_INS5_TEXTO"))
+            .OFIN_INS5_CANTIDAD = NzInteger(rs("OFIN_INS5_CANTIDAD"))
+            .OFIN_INS5_IMPORTE = NzDouble(rs("OFIN_INS5_IMPORTE"))
+            .OFIN_INS6_TEXTO = NzVBA(rs("OFIN_INS6_TEXTO"))
+            .OFIN_INS6_CANTIDAD = NzInteger(rs("OFIN_INS6_CANTIDAD"))
+            .OFIN_INS6_IMPORTE = NzDouble(rs("OFIN_INS6_IMPORTE"))
+            .OFIN_INS7_TEXTO = NzVBA(rs("OFIN_INS7_TEXTO"))
+            .OFIN_INS7_CANTIDAD = NzInteger(rs("OFIN_INS7_CANTIDAD"))
+            .OFIN_INS7_IMPORTE = NzDouble(rs("OFIN_INS7_IMPORTE"))
+
+            ' Resolver FKs de instrumentación
+            If .TRAT_ID > 0 Then
+                Dim trat As tCatalogTransmisoresTemperatura
+                trat = m_Catalogos.ObtenerTransmisoresTemperatura(.TRAT_ID)
+                If .OFIN_TRAT_DESCRIPCION = "" Then
+                    .OFIN_TRAT_DESCRIPCION = trat.TRAT_MODELO & " - " & trat.TRAT_DESCRIPCION
+                End If
+                If .OFIN_TRAT_PRE_COSTE = 0 Then
+                    .OFIN_TRAT_PRE_COSTE = trat.TRAT_PRE_COSTE
+                End If
+            End If
+
+            If .TRAP_ID > 0 Then
+                Dim trap As tCatalogTransmisoresPresion
+                trap = m_Catalogos.ObtenerTransmisoresPresion(.TRAP_ID)
+                If .OFIN_TRAP_DESCRIPCION = "" Then
+                    .OFIN_TRAP_DESCRIPCION = trap.TRAP_MODELO & " - " & trap.TRAP_DESCRIPCION
+                End If
+                If .OFIN_TRAP_PRE_COSTE = 0 Then
+                    .OFIN_TRAP_PRE_COSTE = trap.TRAP_PRE_COSTE
+                End If
+            End If
+
+            If .TERM_ID > 0 Then
+                Dim term As tCatalogTermometros
+                term = m_Catalogos.ObtenerTermometros(.TERM_ID)
+                If .OFIN_TERM_DESCRIPCION = "" Then
+                    .OFIN_TERM_DESCRIPCION = term.TERM_MODELO & " - " & term.TERM_DESCRIPCION
+                End If
+                If .OFIN_TERM_PRE_COSTE = 0 Then
+                    .OFIN_TERM_PRE_COSTE = term.TERM_PRE_COSTE
+                End If
+            End If
+
+            If .MANO_ID > 0 Then
+                Dim mano As tCatalogManometros
+                mano = m_Catalogos.ObtenerManometros(.MANO_ID)
+                If .OFIN_MANO_DESCRIPCION = "" Then
+                    .OFIN_MANO_DESCRIPCION = mano.MANO_MODELO & " - " & mano.MANO_DESCRIPCION
+                End If
+                If .OFIN_MANO_PRE_COSTE = 0 Then
+                    .OFIN_MANO_PRE_COSTE = mano.MANO_PRE_COSTE
+                End If
+            End If
+
+            If .ELER_ID > 0 Then
+                Dim eler As tCatalogElectrovalvulasRegulacion
+                eler = m_Catalogos.ObtenerElectrovalvulasRegulacion(.ELER_ID)
+                If .OFIN_ELER_DESCRIPCION = "" Then
+                    .OFIN_ELER_DESCRIPCION = eler.ELER_MODELO & " - " & eler.ELER_DESCRIPCION
+                End If
+                If .OFIN_ELER_PRE_COSTE = 0 Then
+                    .OFIN_ELER_PRE_COSTE = eler.ELER_PRE_COSTE
+                End If
+            End If
+
+            If .SECV_ID > 0 Then
+                Dim secv As tCatalogSensoresCaidaVastago
+                secv = m_Catalogos.ObtenerSensoresCaidaVastago(.SECV_ID)
+                If .OFIN_SECV_DESCRIPCION = "" Then
+                    .OFIN_SECV_DESCRIPCION = secv.SECV_MODELO & " - " & secv.SECV_DESCRIPCION
+                End If
+                If .OFIN_SECV_PRE_COSTE = 0 Then
+                    .OFIN_SECV_PRE_COSTE = secv.SECV_PRE_COSTE
+                End If
+            End If
+
+            If .INTV_ID > 0 Then
+                Dim intv As tCatalogInterruptoresVibracion
+                intv = m_Catalogos.ObtenerInterruptoresVibracion(.INTV_ID)
+                If .OFIN_INTV_DESCRIPCION = "" Then
+                    .OFIN_INTV_DESCRIPCION = intv.INTV_MODELO & " - " & intv.INTV_DESCRIPCION
+                End If
+                If .OFIN_INTV_PRE_COSTE = 0 Then
+                    .OFIN_INTV_PRE_COSTE = intv.INTV_PRE_COSTE
+                End If
+            End If
+
+            If .INTA_ID > 0 Then
+                Dim inta As tCatalogInterruptoresNivelAceite
+                inta = m_Catalogos.ObtenerInterruptoresNivelAceite(.INTA_ID)
+                If .OFIN_INTA_DESCRIPCION = "" Then
+                    .OFIN_INTA_DESCRIPCION = inta.INTA_MODELO & " - " & inta.INTA_DESCRIPCION
+                End If
+                If .OFIN_INTA_PRE_COSTE = 0 Then
+                    .OFIN_INTA_PRE_COSTE = inta.INTA_PRE_COSTE
+                End If
+            End If
+
+            If .NIVC_ID > 0 Then
+                Dim nivc As tCatalogNivelesCondensados
+                nivc = m_Catalogos.ObtenerNivelesCondensados(.NIVC_ID)
+                If .OFIN_NIVC_DESCRIPCION = "" Then
+                    .OFIN_NIVC_DESCRIPCION = nivc.NIVC_MODELO & " - " & nivc.NIVC_DESCRIPCION
+                End If
+                If .OFIN_NIVC_PRE_COSTE = 0 Then
+                    .OFIN_NIVC_PRE_COSTE = nivc.NIVC_PRE_COSTE
+                End If
+            End If
+
+            If .VATE_ID > 0 Then
+                Dim vate As tCatalogValvulasTermostaticas
+                vate = m_Catalogos.ObtenerValvulasTermostaticas(.VATE_ID)
+                If .OFIN_VATE_DESCRIPCION = "" Then
+                    .OFIN_VATE_DESCRIPCION = vate.VATE_MODELO & " - " & vate.VATE_DESCRIPCION
+                End If
+                If .OFIN_VATE_PRE_COSTE = 0 Then
+                    .OFIN_VATE_PRE_COSTE = vate.VATE_PRE_COSTE
+                End If
+            End If
+
+            .ImporteCalculado = False
+        End With
         Oferta.Instrumentacion = inst
     End If
     rs.Close
