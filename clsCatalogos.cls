@@ -8,19 +8,19 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '=========================================================
-'@Description: Gestor centralizado de catÃ¡logos con cache
-'@Purpose: Evitar duplicaciÃ³n de datos de maestros en memoria
-'@Pattern: Arrays+Dictionary para resolver limitaciÃ³n VBA UDTs
-'@Updated: FASE 1 - 32 catÃ¡logos nuevos (Total: 47 catÃ¡logos)
+'@Description: Gestor centralizado de catálogos con cache
+'@Purpose: Evitar duplicación de datos de maestros en memoria
+'@Pattern: Arrays+Dictionary para resolver limitación VBA UDTs
+'@Updated: FASE 1 - 32 catálogos nuevos (Total: 47 catálogos)
 '=========================================================
 Option Explicit
 
 '=========================================================
-' ARRAYS Y DICTIONARIES PARA CATÃLOGOS (47 totales)
-' PatrÃ³n: m_XXXArray() + m_XXXIndice (Dict Long->Long)
+' ARRAYS Y DICTIONARIES PARA CATÁLOGOS (47 totales)
+' Patrón: m_XXXArray() + m_XXXIndice (Dict Long->Long)
 '=========================================================
 
-' CatÃ¡logos originales (15)
+' Catálogos originales (15)
 Private m_chasisArray() As tCatalogChasis
 Private m_chasisIndice As Object
 Private m_chasisCount As Long
@@ -81,7 +81,7 @@ Private m_manometrosArray() As tCatalogManometros
 Private m_manometrosIndice As Object
 Private m_manometrosCount As Long
 
-' CatÃ¡logos nuevos FASE 1 (32)
+' Catálogos nuevos FASE 1 (32)
 Private m_embalajesArray() As tCatalogEmbalajes
 Private m_embalajesIndice As Object  ' Dictionary Long->Long
 Private m_embalajesCount As Long
@@ -183,14 +183,14 @@ Private m_Ctx As clsDBContext
 Private m_Cargado As Boolean
 
 '=========================================================
-' INICIALIZACIÃ“N Y CARGA
+' INICIALIZACIÓN Y CARGA
 '=========================================================
 
 Private Sub Class_Initialize()
     m_Cargado = False
 End Sub
 
-'@Description: Carga todos los catÃ¡logos en memoria desde la BD
+'@Description: Carga todos los catálogos en memoria desde la BD
 '@Param ctx: Contexto de base de datos ya conectado
 Public Sub CargarTodos(ByVal ctx As clsDBContext)
     On Error GoTo ErrHandler
@@ -198,7 +198,7 @@ Public Sub CargarTodos(ByVal ctx As clsDBContext)
     If m_Cargado Then Exit Sub
     Set m_Ctx = ctx
     
-    ' Cargar catÃ¡logos originales (15)
+    ' Cargar catálogos originales (15)
     CargarChasis
     CargarCorreas
     CargarCabezales
@@ -215,7 +215,7 @@ Public Sub CargarTodos(ByVal ctx As clsDBContext)
     CargarFiltros
     CargarManometros
     
-    ' Cargar catÃ¡logos FASE 1 (32)
+    ' Cargar catálogos FASE 1 (32)
     CargarEmbalajes
     CargarTransportes
     CargarPuestasMarcha
@@ -254,11 +254,11 @@ Public Sub CargarTodos(ByVal ctx As clsDBContext)
     
 ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarTodos", _
-        "Error cargando catÃ¡logos: " & Err.Description
+        "Error cargando catálogos: " & Err.Description
 End Sub
 
 '=========================================================
-' MÃ‰TODOS PRIVADOS DE CARGA - CATÃLOGOS ORIGINALES (15)
+' MÉTODOS PRIVADOS DE CARGA - CATÁLOGOS ORIGINALES (15)
 '=========================================================
 
 Private Sub CargarChasis()
@@ -276,7 +276,7 @@ Private Sub CargarChasis()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_chasisArray(i).CHAS_ID = NzLong(rs("CHAS_ID"))
+        m_chasisArray(i).CHAS_ID = NzDouble(rs("CHAS_ID"))
         m_chasisArray(i).CHAS_MODELO = NzVBA(rs("CHAS_MODELO"))
         m_chasisArray(i).CHAS_DESCRIPCION = NzVBA(rs("CHAS_DESCRIPCION"))
         m_chasisArray(i).CHAS_ADVERTENCIA = NzVBA(rs("CHAS_ADVERTENCIA"))
@@ -309,7 +309,7 @@ Private Sub CargarCorreas()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_correasArray(i).CORR_ID = NzLong(rs("CORR_ID"))
+        m_correasArray(i).CORR_ID = NzDouble(rs("CORR_ID"))
         m_correasArray(i).CORR_MODELO = NzVBA(rs("CORR_MODELO"))
         m_correasArray(i).CORR_DESCRIPCION = NzVBA(rs("CORR_DESCRIPCION"))
         m_correasArray(i).CORR_ADVERTENCIA = NzVBA(rs("CORR_ADVERTENCIA"))
@@ -343,7 +343,7 @@ Private Sub CargarCabezales()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_cabezalesArray(i).CABE_ID = NzLong(rs("CABE_ID"))
+        m_cabezalesArray(i).CABE_ID = NzDouble(rs("CABE_ID"))
         m_cabezalesArray(i).CABE_MODELO = NzVBA(rs("CABE_MODELO"))
         m_cabezalesArray(i).CABE_DESCRIPCION = NzVBA(rs("CABE_DESCRIPCION"))
         m_cabezalesArray(i).CABE_ADVERTENCIA = NzVBA(rs("CABE_ADVERTENCIA"))
@@ -576,7 +576,7 @@ Private Sub CargarAcoplamientosDirecto()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_acoplamientosDirectoArray(i).ACOD_ID = NzLong(rs("ACOD_ID"))
+        m_acoplamientosDirectoArray(i).ACOD_ID = NzDouble(rs("ACOD_ID"))
         m_acoplamientosDirectoArray(i).ACOD_MODELO = NzVBA(rs("ACOD_MODELO"))
         m_acoplamientosDirectoArray(i).ACOD_DESCRIPCION = NzVBA(rs("ACOD_DESCRIPCION"))
         m_acoplamientosDirectoArray(i).ACOD_ADVERTENCIA = NzVBA(rs("ACOD_ADVERTENCIA"))
@@ -609,7 +609,7 @@ Private Sub CargarReductores()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_reductoresArray(i).REDU_ID = NzLong(rs("REDU_ID"))
+        m_reductoresArray(i).REDU_ID = NzDouble(rs("REDU_ID"))
         m_reductoresArray(i).REDU_MODELO = NzVBA(rs("REDU_MODELO"))
         m_reductoresArray(i).REDU_DESCRIPCION = NzVBA(rs("REDU_DESCRIPCION"))
         m_reductoresArray(i).REDU_ADVERTENCIA = NzVBA(rs("REDU_ADVERTENCIA"))
@@ -643,7 +643,7 @@ Private Sub CargarValvulasRetencion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasRetencionArray(i).VARE_ID = NzLong(rs("VARE_ID"))
+        m_valvulasRetencionArray(i).VARE_ID = NzDouble(rs("VARE_ID"))
         m_valvulasRetencionArray(i).VARE_MODELO = NzVBA(rs("VARE_MODELO"))
         m_valvulasRetencionArray(i).VARE_DESCRIPCION = NzVBA(rs("VARE_DESCRIPCION"))
         m_valvulasRetencionArray(i).VARE_ADVERTENCIA = NzVBA(rs("VARE_ADVERTENCIA"))
@@ -676,7 +676,7 @@ Private Sub CargarElectrovalvulas()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_electrovalvulasArray(i).ELEC_ID = NzLong(rs("ELEC_ID"))
+        m_electrovalvulasArray(i).ELEC_ID = NzDouble(rs("ELEC_ID"))
         m_electrovalvulasArray(i).ELEC_MODELO = NzVBA(rs("ELEC_MODELO"))
         m_electrovalvulasArray(i).ELEC_DESCRIPCION = NzVBA(rs("ELEC_DESCRIPCION"))
         m_electrovalvulasArray(i).ELEC_ADVERTENCIA = NzVBA(rs("ELEC_ADVERTENCIA"))
@@ -742,7 +742,7 @@ Private Sub CargarManometros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_manometrosArray(i).MANO_ID = NzLong(rs("MANO_ID"))
+        m_manometrosArray(i).MANO_ID = NzDouble(rs("MANO_ID"))
         m_manometrosArray(i).MANO_MODELO = NzVBA(rs("MANO_MODELO"))
         m_manometrosArray(i).MANO_DESCRIPCION = NzVBA(rs("MANO_DESCRIPCION"))
         m_manometrosArray(i).MANO_ADVERTENCIA = NzVBA(rs("MANO_ADVERTENCIA"))
@@ -762,7 +762,7 @@ End Sub
 
 
 '=========================================================
-' MÃ‰TODOS PRIVADOS DE CARGA - CATÃLOGOS FASE 1 (32)
+' MÉTODOS PRIVADOS DE CARGA - CATÁLOGOS FASE 1 (32)
 '=========================================================
 
 Private Sub CargarEmbalajes()
@@ -790,7 +790,7 @@ Private Sub CargarEmbalajes()
         m_embalajesArray(i).EMBA_ADVERTENCIA = NzVBA(rs("EMBA_ADVERTENCIA"))
         m_embalajesArray(i).EMBA_PRE_COSTE = NzDouble(rs("EMBA_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_embalajesIndice.Add m_embalajesArray(i).EMBA_ID, i
         
         i = i + 1
@@ -830,7 +830,7 @@ Private Sub CargarTransportes()
         m_transportesArray(i).TRAN_ADVERTENCIA = NzVBA(rs("TRAN_ADVERTENCIA"))
         m_transportesArray(i).TRAN_PRE_COSTE = NzDouble(rs("TRAN_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_transportesIndice.Add m_transportesArray(i).TRAN_ID, i
         
         i = i + 1
@@ -870,7 +870,7 @@ Private Sub CargarPuestasMarcha()
         m_puestasMarchaArray(i).PUMA_ADVERTENCIA = NzVBA(rs("PUMA_ADVERTENCIA"))
         m_puestasMarchaArray(i).PUMA_PRE_COSTE = NzDouble(rs("PUMA_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_puestasMarchaIndice.Add m_puestasMarchaArray(i).PUMA_ID, i
         
         i = i + 1
@@ -910,7 +910,7 @@ Private Sub CargarPruebasAsistencia()
         m_pruebasAsistenciaArray(i).PRAS_ADVERTENCIA = NzVBA(rs("PRAS_ADVERTENCIA"))
         m_pruebasAsistenciaArray(i).PRAS_PRE_COSTE = NzDouble(rs("PRAS_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_pruebasAsistenciaIndice.Add m_pruebasAsistenciaArray(i).PRAS_ID, i
         
         i = i + 1
@@ -944,13 +944,13 @@ Private Sub CargarAeros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_aerosArray(i).AERO_ID = NzLong(rs("AERO_ID"))
+        m_aerosArray(i).AERO_ID = NzDouble(rs("AERO_ID"))
         m_aerosArray(i).AERO_MODELO = NzVBA(rs("AERO_MODELO"))
         m_aerosArray(i).AERO_DESCRIPCION = NzVBA(rs("AERO_DESCRIPCION"))
         m_aerosArray(i).AERO_ADVERTENCIA = NzVBA(rs("AERO_ADVERTENCIA"))
         m_aerosArray(i).AERO_PRE_COSTE = NzDouble(rs("AERO_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_aerosIndice.Add m_aerosArray(i).AERO_ID, i
         
         i = i + 1
@@ -990,7 +990,7 @@ Private Sub CargarCajaLocal()
         m_cajaLocalArray(i).CALO_ADVERTENCIA = NzVBA(rs("CALO_ADVERTENCIA"))
         m_cajaLocalArray(i).CALO_PRE_COSTE = NzDouble(rs("CALO_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_cajaLocalIndice.Add m_cajaLocalArray(i).CALO_ID, i
         
         i = i + 1
@@ -1024,13 +1024,13 @@ Private Sub CargarGruposEngrase()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_gruposEngraseArray(i).GREN_ID = NzLong(rs("GREN_ID"))
+        m_gruposEngraseArray(i).GREN_ID = NzDouble(rs("GREN_ID"))
         m_gruposEngraseArray(i).GREN_MODELO = NzVBA(rs("GREN_MODELO"))
         m_gruposEngraseArray(i).GREN_DESCRIPCION = NzVBA(rs("GREN_DESCRIPCION"))
         m_gruposEngraseArray(i).GREN_ADVERTENCIA = NzVBA(rs("GREN_ADVERTENCIA"))
         m_gruposEngraseArray(i).GREN_PRE_COSTE = NzDouble(rs("GREN_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_gruposEngraseIndice.Add m_gruposEngraseArray(i).GREN_ID, i
         
         i = i + 1
@@ -1064,13 +1064,13 @@ Private Sub CargarLlavesEntrada()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_llavesEntradaArray(i).LLEN_ID = NzLong(rs("LLEN_ID"))
+        m_llavesEntradaArray(i).LLEN_ID = NzDouble(rs("LLEN_ID"))
         m_llavesEntradaArray(i).LLEN_MODELO = NzVBA(rs("LLEN_MODELO"))
         m_llavesEntradaArray(i).LLEN_DESCRIPCION = NzVBA(rs("LLEN_DESCRIPCION"))
         m_llavesEntradaArray(i).LLEN_ADVERTENCIA = NzVBA(rs("LLEN_ADVERTENCIA"))
         m_llavesEntradaArray(i).LLEN_PRE_COSTE = NzDouble(rs("LLEN_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_llavesEntradaIndice.Add m_llavesEntradaArray(i).LLEN_ID, i
         
         i = i + 1
@@ -1104,13 +1104,13 @@ Private Sub CargarLlavesSalida()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_llavesSalidaArray(i).LLSA_ID = NzLong(rs("LLSA_ID"))
+        m_llavesSalidaArray(i).LLSA_ID = NzDouble(rs("LLSA_ID"))
         m_llavesSalidaArray(i).LLSA_MODELO = NzVBA(rs("LLSA_MODELO"))
         m_llavesSalidaArray(i).LLSA_DESCRIPCION = NzVBA(rs("LLSA_DESCRIPCION"))
         m_llavesSalidaArray(i).LLSA_ADVERTENCIA = NzVBA(rs("LLSA_ADVERTENCIA"))
         m_llavesSalidaArray(i).LLSA_PRE_COSTE = NzDouble(rs("LLSA_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_llavesSalidaIndice.Add m_llavesSalidaArray(i).LLSA_ID, i
         
         i = i + 1
@@ -1150,7 +1150,7 @@ Private Sub CargarNormativasCompresor()
         m_normativasCompresorArray(i).NORC_ADVERTENCIA = NzVBA(rs("NORC_ADVERTENCIA"))
         m_normativasCompresorArray(i).NORC_PRE_COSTE = NzDouble(rs("NORC_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_normativasCompresorIndice.Add m_normativasCompresorArray(i).NORC_ID, i
         
         i = i + 1
@@ -1184,13 +1184,13 @@ Private Sub CargarValvulasPresion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasPresionArray(i).VAPR_ID = NzLong(rs("VAPR_ID"))
+        m_valvulasPresionArray(i).VAPR_ID = NzDouble(rs("VAPR_ID"))
         m_valvulasPresionArray(i).VAPR_MODELO = NzVBA(rs("VAPR_MODELO"))
         m_valvulasPresionArray(i).VAPR_DESCRIPCION = NzVBA(rs("VAPR_DESCRIPCION"))
         m_valvulasPresionArray(i).VAPR_ADVERTENCIA = NzVBA(rs("VAPR_ADVERTENCIA"))
         m_valvulasPresionArray(i).VAPR_PRE_COSTE = NzDouble(rs("VAPR_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_valvulasPresionIndice.Add m_valvulasPresionArray(i).VAPR_ID, i
         
         i = i + 1
@@ -1224,13 +1224,13 @@ Private Sub CargarEngraseCilindros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_engraseCilindrosArray(i).ENCI_ID = NzLong(rs("ENCI_ID"))
+        m_engraseCilindrosArray(i).ENCI_ID = NzDouble(rs("ENCI_ID"))
         m_engraseCilindrosArray(i).ENCI_MODELO = NzVBA(rs("ENCI_MODELO"))
         m_engraseCilindrosArray(i).ENCI_DESCRIPCION = NzVBA(rs("ENCI_DESCRIPCION"))
         m_engraseCilindrosArray(i).ENCI_ADVERTENCIA = NzVBA(rs("ENCI_ADVERTENCIA"))
         m_engraseCilindrosArray(i).ENCI_PRE_COSTE = NzDouble(rs("ENCI_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_engraseCilindrosIndice.Add m_engraseCilindrosArray(i).ENCI_ID, i
         
         i = i + 1
@@ -1264,13 +1264,13 @@ Private Sub CargarPurgadores()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_purgadoresArray(i).PURG_ID = NzLong(rs("PURG_ID"))
+        m_purgadoresArray(i).PURG_ID = NzDouble(rs("PURG_ID"))
         m_purgadoresArray(i).PURG_MODELO = NzVBA(rs("PURG_MODELO"))
         m_purgadoresArray(i).PURG_DESCRIPCION = NzVBA(rs("PURG_DESCRIPCION"))
         m_purgadoresArray(i).PURG_ADVERTENCIA = NzVBA(rs("PURG_ADVERTENCIA"))
         m_purgadoresArray(i).PURG_PRE_COSTE = NzDouble(rs("PURG_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_purgadoresIndice.Add m_purgadoresArray(i).PURG_ID, i
         
         i = i + 1
@@ -1304,13 +1304,13 @@ Private Sub CargarResistenciasCalefaccion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_resistenciasCalefaccionArray(i).RESC_ID = NzLong(rs("RESC_ID"))
+        m_resistenciasCalefaccionArray(i).RESC_ID = NzDouble(rs("RESC_ID"))
         m_resistenciasCalefaccionArray(i).RESC_MODELO = NzVBA(rs("RESC_MODELO"))
         m_resistenciasCalefaccionArray(i).RESC_DESCRIPCION = NzVBA(rs("RESC_DESCRIPCION"))
         m_resistenciasCalefaccionArray(i).RESC_ADVERTENCIA = NzVBA(rs("RESC_ADVERTENCIA"))
         m_resistenciasCalefaccionArray(i).RESC_PRE_COSTE = NzDouble(rs("RESC_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_resistenciasCalefaccionIndice.Add m_resistenciasCalefaccionArray(i).RESC_ID, i
         
         i = i + 1
@@ -1344,13 +1344,13 @@ Private Sub CargarValvulasReguladoras()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasReguladorasArray(i).VARG_ID = NzLong(rs("VARG_ID"))
+        m_valvulasReguladorasArray(i).VARG_ID = NzDouble(rs("VARG_ID"))
         m_valvulasReguladorasArray(i).VARG_MODELO = NzVBA(rs("VARG_MODELO"))
         m_valvulasReguladorasArray(i).VARG_DESCRIPCION = NzVBA(rs("VARG_DESCRIPCION"))
         m_valvulasReguladorasArray(i).VARG_ADVERTENCIA = NzVBA(rs("VARG_ADVERTENCIA"))
         m_valvulasReguladorasArray(i).VARG_PRE_COSTE = NzDouble(rs("VARG_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_valvulasReguladorasIndice.Add m_valvulasReguladorasArray(i).VARG_ID, i
         
         i = i + 1
@@ -1384,13 +1384,13 @@ Private Sub CargarPaises()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_paisesArray(i).pais_id = NzLong(rs("pais_id"))
+        m_paisesArray(i).pais_id = NzDouble(rs("pais_id"))
         m_paisesArray(i).pais_nombre = NzVBA(rs("pais_nombre"))
         m_paisesArray(i).pais_iso3166_1n = NzVBA(rs("pais_iso3166_1n"))
         m_paisesArray(i).pais_iso3166_1an2 = NzVBA(rs("pais_iso3166_1an2"))
         m_paisesArray(i).pais_iso3166_1an3 = NzVBA(rs("pais_iso3166_1an3"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_paisesIndice.Add m_paisesArray(i).pais_id, i
         
         i = i + 1
@@ -1427,7 +1427,7 @@ Private Sub CargarComerciales()
         m_comercialesArray(i).COME_ID = NzLong(rs("COME_ID"))
         m_comercialesArray(i).COME_NOMBRE = NzVBA(rs("COME_NOMBRE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_comercialesIndice.Add m_comercialesArray(i).COME_ID, i
         
         i = i + 1
@@ -1464,7 +1464,7 @@ Private Sub CargarOfertantes()
         m_ofertantesArray(i).OFTN_ID = NzLong(rs("OFTN_ID"))
         m_ofertantesArray(i).OFTN_NOMBRE = NzVBA(rs("OFTN_NOMBRE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_ofertantesIndice.Add m_ofertantesArray(i).OFTN_ID, i
         
         i = i + 1
@@ -1504,7 +1504,7 @@ Private Sub CargarArrancadoresFuerza()
         m_arrancadoresFuerzaArray(i).ARR1_ADVERTENCIA = NzVBA(rs("ARR1_ADVERTENCIA"))
         m_arrancadoresFuerzaArray(i).ARR1_PRE_COSTE = NzDouble(rs("ARR1_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_arrancadoresFuerzaIndice.Add m_arrancadoresFuerzaArray(i).ARR1_ID, i
         
         i = i + 1
@@ -1544,7 +1544,7 @@ Private Sub CargarArrancadoresFuerzaControl()
         m_arrancadoresFuerzaControlArray(i).ARR2_ADVERTENCIA = NzVBA(rs("ARR2_ADVERTENCIA"))
         m_arrancadoresFuerzaControlArray(i).ARR2_PRE_COSTE = NzDouble(rs("ARR2_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_arrancadoresFuerzaControlIndice.Add m_arrancadoresFuerzaControlArray(i).ARR2_ID, i
         
         i = i + 1
@@ -1584,7 +1584,7 @@ Private Sub CargarArrancadoresControl()
         m_arrancadoresControlArray(i).ARR3_ADVERTENCIA = NzVBA(rs("ARR3_ADVERTENCIA"))
         m_arrancadoresControlArray(i).ARR3_PRE_COSTE = NzDouble(rs("ARR3_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_arrancadoresControlIndice.Add m_arrancadoresControlArray(i).ARR3_ID, i
         
         i = i + 1
@@ -1624,7 +1624,7 @@ Private Sub CargarArrancadoresFuerzaControlPET()
         m_arrancadoresFuerzaControlPETArray(i).ARR4_ADVERTENCIA = NzVBA(rs("ARR4_ADVERTENCIA"))
         m_arrancadoresFuerzaControlPETArray(i).ARR4_PRE_COSTE = NzDouble(rs("ARR4_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_arrancadoresFuerzaControlPETIndice.Add m_arrancadoresFuerzaControlPETArray(i).ARR4_ID, i
         
         i = i + 1
@@ -1658,13 +1658,13 @@ Private Sub CargarTransmisoresTemperatura()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_transmisoresTemperaturaArray(i).TRAT_ID = NzLong(rs("TRAT_ID"))
+        m_transmisoresTemperaturaArray(i).TRAT_ID = NzDouble(rs("TRAT_ID"))
         m_transmisoresTemperaturaArray(i).TRAT_MODELO = NzVBA(rs("TRAT_MODELO"))
         m_transmisoresTemperaturaArray(i).TRAT_DESCRIPCION = NzVBA(rs("TRAT_DESCRIPCION"))
         m_transmisoresTemperaturaArray(i).TRAT_ADVERTENCIA = NzVBA(rs("TRAT_ADVERTENCIA"))
         m_transmisoresTemperaturaArray(i).TRAT_PRE_COSTE = NzDouble(rs("TRAT_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_transmisoresTemperaturaIndice.Add m_transmisoresTemperaturaArray(i).TRAT_ID, i
         
         i = i + 1
@@ -1698,13 +1698,13 @@ Private Sub CargarTransmisoresPresion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_transmisoresPresionArray(i).TRAP_ID = NzLong(rs("TRAP_ID"))
+        m_transmisoresPresionArray(i).TRAP_ID = NzDouble(rs("TRAP_ID"))
         m_transmisoresPresionArray(i).TRAP_MODELO = NzVBA(rs("TRAP_MODELO"))
         m_transmisoresPresionArray(i).TRAP_DESCRIPCION = NzVBA(rs("TRAP_DESCRIPCION"))
         m_transmisoresPresionArray(i).TRAP_ADVERTENCIA = NzVBA(rs("TRAP_ADVERTENCIA"))
         m_transmisoresPresionArray(i).TRAP_PRE_COSTE = NzDouble(rs("TRAP_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_transmisoresPresionIndice.Add m_transmisoresPresionArray(i).TRAP_ID, i
         
         i = i + 1
@@ -1738,13 +1738,13 @@ Private Sub CargarTermometros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_termometrosArray(i).TERM_ID = NzLong(rs("TERM_ID"))
+        m_termometrosArray(i).TERM_ID = NzDouble(rs("TERM_ID"))
         m_termometrosArray(i).TERM_MODELO = NzVBA(rs("TERM_MODELO"))
         m_termometrosArray(i).TERM_DESCRIPCION = NzVBA(rs("TERM_DESCRIPCION"))
         m_termometrosArray(i).TERM_ADVERTENCIA = NzVBA(rs("TERM_ADVERTENCIA"))
         m_termometrosArray(i).TERM_PRE_COSTE = NzDouble(rs("TERM_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_termometrosIndice.Add m_termometrosArray(i).TERM_ID, i
         
         i = i + 1
@@ -1778,13 +1778,14 @@ Private Sub CargarElectrovalvulasRegulacion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_electrovalvulasRegulacionArray(i).ELER_ID = NzLong(rs("ELER_ID"))
+        m_electrovalvulasRegulacionArray(i).ELER_ID = NzDouble(rs("ELER_ID"))
         m_electrovalvulasRegulacionArray(i).ELER_MODELO = NzVBA(rs("ELER_MODELO"))
         m_electrovalvulasRegulacionArray(i).ELER_DESCRIPCION = NzVBA(rs("ELER_DESCRIPCION"))
         m_electrovalvulasRegulacionArray(i).ELER_ADVERTENCIA = NzVBA(rs("ELER_ADVERTENCIA"))
         m_electrovalvulasRegulacionArray(i).ELER_PRE_COSTE = NzDouble(rs("ELER_PRE_COSTE"))
+        m_electrovalvulasRegulacionArray(i).Campo1 = NzLong(rs("Campo1"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_electrovalvulasRegulacionIndice.Add m_electrovalvulasRegulacionArray(i).ELER_ID, i
         
         i = i + 1
@@ -1818,13 +1819,13 @@ Private Sub CargarSensoresCaidaVastago()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_sensoresCaidaVastagoArray(i).SECV_ID = NzLong(rs("SECV_ID"))
+        m_sensoresCaidaVastagoArray(i).SECV_ID = NzDouble(rs("SECV_ID"))
         m_sensoresCaidaVastagoArray(i).SECV_MODELO = NzVBA(rs("SECV_MODELO"))
         m_sensoresCaidaVastagoArray(i).SECV_DESCRIPCION = NzVBA(rs("SECV_DESCRIPCION"))
         m_sensoresCaidaVastagoArray(i).SECV_ADVERTENCIA = NzVBA(rs("SECV_ADVERTENCIA"))
         m_sensoresCaidaVastagoArray(i).SECV_PRE_COSTE = NzDouble(rs("SECV_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_sensoresCaidaVastagoIndice.Add m_sensoresCaidaVastagoArray(i).SECV_ID, i
         
         i = i + 1
@@ -1858,13 +1859,13 @@ Private Sub CargarInterruptoresVibracion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_interruptoresVibracionArray(i).INTV_ID = NzLong(rs("INTV_ID"))
+        m_interruptoresVibracionArray(i).INTV_ID = NzDouble(rs("INTV_ID"))
         m_interruptoresVibracionArray(i).INTV_MODELO = NzVBA(rs("INTV_MODELO"))
         m_interruptoresVibracionArray(i).INTV_DESCRIPCION = NzVBA(rs("INTV_DESCRIPCION"))
         m_interruptoresVibracionArray(i).INTV_ADVERTENCIA = NzVBA(rs("INTV_ADVERTENCIA"))
         m_interruptoresVibracionArray(i).INTV_PRE_COSTE = NzDouble(rs("INTV_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_interruptoresVibracionIndice.Add m_interruptoresVibracionArray(i).INTV_ID, i
         
         i = i + 1
@@ -1898,13 +1899,13 @@ Private Sub CargarInterruptoresNivelAceite()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_interruptoresNivelAceiteArray(i).INTA_ID = NzLong(rs("INTA_ID"))
+        m_interruptoresNivelAceiteArray(i).INTA_ID = NzDouble(rs("INTA_ID"))
         m_interruptoresNivelAceiteArray(i).INTA_MODELO = NzVBA(rs("INTA_MODELO"))
         m_interruptoresNivelAceiteArray(i).INTA_DESCRIPCION = NzVBA(rs("INTA_DESCRIPCION"))
         m_interruptoresNivelAceiteArray(i).INTA_ADVERTENCIA = NzVBA(rs("INTA_ADVERTENCIA"))
         m_interruptoresNivelAceiteArray(i).INTA_PRE_COSTE = NzDouble(rs("INTA_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_interruptoresNivelAceiteIndice.Add m_interruptoresNivelAceiteArray(i).INTA_ID, i
         
         i = i + 1
@@ -1938,13 +1939,13 @@ Private Sub CargarNivelesCondensados()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_nivelesCondensadosArray(i).NIVC_ID = NzLong(rs("NIVC_ID"))
+        m_nivelesCondensadosArray(i).NIVC_ID = NzDouble(rs("NIVC_ID"))
         m_nivelesCondensadosArray(i).NIVC_MODELO = NzVBA(rs("NIVC_MODELO"))
         m_nivelesCondensadosArray(i).NIVC_DESCRIPCION = NzVBA(rs("NIVC_DESCRIPCION"))
         m_nivelesCondensadosArray(i).NIVC_ADVERTENCIA = NzVBA(rs("NIVC_ADVERTENCIA"))
         m_nivelesCondensadosArray(i).NIVC_PRE_COSTE = NzDouble(rs("NIVC_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_nivelesCondensadosIndice.Add m_nivelesCondensadosArray(i).NIVC_ID, i
         
         i = i + 1
@@ -1978,13 +1979,13 @@ Private Sub CargarValvulasTermostaticas()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasTermostaticasArray(i).VATE_ID = NzLong(rs("VATE_ID"))
+        m_valvulasTermostaticasArray(i).VATE_ID = NzDouble(rs("VATE_ID"))
         m_valvulasTermostaticasArray(i).VATE_MODELO = NzVBA(rs("VATE_MODELO"))
         m_valvulasTermostaticasArray(i).VATE_DESCRIPCION = NzVBA(rs("VATE_DESCRIPCION"))
         m_valvulasTermostaticasArray(i).VATE_ADVERTENCIA = NzVBA(rs("VATE_ADVERTENCIA"))
         m_valvulasTermostaticasArray(i).VATE_PRE_COSTE = NzDouble(rs("VATE_PRE_COSTE"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_valvulasTermostaticasIndice.Add m_valvulasTermostaticasArray(i).VATE_ID, i
         
         i = i + 1
@@ -2018,7 +2019,7 @@ Private Sub CargarInstrumentaciones()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_instrumentacionesArray(i).INTR_ID = NzLong(rs("INTR_ID"))
+        m_instrumentacionesArray(i).INTR_ID = NzDouble(rs("INTR_ID"))
         m_instrumentacionesArray(i).INTR_MODELO = NzVBA(rs("INTR_MODELO"))
         m_instrumentacionesArray(i).INTR_DESCRIPCION = NzVBA(rs("INTR_DESCRIPCION"))
         m_instrumentacionesArray(i).INTR_ADVERTENCIA = NzVBA(rs("INTR_ADVERTENCIA"))
@@ -2043,7 +2044,7 @@ Private Sub CargarInstrumentaciones()
         m_instrumentacionesArray(i).INTR_VATE_ID = NzLong(rs("INTR_VATE_ID"))
         m_instrumentacionesArray(i).INTR_VATE_CANTIDAD = NzLong(rs("INTR_VATE_CANTIDAD"))
         
-        ' Agregar al Ã­ndice
+        ' Agregar al índice
         m_instrumentacionesIndice.Add m_instrumentacionesArray(i).INTR_ID, i
         
         i = i + 1
@@ -2059,7 +2060,7 @@ ErrHandler:
 End Sub
 
 '=========================================================
-' MÃ‰TODOS PÃšBLICOS OBTENER - CATÃLOGOS ORIGINALES (15)
+' MÉTODOS PÚBLICOS OBTENER - CATÁLOGOS ORIGINALES (15)
 '=========================================================
 
 Public Function ObtenerChasis(ByVal CHAS_ID As Long) As tCatalogChasis
@@ -2184,7 +2185,7 @@ End Function
 
 
 '=========================================================
-' MÃ‰TODOS PÃšBLICOS OBTENER - CATÃLOGOS FASE 1 (32)
+' MÉTODOS PÚBLICOS OBTENER - CATÁLOGOS FASE 1 (32)
 '=========================================================
 
 '@Description: Obtiene un registro de Embalajes por ID
