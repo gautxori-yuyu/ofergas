@@ -1,6 +1,6 @@
 Attribute VB_Name = "modOfertaTypes"
 '=========================================================
-' MÓDULO DE TIPOS PARA OFERTAS Y CATÁLOGOS
+' Mï¿½DULO DE TIPOS PARA OFERTAS Y CATï¿½LOGOS
 ' Autor: Generado para sistema ABC_ofertas
 ' Fecha: Diciembre 2024
 '=========================================================
@@ -16,7 +16,7 @@ Public Type tOfertasDatosGenerales
     OFER_FECHA As Date
     OFER_CLIENTE As String
     OFER_USUARIO_FINAL As String
-    PAIS_ID As Long
+    pais_id As Long
     COME_ID As Long
     OFER_NUM_CALCULO As String
     GASE_ID As Long
@@ -29,7 +29,7 @@ Public Type tOfertasDatosGenerales
     OFER_CALD_ASME As Double
     OFER_CALD_INOX As Double
     OFER_CALD_SELLO As Long
-    ' Campos resueltos de catálogos
+    ' Campos resueltos de catï¿½logos
     pais_nombre As String
     COME_NOMBRE As String
     OFTN_NOMBRE As String
@@ -43,7 +43,7 @@ End Type
 Public Type tOfertasManoObra
     OFMA_ID As String
     OFER_ID As String
-    MOCA_ID As Long
+    MOCA_ID As Double
     OFMA_MOCA_FASE1_HORAS As Double
     OFMA_MOCA_FASE1_PRECIO As Double
     OFMA_MOCA_FASE2_HORAS As Double
@@ -56,7 +56,7 @@ Public Type tOfertasManoObra
     OFMA_MOCA_PINTU_PRECIO As Double
     OFMA_MOCA_ELECT_HORAS As Double
     OFMA_MOCA_ELECT_PRECIO As Double
-    MOIN_ID As Long
+    MOIN_ID As Double
     OFMA_MOIN_INGEN_HORAS As Double
     OFMA_MOIN_INGEN_PRECIO As Double
     OFMA_IMPORTE As Double
@@ -68,48 +68,48 @@ Public Type tOfertasModelo
     OFMO_ID As String
     OFER_ID As String
     ' Chasis
-    CHAS_ID As Long
+    CHAS_ID As Double
     OFMO_CHAS_PRE_COSTE As Double
     OFMO_CHAS_IMPORTE As Double
     OFMO_CHAS_DESCRIPCION As String
     OFMO_CHAS_OBSERVA As String
     OFMO_CHAS_ADVERTENCIA As String
     ' Correas
-    CORR_ID As Long
+    CORR_ID As Double
     OFMO_CORR_PRE_COSTE As Double
     OFMO_CORR_IMPORTE As Double
     OFMO_CORR_DESCRIPCION As String
     OFMO_CORR_OBSERVA As String
     OFMO_CORR_ADVERTENCIA As String
     ' Acoplamientos directos
-    ACOD_ID As Long
+    ACOD_ID As Double
     OFMO_ACOD_PRE_COSTE As Double
     OFMO_ACOD_IMPORTE As Double
     OFMO_ACOD_DESCRIPCION As String
     OFMO_ACOD_OBSERVA As String
     OFMO_ACOD_ADVERTENCIA As String
     ' Reductores
-    REDU_ID As Long
+    REDU_ID As Double
     OFMO_REDU_PRE_COSTE As Double
     OFMO_REDU_IMPORTE As Double
     OFMO_REDU_DESCRIPCION As String
     OFMO_REDU_OBSERVA As String
     OFMO_REDU_ADVERTENCIA As String
-    ' Transmisión
+    ' Transmisiï¿½n
     OFMO_TRAN_TIPO As Long
     OFMO_ATEX_SN As String
     OFMO_ATEX_PRE_COSTE As Double
-    ' Tuberías aire
+    ' Tuberï¿½as aire
     TUAI_ID As Long
-    TUDI_ID As Long
+    TUDI_ID As Double
     OFMO_TUDI_PRE_COSTE As Double
     OFMO_TUDI_IMPORTE As Double
     OFMO_TUDI_DESCRIPCION As String
     OFMO_TUDI_OBSERVA As String
     OFMO_TUDI_ADVERTENCIA As String
     OFMO_TUDI_CANTIDAD As Long
-    ' Tuberías agua
-    TUAG_ID As Long
+    ' Tuberï¿½as agua
+    TUAG_ID As Double
     OFMO_TUAG_PRE_COSTE As Double
     OFMO_TUAG_IMPORTE As Double
     OFMO_TUAG_DESCRIPCION As String
@@ -122,51 +122,51 @@ End Type
 Public Type tOfertasOpciones
     OFOP_ID As String
     OFER_ID As String
-    ' Válvula retención
-    VARE_ID As Long
+    ' Vï¿½lvula retenciï¿½n
+    VARE_ID As Double
     OFOP_VARE_PRE_COSTE As Double
     OFOP_VARE_IMPORTE As Double
     OFOP_VARE_DESCRIPCION As String
     OFOP_VARE_OBSERVA As String
     OFOP_VARE_ADVERTENCIA As String
-    ' Electroválvula
-    ELEC_ID As Long
+    ' Electrovï¿½lvula
+    ELEC_ID As Double
     OFOP_ELEC_PRE_COSTE As Double
     OFOP_ELEC_IMPORTE As Double
     OFOP_ELEC_DESCRIPCION As String
     OFOP_ELEC_OBSERVA As String
     OFOP_ELEC_ADVERTENCIA As String
-    ' Válvula presión
-    VAPR_ID As Long
+    ' Vï¿½lvula presiï¿½n
+    VAPR_ID As Double
     OFOP_VAPR_PRE_COSTE As Double
     OFOP_VAPR_IMPORTE As Double
     OFOP_VAPR_DESCRIPCION As String
     OFOP_VAPR_OBSERVA As String
     OFOP_VAPR_ADVERTENCIA As String
     ' Engrase cilindros
-    ENCI_ID As Long
+    ENCI_ID As Double
     OFOP_ENCI_PRE_COSTE As Double
     OFOP_ENCI_IMPORTE As Double
     OFOP_ENCI_DESCRIPCION As String
     OFOP_ENCI_OBSERVA As String
     OFOP_ENCI_ADVERTENCIA As String
     ' Purgador
-    PURG_ID As Long
+    PURG_ID As Double
     OFOP_PURG_PRE_COSTE As Double
     OFOP_PURG_IMPORTE As Double
     OFOP_PURG_DESCRIPCION As String
     OFOP_PURG_OBSERVA As String
     OFOP_PURG_ADVERTENCIA As String
     OFOP_PURG_CANTIDAD As Integer
-    ' Resistencia calefacción
-    RESC_ID As Long
+    ' Resistencia calefacciï¿½n
+    RESC_ID As Double
     OFOP_RESC_PRE_COSTE As Double
     OFOP_RESC_IMPORTE As Double
     OFOP_RESC_DESCRIPCION As String
     OFOP_RESC_OBSERVA As String
     OFOP_RESC_ADVERTENCIA As String
-    ' Válvula reguladora
-    VARG_ID As Long
+    ' Vï¿½lvula reguladora
+    VARG_ID As Double
     OFOP_VARG_PRE_COSTE As Double
     OFOP_VARG_IMPORTE As Double
     OFOP_VARG_DESCRIPCION As String
@@ -180,7 +180,7 @@ Public Type tOfertasCabezal
     OFCA_ID As String
     OFER_ID As String
     ' Cabezal
-    CABE_ID As Long
+    CABE_ID As Double
     OFCA_CABE_PRE_COSTE As Double
     OFCA_CABE_IMPORTE As Double
     OFCA_CABE_DESCRIPCION As String
@@ -279,7 +279,7 @@ End Type
 Public Type tOfertasCalderines
     OFCL_ID As Long
     OFER_ID As String
-    ' Calderín base
+    ' Calderï¿½n base
     CALD_ID As Long
     ' Etapa 1 - Volumen aire
     CVA1_ID As Long
@@ -401,14 +401,14 @@ Public Type tOfertasCalderines
     OFCL_ASME_SN As String
     OFCL_SELLOU_SN As String
     OFCL_SELLOU_IMPORTE As Long
-    ' Depósitos entrada
+    ' Depï¿½sitos entrada
     DEPE_ID As Long
     OFCL_DEPE_PRE_COSTE As Double
     OFCL_DEPE_IMPORTE As Double
     OFCL_DEPE_DESCRIPCION As String
     OFCL_DEPE_OBSERVA As String
     OFCL_DEPE_ADVERTENCIA As String
-    ' Depósitos final
+    ' Depï¿½sitos final
     DEPF_ID As Long
     OFCL_DEPF_PRE_COSTE As Double
     OFCL_DEPF_IMPORTE As Double
@@ -514,7 +514,7 @@ Public Type tOfertasRefrigeradores
     OFRF_ASME_SN As String
     OFRF_SELLOU_SN As String
     OFRF_SELLOU_IMPORTE As Long
-    ' Válvula seguridad
+    ' Vï¿½lvula seguridad
     VASE_ID As Long
     OFRF_VASE_PRE_COSTE As Double
     OFRF_VASE_IMPORTE As Double
@@ -539,7 +539,7 @@ Public Type tOfertasAccesorios
     OFAC_MOTO_TIPO As Long
     OFAC_MOTO_ESP As String
     OFAC_MOTO_ESP_IMPORTE As Double
-    ' Arrancador (lógica especial según TIPO)
+    ' Arrancador (lï¿½gica especial segï¿½n TIPO)
     ARRA_ID As Long
     OFAC_ARRA_PRE_COSTE As Double
     OFAC_ARRA_IMPORTE As Double
@@ -563,28 +563,28 @@ Public Type tOfertasAccesorios
     OFAC_FILT_OBSERVA As String
     OFAC_FILT_ADVERTENCIA As String
     ' Aero
-    AERO_ID As Long
+    AERO_ID As Double
     OFAC_AERO_PRE_COSTE As Double
     OFAC_AERO_IMPORTE As Double
     OFAC_AERO_DESCRIPCION As String
     OFAC_AERO_OBSERVA As String
     OFAC_AERO_ADVERTENCIA As String
     ' Llave entrada
-    LLEN_ID As Long
+    LLEN_ID As Double
     OFAC_LLEN_PRE_COSTE As Double
     OFAC_LLEN_IMPORTE As Double
     OFAC_LLEN_DESCRIPCION As String
     OFAC_LLEN_OBSERVA As String
     OFAC_LLEN_ADVERTENCIA As String
     ' Llave salida
-    LLSA_ID As Long
+    LLSA_ID As Double
     OFAC_LLSA_PRE_COSTE As Double
     OFAC_LLSA_IMPORTE As Double
     OFAC_LLSA_DESCRIPCION As String
     OFAC_LLSA_OBSERVA As String
     OFAC_LLSA_ADVERTENCIA As String
     ' Grupo engrase
-    GREN_ID As Long
+    GREN_ID As Double
     OFAC_GREN_PRE_COSTE As Double
     OFAC_GREN_IMPORTE As Double
     OFAC_GREN_DESCRIPCION As String
@@ -597,61 +597,61 @@ End Type
 Public Type tOfertasInstrumentacion
     OFIN_ID As String
     OFER_ID As String
-    ' Base instrumentación
-    INTR_ID As Long
+    ' Base instrumentaciï¿½n
+    INTR_ID As Double
     OFIN_INTR_DESCRIPCION As String
     OFIN_INTR_OBSERVA As String
     OFIN_INTR_ADVERTENCIA As String
     ' Transmisor temperatura
-    TRAT_ID As Long
+    TRAT_ID As Double
     OFIN_TRAT_PRE_COSTE As Double
     OFIN_TRAT_IMPORTE As Double
     OFIN_TRAT_DESCRIPCION As String
     OFIN_TRAT_OBSERVA As String
     OFIN_TRAT_ADVERTENCIA As String
     OFIN_TRAT_CANTIDAD As Long
-    ' Transmisor presión
-    TRAP_ID As Long
+    ' Transmisor presiï¿½n
+    TRAP_ID As Double
     OFIN_TRAP_PRE_COSTE As Double
     OFIN_TRAP_IMPORTE As Double
     OFIN_TRAP_DESCRIPCION As String
     OFIN_TRAP_OBSERVA As String
     OFIN_TRAP_ADVERTENCIA As String
     OFIN_TRAP_CANTIDAD As Long
-    ' Termómetro
-    TERM_ID As Long
+    ' Termï¿½metro
+    TERM_ID As Double
     OFIN_TERM_PRE_COSTE As Double
     OFIN_TERM_IMPORTE As Double
     OFIN_TERM_DESCRIPCION As String
     OFIN_TERM_OBSERVA As String
     OFIN_TERM_ADVERTENCIA As String
     OFIN_TERM_CANTIDAD As Long
-    ' Manómetro
-    MANO_ID As Long
+    ' Manï¿½metro
+    MANO_ID As Double
     OFIN_MANO_PRE_COSTE As Double
     OFIN_MANO_IMPORTE As Double
     OFIN_MANO_DESCRIPCION As String
     OFIN_MANO_OBSERVA As String
     OFIN_MANO_ADVERTENCIA As String
     OFIN_MANO_CANTIDAD As Long
-    ' Electroválvula regulación
-    ELER_ID As Long
+    ' Electrovï¿½lvula regulaciï¿½n
+    ELER_ID As Double
     OFIN_ELER_PRE_COSTE As Double
     OFIN_ELER_IMPORTE As Double
     OFIN_ELER_DESCRIPCION As String
     OFIN_ELER_OBSERVA As String
     OFIN_ELER_ADVERTENCIA As String
     OFIN_ELER_CANTIDAD As Long
-    ' Sensor caída vástago
-    SECV_ID As Long
+    ' Sensor caï¿½da vï¿½stago
+    SECV_ID As Double
     OFIN_SECV_PRE_COSTE As Double
     OFIN_SECV_IMPORTE As Double
     OFIN_SECV_DESCRIPCION As String
     OFIN_SECV_OBSERVA As String
     OFIN_SECV_ADVERTENCIA As String
     OFIN_SECV_CANTIDAD As Long
-    ' Interruptor vibración
-    INTV_ID As Long
+    ' Interruptor vibraciï¿½n
+    INTV_ID As Double
     OFIN_INTV_PRE_COSTE As Double
     OFIN_INTV_IMPORTE As Double
     OFIN_INTV_DESCRIPCION As String
@@ -659,7 +659,7 @@ Public Type tOfertasInstrumentacion
     OFIN_INTV_ADVERTENCIA As String
     OFIN_INTV_CANTIDAD As Long
     ' Interruptor nivel aceite
-    INTA_ID As Long
+    INTA_ID As Double
     OFIN_INTA_PRE_COSTE As Double
     OFIN_INTA_IMPORTE As Double
     OFIN_INTA_DESCRIPCION As String
@@ -667,22 +667,22 @@ Public Type tOfertasInstrumentacion
     OFIN_INTA_ADVERTENCIA As String
     OFIN_INTA_CANTIDAD As Long
     ' Nivel condensados
-    NIVC_ID As Long
+    NIVC_ID As Double
     OFIN_NIVC_PRE_COSTE As Double
     OFIN_NIVC_IMPORTE As Double
     OFIN_NIVC_DESCRIPCION As String
     OFIN_NIVC_OBSERVA As String
     OFIN_NIVC_ADVERTENCIA As String
     OFIN_NIVC_CANTIDAD As Long
-    ' Válvula termostática
-    VATE_ID As Long
+    ' Vï¿½lvula termostï¿½tica
+    VATE_ID As Double
     OFIN_VATE_PRE_COSTE As Double
     OFIN_VATE_IMPORTE As Double
     OFIN_VATE_DESCRIPCION As String
     OFIN_VATE_OBSERVA As String
     OFIN_VATE_ADVERTENCIA As String
     OFIN_VATE_CANTIDAD As Long
-    ' Instrumentación libre (7 líneas)
+    ' Instrumentaciï¿½n libre (7 lï¿½neas)
     OFIN_INS1_TEXTO As String
     OFIN_INS1_CANTIDAD As Integer
     OFIN_INS1_IMPORTE As Double
@@ -765,7 +765,7 @@ Public Type tOfertasExtras
 End Type
 
 '=========================================================
-' TIPOS PARA CATÁLOGOS IMPLEMENTADOS (15 originales)
+' TIPOS PARA CATï¿½LOGOS IMPLEMENTADOS (15 originales)
 '=========================================================
 
 Public Type tCatalogChasis
@@ -893,7 +893,7 @@ Public Type tCatalogManometros
 End Type
 
 '=========================================================
-' TIPOS PARA CATÁLOGOS NUEVOS - FASE 1 (32 catálogos)
+' TIPOS PARA CATï¿½LOGOS NUEVOS - FASE 1 (32 catï¿½logos)
 '=========================================================
 
 '--- GRUPO A: EXTRAS (4) ---
@@ -930,7 +930,7 @@ Public Type tCatalogPruebasAsistencia
     PRAS_PRE_COSTE As Double
 End Type
 
-'--- GRUPO B: ACCESORIOS BÁSICOS (5) ---
+'--- GRUPO B: ACCESORIOS Bï¿½SICOS (5) ---
 
 Public Type tCatalogAeros
     AERO_ID As Long
@@ -1027,7 +1027,7 @@ End Type
 '--- GRUPO J: DATOS GENERALES (3) ---
 
 Public Type tCatalogPaises
-    pais_id As Long
+    pais_id As Double
     pais_nombre As String
     pais_iso3166_1n As String
     pais_iso3166_1an2 As String
@@ -1078,7 +1078,7 @@ Public Type tCatalogArrancadoresFuerzaControlPET
     ARR4_PRE_COSTE As Double
 End Type
 
-'--- GRUPO D: INSTRUMENTACIÓN (10) ---
+'--- GRUPO D: INSTRUMENTACIï¿½N (10) ---
 
 Public Type tCatalogTransmisoresTemperatura
     TRAT_ID As Long
@@ -1110,6 +1110,7 @@ Public Type tCatalogElectrovalvulasRegulacion
     ELER_DESCRIPCION As String
     ELER_ADVERTENCIA As String
     ELER_PRE_COSTE As Double
+    Campo1 As Long
 End Type
 
 Public Type tCatalogSensoresCaidaVastago
