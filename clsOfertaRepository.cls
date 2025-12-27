@@ -119,7 +119,7 @@ End Function
 '       - CargarExtras
 '
 
-Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarDatosGenerales(ByVal oferta As clsOferta, ByVal OferID As String)
     ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
 
@@ -144,7 +144,7 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         .OFER_FECHA = NzDate(rs("OFER_FECHA"))
         .OFER_CLIENTE = NzVBA(rs("OFER_CLIENTE"))
         .OFER_USUARIO_FINAL = NzVBA(rs("OFER_USUARIO_FINAL"))
-        .PAIS_ID = NzLong(rs("PAIS_ID"))
+        .pais_id = NzLong(rs("PAIS_ID"))
         .COME_ID = NzLong(rs("COME_ID"))
         .OFER_NUM_CALCULO = NzVBA(rs("OFER_NUM_CALCULO"))
         .GASE_ID = NzLong(rs("GASE_ID"))
@@ -159,9 +159,9 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         .OFER_CALD_SELLO = NzLong(rs("OFER_CALD_SELLO"))
 
         ' Resolver FKs de datos generales
-        If .PAIS_ID > 0 Then
+        If .pais_id > 0 Then
             Dim pais As tCatalogPaises
-            pais = m_Catalogos.ObtenerPaises(.PAIS_ID)
+            pais = m_Catalogos.ObtenerPaises(.pais_id)
             .pais_nombre = pais.pais_nombre
         End If
 
@@ -184,7 +184,7 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         End If
     End With
 
-    Oferta.DatosGenerales = dg
+    oferta.DatosGenerales = dg
     rs.Close
     Exit Sub
     
@@ -193,7 +193,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarDatosGenerales", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarManoObra(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarManoObra(ByVal oferta As clsOferta, ByVal OferID As String)
     ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
@@ -226,7 +226,7 @@ Private Sub CargarManoObra(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFMA_IMPORTE = NzDouble(rs("OFMA_IMPORTE"))
             .ImporteCalculado = (NzDouble(rs("OFMA_IMPORTE")) > 0)
         End With
-        Oferta.ManoObra = mo
+        oferta.ManoObra = mo
     End If
     
     rs.Close
@@ -237,7 +237,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarManoObra", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarModelo(ByVal oferta As clsOferta, ByVal OferID As String)
     ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
@@ -294,7 +294,7 @@ Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFMO_TUAG_ADVERTENCIA = NzVBA(rs("OFMO_TUAG_ADVERTENCIA"))
             .ImporteCalculado = False
         End With
-        Oferta.Modelo = tm
+        oferta.Modelo = tm
     End If
     
     rs.Close
@@ -305,7 +305,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarModelo", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarOpciones(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarOpciones(ByVal oferta As clsOferta, ByVal OferID As String)
     ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
@@ -421,7 +421,7 @@ Private Sub CargarOpciones(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Opciones = op
+        oferta.Opciones = op
     End If
     
     rs.Close
@@ -437,7 +437,7 @@ End Sub
 ' Debes copiar las versiones completas desde clsOfertaRepository_SECCIONES.txt
 '
 
-Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarCabezal(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim cb As tOfertasCabezal
@@ -553,7 +553,7 @@ Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Cabezal = cb
+        oferta.Cabezal = cb
     End If
     rs.Close
     Exit Sub
@@ -562,7 +562,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarCabezal", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCalderines(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarCalderines(ByVal oferta As clsOferta, ByVal OferID As String)
     ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
@@ -572,7 +572,7 @@ Private Sub CargarCalderines(ByVal Oferta As clsOferta, ByVal OferID As String)
         cl.OFCL_ID = NzLong(rs("OFCL_ID"))
         cl.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         ' ... FALTA IMPLEMENTAR 6 ETAPAS ...
-        Oferta.Calderines = cl
+        oferta.Calderines = cl
     End If
     rs.Close
     Exit Sub
@@ -581,7 +581,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarCalderines", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarRefrigeradores(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarRefrigeradores(ByVal oferta As clsOferta, ByVal OferID As String)
     ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
@@ -591,7 +591,7 @@ Private Sub CargarRefrigeradores(ByVal Oferta As clsOferta, ByVal OferID As Stri
         rf.OFRF_ID = NormalizarGUID(rs("OFRF_ID"))
         rf.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         ' ... FALTA IMPLEMENTAR 6 REFRIGERADORES ...
-        Oferta.Refrigeradores = rf
+        oferta.Refrigeradores = rf
     End If
     rs.Close
     Exit Sub
@@ -600,7 +600,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarRefrigeradores", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarAccesorios(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim ac As tOfertasAccesorios
@@ -782,7 +782,7 @@ Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Accesorios = ac
+        oferta.Accesorios = ac
     End If
     rs.Close
     Exit Sub
@@ -791,7 +791,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarAccesorios", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarInstrumentacion(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim inst As tOfertasInstrumentacion
@@ -1021,7 +1021,7 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
 
             .ImporteCalculado = False
         End With
-        Oferta.Instrumentacion = inst
+        oferta.Instrumentacion = inst
     End If
     rs.Close
     Exit Sub
@@ -1030,7 +1030,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarInstrumentacion", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarExtras(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarExtras(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim ex As tOfertasExtras
@@ -1169,7 +1169,7 @@ Private Sub CargarExtras(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Extras = ex
+        oferta.Extras = ex
     End If
     rs.Close
     Exit Sub
@@ -1178,7 +1178,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarExtras", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarOtros(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarOtros(ByVal oferta As clsOferta, ByVal OferID As String)
     ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
 
@@ -1187,14 +1187,15 @@ Private Sub CargarOtros(ByVal Oferta As clsOferta, ByVal OferID As String)
     Set rs = m_Ctx.AbrirRecordset( _
         "SELECT * FROM OfertasOtros WHERE OFER_ID={" & OferID & "} ORDER BY OFOT_LINEA")
 
+    Dim it As New clsOfertaOtro
     Do While Not rs.EOF
-        Dim it As New clsOfertaOtro
+        Set it = New clsOfertaOtro
         it.OFOT_ID = NormalizarGUID(rs("OFOT_ID"))
         it.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         it.OFOT_LINEA = NzLong(rs("OFOT_LINEA"))
         it.OFOT_DESCRIPCION = NzVBA(rs("OFOT_DESCRIPCION"))
         it.OFOT_PRE_COSTE = NzDouble(rs("OFOT_PRE_COSTE"))
-        Oferta.AgregarOtro it
+        oferta.AgregarOtro it
         rs.MoveNext
     Loop
     rs.Close
@@ -1213,26 +1214,6 @@ Private Function NormalizarGUID(ByVal v As Variant) As String
     NormalizarGUID = Replace(Replace(v, "{", ""), "}", "")
 End Function
 
-Private Function NzVBA(ByVal v As Variant) As String
-    If IsNull(v) Then NzVBA = "" Else NzVBA = CStr(v)
-End Function
-
-Private Function NzLong(ByVal v As Variant) As Long
-    If IsNull(v) Then NzLong = 0 Else NzLong = CLng(v)
-End Function
-
-Private Function NzDouble(ByVal v As Variant) As Double
-    If IsNull(v) Then NzDouble = 0 Else NzDouble = CDbl(v)
-End Function
-
-Private Function NzDate(ByVal v As Variant) As Date
-    If IsNull(v) Then NzDate = 0 Else NzDate = CDate(v)
-End Function
-
-Private Function NzInteger(ByVal v As Variant) As Integer
-    If IsNull(v) Then NzInteger = 0 Else NzInteger = CInt(v)
-End Function
-
 Private Function isGUID(ByVal strGUID As Variant) As Boolean
     On Error GoTo ErrHandler
     If IsNull(strGUID) Or IsEmpty(strGUID) Then
@@ -1248,3 +1229,5 @@ Private Function isGUID(ByVal strGUID As Variant) As Boolean
 ErrHandler:
     isGUID = False
 End Function
+
+
