@@ -40,6 +40,21 @@ Private m_cilindrosCount As Long
 Private m_motoresArray() As tCatalogMotores
 Private m_motoresIndice As Object
 Private m_motoresCount As Long
+Private m_MotoresClassArray() As tCatalogMotoresClass
+Private m_MotoresClassIndice As Object
+Private m_MotoresClassCount As Long
+Private m_MotoresEspecialesArray() As tCatalogMotoresEspeciales
+Private m_MotoresEspecialesIndice As Object
+Private m_MotoresEspecialesCount As Long
+Private m_MotoresFabricaArray() As tCatalogMotoresFabrica
+Private m_MotoresFabricaIndice As Object
+Private m_MotoresFabricaCount As Long
+Private m_MotoresNormativasArray() As tCatalogMotoresNormativas
+Private m_MotoresNormativasIndice As Object
+Private m_MotoresNormativasCount As Long
+Private m_MotoresTensionArray() As tCatalogMotoresTension
+Private m_MotoresTensionIndice As Object
+Private m_MotoresTensionCount As Long
 
 Private m_gasesArray() As tCatalogGases
 Private m_gasesIndice As Object
@@ -179,6 +194,69 @@ Private m_instrumentacionesArray() As tCatalogInstrumentaciones
 Private m_instrumentacionesIndice As Object  ' Dictionary Long->Long
 Private m_instrumentacionesCount As Long
 
+Private m_tiposMaterialArray() As tCatalogTiposMaterial
+Private m_tiposMaterialIndice As Object
+Private m_tiposMaterialCount As Long
+
+Private m_calderinesPredeterminadosArray() As tCatalogCalderinesPredeterminados
+Private m_calderinesPredeterminadosIndice As Object
+Private m_calderinesPredeterminadosCount As Long
+
+Private m_manoObraCabezalesArray() As tCatalogManoObraCabezales
+Private m_manoObraCabezalesIndice As Object
+Private m_manoObraCabezalesCount As Long
+
+Private m_manoObraIngenieriasArray() As tCatalogManoObraIngenierias
+Private m_manoObraIngenieriasIndice As Object
+Private m_manoObraIngenieriasCount As Long
+
+Private m_CalderinesCostesArray() As tCatalogCalderinesCostes
+Private m_CalderinesCostesIndice As Object
+Private m_CalderinesCostesCount As Long
+Private m_DepositosEntradaArray() As tCatalogDepositosEntrada
+Private m_DepositosEntradaIndice As Object
+Private m_DepositosEntradaCount As Long
+Private m_DepositosFinalArray() As tCatalogDepositosFinal
+Private m_DepositosFinalIndice As Object
+Private m_DepositosFinalCount As Long
+
+Private m_AreasArray() As tCatalogAreas
+Private m_AreasIndice As Object
+Private m_AreasCount As Long
+
+Private m_ParametrosArray() As tCatalogParametros
+Private m_ParametrosIndice As Object
+Private m_ParametrosCount As Long
+
+
+Private m_RefrigeradoresCostesArray() As tCatalogRefrigeradoresCostes
+Private m_RefrigeradoresCostesIndice As Object
+Private m_RefrigeradoresCostesCount As Long
+Private m_RefrigeradoresEspecialesArray() As tCatalogRefrigeradoresEspeciales
+Private m_RefrigeradoresEspecialesIndice As Object
+Private m_RefrigeradoresEspecialesCount As Long
+Private m_TiposPresionNominalArray() As tCatalogTiposPresionNominal
+Private m_TiposPresionNominalIndice As Object
+Private m_TiposPresionNominalCount As Long
+Private m_TiposTubosArray() As tCatalogTiposTubos
+Private m_TiposTubosIndice As Object
+Private m_TiposTubosCount As Long
+Private m_TuberiasAguaArray() As tCatalogTuberiasAgua
+Private m_TuberiasAguaIndice As Object
+Private m_TuberiasAguaCount As Long
+Private m_TuberiasAireArray() As tCatalogTuberiasAire
+Private m_TuberiasAireIndice As Object
+Private m_TuberiasAireCount As Long
+Private m_TuberiasAireDiametrosArray() As tCatalogTuberiasAireDiametros
+Private m_TuberiasAireDiametrosIndice As Object
+Private m_TuberiasAireDiametrosCount As Long
+Private m_ValvulasSeguridadArray() As tCatalogValvulasSeguridad
+Private m_ValvulasSeguridadIndice As Object
+Private m_ValvulasSeguridadCount As Long
+
+
+
+
 Private m_Ctx As clsDBContext
 Private m_Cargado As Boolean
 
@@ -204,9 +282,27 @@ Public Sub CargarTodos(ByVal ctx As clsDBContext)
     CargarCabezales
     CargarCilindros
     CargarMotores
+    
+    CargarMotoresClass
+    CargarMotoresEspeciales
+    CargarMotoresFabrica
+    CargarMotoresNormativas
+    CargarMotoresTension
+    
     CargarGases
     CargarRefrigeradores
+    CargarRefrigeradoresCostes
+    CargarRefrigeradoresEspeciales
+    CargarTiposPresionNominal
+    CargarTiposTubos
+    CargarTuberiasAgua
+    CargarTuberiasAire
+    CargarTuberiasAireDiametros
+    CargarValvulasSeguridad
     CargarCalderines
+    CargarCalderinesCostes
+    CargarDepositosEntrada
+    CargarDepositosFinal
     CargarVolumenes
     CargarAcoplamientosDirecto
     CargarReductores
@@ -249,6 +345,11 @@ Public Sub CargarTodos(ByVal ctx As clsDBContext)
     CargarValvulasTermostaticas
     CargarInstrumentaciones
     
+   CargarTiposMaterial
+   CargarCalderinesPredeterminados
+   CargarManoObraCabezales
+   CargarManoObraIngenierias
+    
     m_Cargado = True
     Exit Sub
     
@@ -261,22 +362,25 @@ End Sub
 ' MÉTODOS PRIVADOS DE CARGA - CATÁLOGOS ORIGINALES (15)
 '=========================================================
 
-Private Sub CargarChasis()
+Public Sub CargarChasis()
     On Error GoTo ErrHandler
     
     Set m_chasisIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Chasis")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_chasisCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_chasisArray(1 To m_chasisCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_chasisArray(i).CHAS_ID = NzDouble(rs("CHAS_ID"))
+        m_chasisArray(i).CHAS_ID = NzLong(rs("CHAS_ID"))
         m_chasisArray(i).CHAS_MODELO = NzVBA(rs("CHAS_MODELO"))
         m_chasisArray(i).CHAS_DESCRIPCION = NzVBA(rs("CHAS_DESCRIPCION"))
         m_chasisArray(i).CHAS_ADVERTENCIA = NzVBA(rs("CHAS_ADVERTENCIA"))
@@ -294,22 +398,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarChasis", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCorreas()
+Public Sub CargarCorreas()
     On Error GoTo ErrHandler
     
     Set m_correasIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Correas")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_correasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_correasArray(1 To m_correasCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_correasArray(i).CORR_ID = NzDouble(rs("CORR_ID"))
+        m_correasArray(i).CORR_ID = NzLong(rs("CORR_ID"))
         m_correasArray(i).CORR_MODELO = NzVBA(rs("CORR_MODELO"))
         m_correasArray(i).CORR_DESCRIPCION = NzVBA(rs("CORR_DESCRIPCION"))
         m_correasArray(i).CORR_ADVERTENCIA = NzVBA(rs("CORR_ADVERTENCIA"))
@@ -328,22 +435,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarCorreas", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCabezales()
+Public Sub CargarCabezales()
     On Error GoTo ErrHandler
     
     Set m_cabezalesIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Cabezales")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_cabezalesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_cabezalesArray(1 To m_cabezalesCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_cabezalesArray(i).CABE_ID = NzDouble(rs("CABE_ID"))
+        m_cabezalesArray(i).CABE_ID = NzLong(rs("CABE_ID"))
         m_cabezalesArray(i).CABE_MODELO = NzVBA(rs("CABE_MODELO"))
         m_cabezalesArray(i).CABE_DESCRIPCION = NzVBA(rs("CABE_DESCRIPCION"))
         m_cabezalesArray(i).CABE_ADVERTENCIA = NzVBA(rs("CABE_ADVERTENCIA"))
@@ -362,16 +472,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarCabezales", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCilindros()
+Public Sub CargarCilindros()
     On Error GoTo ErrHandler
     
     Set m_cilindrosIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Cilindros")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_cilindrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_cilindrosArray(1 To m_cilindrosCount)
     
     Dim i As Long
@@ -400,16 +513,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarCilindros", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarMotores()
+Public Sub CargarMotores()
     On Error GoTo ErrHandler
     
     Set m_motoresIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Motores")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_motoresCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_motoresArray(1 To m_motoresCount)
     
     Dim i As Long
@@ -437,16 +553,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarMotores", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarGases()
+Public Sub CargarGases()
     On Error GoTo ErrHandler
     
     Set m_gasesIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Gases")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_gasesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_gasesArray(1 To m_gasesCount)
     
     Dim i As Long
@@ -467,16 +586,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarGases", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarRefrigeradores()
+Public Sub CargarRefrigeradores()
     On Error GoTo ErrHandler
     
     Set m_refrigeradoresIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Refrigeradores")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_refrigeradoresCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_refrigeradoresArray(1 To m_refrigeradoresCount)
     
     Dim i As Long
@@ -499,16 +621,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarRefrigeradores", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCalderines()
+Public Sub CargarCalderines()
     On Error GoTo ErrHandler
     
     Set m_calderinesIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Calderines")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_calderinesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_calderinesArray(1 To m_calderinesCount)
     
     Dim i As Long
@@ -531,16 +656,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarCalderines", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarVolumenes()
+Public Sub CargarVolumenes()
     On Error GoTo ErrHandler
     
     Set m_volumenesIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Volumenes")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_volumenesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_volumenesArray(1 To m_volumenesCount)
     
     Dim i As Long
@@ -561,22 +689,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarVolumenes", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarAcoplamientosDirecto()
+Public Sub CargarAcoplamientosDirecto()
     On Error GoTo ErrHandler
     
     Set m_acoplamientosDirectoIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM AcoplamientosDirecto")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_acoplamientosDirectoCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_acoplamientosDirectoArray(1 To m_acoplamientosDirectoCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_acoplamientosDirectoArray(i).ACOD_ID = NzDouble(rs("ACOD_ID"))
+        m_acoplamientosDirectoArray(i).ACOD_ID = NzLong(rs("ACOD_ID"))
         m_acoplamientosDirectoArray(i).ACOD_MODELO = NzVBA(rs("ACOD_MODELO"))
         m_acoplamientosDirectoArray(i).ACOD_DESCRIPCION = NzVBA(rs("ACOD_DESCRIPCION"))
         m_acoplamientosDirectoArray(i).ACOD_ADVERTENCIA = NzVBA(rs("ACOD_ADVERTENCIA"))
@@ -594,22 +725,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarAcoplamientosDirecto", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarReductores()
+Public Sub CargarReductores()
     On Error GoTo ErrHandler
     
     Set m_reductoresIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Reductores")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_reductoresCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_reductoresArray(1 To m_reductoresCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_reductoresArray(i).REDU_ID = NzDouble(rs("REDU_ID"))
+        m_reductoresArray(i).REDU_ID = NzLong(rs("REDU_ID"))
         m_reductoresArray(i).REDU_MODELO = NzVBA(rs("REDU_MODELO"))
         m_reductoresArray(i).REDU_DESCRIPCION = NzVBA(rs("REDU_DESCRIPCION"))
         m_reductoresArray(i).REDU_ADVERTENCIA = NzVBA(rs("REDU_ADVERTENCIA"))
@@ -628,22 +762,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarReductores", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarValvulasRetencion()
+Public Sub CargarValvulasRetencion()
     On Error GoTo ErrHandler
     
     Set m_valvulasRetencionIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ValvulasRetencion")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_valvulasRetencionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_valvulasRetencionArray(1 To m_valvulasRetencionCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasRetencionArray(i).VARE_ID = NzDouble(rs("VARE_ID"))
+        m_valvulasRetencionArray(i).VARE_ID = NzLong(rs("VARE_ID"))
         m_valvulasRetencionArray(i).VARE_MODELO = NzVBA(rs("VARE_MODELO"))
         m_valvulasRetencionArray(i).VARE_DESCRIPCION = NzVBA(rs("VARE_DESCRIPCION"))
         m_valvulasRetencionArray(i).VARE_ADVERTENCIA = NzVBA(rs("VARE_ADVERTENCIA"))
@@ -661,22 +798,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarValvulasRetencion", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarElectrovalvulas()
+Public Sub CargarElectrovalvulas()
     On Error GoTo ErrHandler
     
     Set m_electrovalvulasIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Electrovalvulas")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_electrovalvulasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_electrovalvulasArray(1 To m_electrovalvulasCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_electrovalvulasArray(i).ELEC_ID = NzDouble(rs("ELEC_ID"))
+        m_electrovalvulasArray(i).ELEC_ID = NzLong(rs("ELEC_ID"))
         m_electrovalvulasArray(i).ELEC_MODELO = NzVBA(rs("ELEC_MODELO"))
         m_electrovalvulasArray(i).ELEC_DESCRIPCION = NzVBA(rs("ELEC_DESCRIPCION"))
         m_electrovalvulasArray(i).ELEC_ADVERTENCIA = NzVBA(rs("ELEC_ADVERTENCIA"))
@@ -694,16 +834,19 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarElectrovalvulas", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarFiltros()
+Public Sub CargarFiltros()
     On Error GoTo ErrHandler
     
     Set m_filtrosIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Filtros")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_filtrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_filtrosArray(1 To m_filtrosCount)
     
     Dim i As Long
@@ -727,22 +870,25 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarFiltros", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarManometros()
+Public Sub CargarManometros()
     On Error GoTo ErrHandler
     
     Set m_manometrosIndice = CreateObject("Scripting.Dictionary")
     Dim rs As Object
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Manometros")
     
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_manometrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     ReDim m_manometrosArray(1 To m_manometrosCount)
     
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_manometrosArray(i).MANO_ID = NzDouble(rs("MANO_ID"))
+        m_manometrosArray(i).MANO_ID = NzLong(rs("MANO_ID"))
         m_manometrosArray(i).MANO_MODELO = NzVBA(rs("MANO_MODELO"))
         m_manometrosArray(i).MANO_DESCRIPCION = NzVBA(rs("MANO_DESCRIPCION"))
         m_manometrosArray(i).MANO_ADVERTENCIA = NzVBA(rs("MANO_ADVERTENCIA"))
@@ -765,7 +911,7 @@ End Sub
 ' MÉTODOS PRIVADOS DE CARGA - CATÁLOGOS FASE 1 (32)
 '=========================================================
 
-Private Sub CargarEmbalajes()
+Public Sub CargarEmbalajes()
     On Error GoTo ErrHandler
     
     Set m_embalajesIndice = CreateObject("Scripting.Dictionary")
@@ -773,9 +919,12 @@ Private Sub CargarEmbalajes()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Embalajes")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_embalajesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_embalajesArray(1 To m_embalajesCount)
@@ -805,7 +954,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarTransportes()
+Public Sub CargarTransportes()
     On Error GoTo ErrHandler
     
     Set m_transportesIndice = CreateObject("Scripting.Dictionary")
@@ -813,9 +962,12 @@ Private Sub CargarTransportes()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Transportes")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_transportesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_transportesArray(1 To m_transportesCount)
@@ -845,7 +997,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarPuestasMarcha()
+Public Sub CargarPuestasMarcha()
     On Error GoTo ErrHandler
     
     Set m_puestasMarchaIndice = CreateObject("Scripting.Dictionary")
@@ -853,9 +1005,12 @@ Private Sub CargarPuestasMarcha()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM PuestasMarcha")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_puestasMarchaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_puestasMarchaArray(1 To m_puestasMarchaCount)
@@ -885,7 +1040,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarPruebasAsistencia()
+Public Sub CargarPruebasAsistencia()
     On Error GoTo ErrHandler
     
     Set m_pruebasAsistenciaIndice = CreateObject("Scripting.Dictionary")
@@ -893,9 +1048,12 @@ Private Sub CargarPruebasAsistencia()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM PruebasAsistencia")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_pruebasAsistenciaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_pruebasAsistenciaArray(1 To m_pruebasAsistenciaCount)
@@ -925,7 +1083,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarAeros()
+Public Sub CargarAeros()
     On Error GoTo ErrHandler
     
     Set m_aerosIndice = CreateObject("Scripting.Dictionary")
@@ -933,9 +1091,12 @@ Private Sub CargarAeros()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Aeros")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_aerosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_aerosArray(1 To m_aerosCount)
@@ -944,7 +1105,7 @@ Private Sub CargarAeros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_aerosArray(i).AERO_ID = NzDouble(rs("AERO_ID"))
+        m_aerosArray(i).AERO_ID = NzLong(rs("AERO_ID"))
         m_aerosArray(i).AERO_MODELO = NzVBA(rs("AERO_MODELO"))
         m_aerosArray(i).AERO_DESCRIPCION = NzVBA(rs("AERO_DESCRIPCION"))
         m_aerosArray(i).AERO_ADVERTENCIA = NzVBA(rs("AERO_ADVERTENCIA"))
@@ -965,7 +1126,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCajaLocal()
+Public Sub CargarCajaLocal()
     On Error GoTo ErrHandler
     
     Set m_cajaLocalIndice = CreateObject("Scripting.Dictionary")
@@ -973,9 +1134,12 @@ Private Sub CargarCajaLocal()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM CajaLocal")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_cajaLocalCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_cajaLocalArray(1 To m_cajaLocalCount)
@@ -1005,7 +1169,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarGruposEngrase()
+Public Sub CargarGruposEngrase()
     On Error GoTo ErrHandler
     
     Set m_gruposEngraseIndice = CreateObject("Scripting.Dictionary")
@@ -1013,9 +1177,12 @@ Private Sub CargarGruposEngrase()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM GruposEngrase")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_gruposEngraseCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_gruposEngraseArray(1 To m_gruposEngraseCount)
@@ -1024,7 +1191,7 @@ Private Sub CargarGruposEngrase()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_gruposEngraseArray(i).GREN_ID = NzDouble(rs("GREN_ID"))
+        m_gruposEngraseArray(i).GREN_ID = NzLong(rs("GREN_ID"))
         m_gruposEngraseArray(i).GREN_MODELO = NzVBA(rs("GREN_MODELO"))
         m_gruposEngraseArray(i).GREN_DESCRIPCION = NzVBA(rs("GREN_DESCRIPCION"))
         m_gruposEngraseArray(i).GREN_ADVERTENCIA = NzVBA(rs("GREN_ADVERTENCIA"))
@@ -1045,7 +1212,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarLlavesEntrada()
+Public Sub CargarLlavesEntrada()
     On Error GoTo ErrHandler
     
     Set m_llavesEntradaIndice = CreateObject("Scripting.Dictionary")
@@ -1053,9 +1220,12 @@ Private Sub CargarLlavesEntrada()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM LlavesEntrada")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_llavesEntradaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_llavesEntradaArray(1 To m_llavesEntradaCount)
@@ -1064,7 +1234,7 @@ Private Sub CargarLlavesEntrada()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_llavesEntradaArray(i).LLEN_ID = NzDouble(rs("LLEN_ID"))
+        m_llavesEntradaArray(i).LLEN_ID = NzLong(rs("LLEN_ID"))
         m_llavesEntradaArray(i).LLEN_MODELO = NzVBA(rs("LLEN_MODELO"))
         m_llavesEntradaArray(i).LLEN_DESCRIPCION = NzVBA(rs("LLEN_DESCRIPCION"))
         m_llavesEntradaArray(i).LLEN_ADVERTENCIA = NzVBA(rs("LLEN_ADVERTENCIA"))
@@ -1085,7 +1255,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarLlavesSalida()
+Public Sub CargarLlavesSalida()
     On Error GoTo ErrHandler
     
     Set m_llavesSalidaIndice = CreateObject("Scripting.Dictionary")
@@ -1093,9 +1263,12 @@ Private Sub CargarLlavesSalida()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM LlavesSalida")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_llavesSalidaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_llavesSalidaArray(1 To m_llavesSalidaCount)
@@ -1104,7 +1277,7 @@ Private Sub CargarLlavesSalida()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_llavesSalidaArray(i).LLSA_ID = NzDouble(rs("LLSA_ID"))
+        m_llavesSalidaArray(i).LLSA_ID = NzLong(rs("LLSA_ID"))
         m_llavesSalidaArray(i).LLSA_MODELO = NzVBA(rs("LLSA_MODELO"))
         m_llavesSalidaArray(i).LLSA_DESCRIPCION = NzVBA(rs("LLSA_DESCRIPCION"))
         m_llavesSalidaArray(i).LLSA_ADVERTENCIA = NzVBA(rs("LLSA_ADVERTENCIA"))
@@ -1125,7 +1298,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarNormativasCompresor()
+Public Sub CargarNormativasCompresor()
     On Error GoTo ErrHandler
     
     Set m_normativasCompresorIndice = CreateObject("Scripting.Dictionary")
@@ -1133,9 +1306,12 @@ Private Sub CargarNormativasCompresor()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM NormativasCompresor")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_normativasCompresorCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_normativasCompresorArray(1 To m_normativasCompresorCount)
@@ -1165,7 +1341,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarValvulasPresion()
+Public Sub CargarValvulasPresion()
     On Error GoTo ErrHandler
     
     Set m_valvulasPresionIndice = CreateObject("Scripting.Dictionary")
@@ -1173,9 +1349,12 @@ Private Sub CargarValvulasPresion()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ValvulasPresion")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_valvulasPresionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_valvulasPresionArray(1 To m_valvulasPresionCount)
@@ -1184,7 +1363,7 @@ Private Sub CargarValvulasPresion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasPresionArray(i).VAPR_ID = NzDouble(rs("VAPR_ID"))
+        m_valvulasPresionArray(i).VAPR_ID = NzLong(rs("VAPR_ID"))
         m_valvulasPresionArray(i).VAPR_MODELO = NzVBA(rs("VAPR_MODELO"))
         m_valvulasPresionArray(i).VAPR_DESCRIPCION = NzVBA(rs("VAPR_DESCRIPCION"))
         m_valvulasPresionArray(i).VAPR_ADVERTENCIA = NzVBA(rs("VAPR_ADVERTENCIA"))
@@ -1205,7 +1384,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarEngraseCilindros()
+Public Sub CargarEngraseCilindros()
     On Error GoTo ErrHandler
     
     Set m_engraseCilindrosIndice = CreateObject("Scripting.Dictionary")
@@ -1213,9 +1392,12 @@ Private Sub CargarEngraseCilindros()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM EngraseCilindros")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_engraseCilindrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_engraseCilindrosArray(1 To m_engraseCilindrosCount)
@@ -1224,7 +1406,7 @@ Private Sub CargarEngraseCilindros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_engraseCilindrosArray(i).ENCI_ID = NzDouble(rs("ENCI_ID"))
+        m_engraseCilindrosArray(i).ENCI_ID = NzLong(rs("ENCI_ID"))
         m_engraseCilindrosArray(i).ENCI_MODELO = NzVBA(rs("ENCI_MODELO"))
         m_engraseCilindrosArray(i).ENCI_DESCRIPCION = NzVBA(rs("ENCI_DESCRIPCION"))
         m_engraseCilindrosArray(i).ENCI_ADVERTENCIA = NzVBA(rs("ENCI_ADVERTENCIA"))
@@ -1245,7 +1427,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarPurgadores()
+Public Sub CargarPurgadores()
     On Error GoTo ErrHandler
     
     Set m_purgadoresIndice = CreateObject("Scripting.Dictionary")
@@ -1253,9 +1435,12 @@ Private Sub CargarPurgadores()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Purgadores")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_purgadoresCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_purgadoresArray(1 To m_purgadoresCount)
@@ -1264,7 +1449,7 @@ Private Sub CargarPurgadores()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_purgadoresArray(i).PURG_ID = NzDouble(rs("PURG_ID"))
+        m_purgadoresArray(i).PURG_ID = NzLong(rs("PURG_ID"))
         m_purgadoresArray(i).PURG_MODELO = NzVBA(rs("PURG_MODELO"))
         m_purgadoresArray(i).PURG_DESCRIPCION = NzVBA(rs("PURG_DESCRIPCION"))
         m_purgadoresArray(i).PURG_ADVERTENCIA = NzVBA(rs("PURG_ADVERTENCIA"))
@@ -1285,7 +1470,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarResistenciasCalefaccion()
+Public Sub CargarResistenciasCalefaccion()
     On Error GoTo ErrHandler
     
     Set m_resistenciasCalefaccionIndice = CreateObject("Scripting.Dictionary")
@@ -1293,9 +1478,12 @@ Private Sub CargarResistenciasCalefaccion()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ResistenciasCalefaccion")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_resistenciasCalefaccionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_resistenciasCalefaccionArray(1 To m_resistenciasCalefaccionCount)
@@ -1304,7 +1492,7 @@ Private Sub CargarResistenciasCalefaccion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_resistenciasCalefaccionArray(i).RESC_ID = NzDouble(rs("RESC_ID"))
+        m_resistenciasCalefaccionArray(i).RESC_ID = NzLong(rs("RESC_ID"))
         m_resistenciasCalefaccionArray(i).RESC_MODELO = NzVBA(rs("RESC_MODELO"))
         m_resistenciasCalefaccionArray(i).RESC_DESCRIPCION = NzVBA(rs("RESC_DESCRIPCION"))
         m_resistenciasCalefaccionArray(i).RESC_ADVERTENCIA = NzVBA(rs("RESC_ADVERTENCIA"))
@@ -1325,7 +1513,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarValvulasReguladoras()
+Public Sub CargarValvulasReguladoras()
     On Error GoTo ErrHandler
     
     Set m_valvulasReguladorasIndice = CreateObject("Scripting.Dictionary")
@@ -1333,9 +1521,12 @@ Private Sub CargarValvulasReguladoras()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ValvulasReguladoras")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_valvulasReguladorasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_valvulasReguladorasArray(1 To m_valvulasReguladorasCount)
@@ -1344,7 +1535,7 @@ Private Sub CargarValvulasReguladoras()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasReguladorasArray(i).VARG_ID = NzDouble(rs("VARG_ID"))
+        m_valvulasReguladorasArray(i).VARG_ID = NzLong(rs("VARG_ID"))
         m_valvulasReguladorasArray(i).VARG_MODELO = NzVBA(rs("VARG_MODELO"))
         m_valvulasReguladorasArray(i).VARG_DESCRIPCION = NzVBA(rs("VARG_DESCRIPCION"))
         m_valvulasReguladorasArray(i).VARG_ADVERTENCIA = NzVBA(rs("VARG_ADVERTENCIA"))
@@ -1365,7 +1556,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarPaises()
+Public Sub CargarPaises()
     On Error GoTo ErrHandler
     
     Set m_paisesIndice = CreateObject("Scripting.Dictionary")
@@ -1373,9 +1564,12 @@ Private Sub CargarPaises()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Paises")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_paisesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_paisesArray(1 To m_paisesCount)
@@ -1384,7 +1578,7 @@ Private Sub CargarPaises()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_paisesArray(i).pais_id = NzDouble(rs("pais_id"))
+        m_paisesArray(i).pais_id = NzLong(rs("pais_id"))
         m_paisesArray(i).pais_nombre = NzVBA(rs("pais_nombre"))
         m_paisesArray(i).pais_iso3166_1n = NzVBA(rs("pais_iso3166_1n"))
         m_paisesArray(i).pais_iso3166_1an2 = NzVBA(rs("pais_iso3166_1an2"))
@@ -1405,7 +1599,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarComerciales()
+Public Sub CargarComerciales()
     On Error GoTo ErrHandler
     
     Set m_comercialesIndice = CreateObject("Scripting.Dictionary")
@@ -1413,9 +1607,12 @@ Private Sub CargarComerciales()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Comerciales")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_comercialesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_comercialesArray(1 To m_comercialesCount)
@@ -1442,7 +1639,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarOfertantes()
+Public Sub CargarOfertantes()
     On Error GoTo ErrHandler
     
     Set m_ofertantesIndice = CreateObject("Scripting.Dictionary")
@@ -1450,9 +1647,12 @@ Private Sub CargarOfertantes()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Ofertantes")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_ofertantesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_ofertantesArray(1 To m_ofertantesCount)
@@ -1479,7 +1679,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarArrancadoresFuerza()
+Public Sub CargarArrancadoresFuerza()
     On Error GoTo ErrHandler
     
     Set m_arrancadoresFuerzaIndice = CreateObject("Scripting.Dictionary")
@@ -1487,9 +1687,12 @@ Private Sub CargarArrancadoresFuerza()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ArrancadoresFuerza")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_arrancadoresFuerzaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_arrancadoresFuerzaArray(1 To m_arrancadoresFuerzaCount)
@@ -1519,7 +1722,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarArrancadoresFuerzaControl()
+Public Sub CargarArrancadoresFuerzaControl()
     On Error GoTo ErrHandler
     
     Set m_arrancadoresFuerzaControlIndice = CreateObject("Scripting.Dictionary")
@@ -1527,9 +1730,12 @@ Private Sub CargarArrancadoresFuerzaControl()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ArrancadoresFuerzaControl")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_arrancadoresFuerzaControlCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_arrancadoresFuerzaControlArray(1 To m_arrancadoresFuerzaControlCount)
@@ -1559,7 +1765,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarArrancadoresControl()
+Public Sub CargarArrancadoresControl()
     On Error GoTo ErrHandler
     
     Set m_arrancadoresControlIndice = CreateObject("Scripting.Dictionary")
@@ -1567,9 +1773,12 @@ Private Sub CargarArrancadoresControl()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ArrancadoresControl")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_arrancadoresControlCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_arrancadoresControlArray(1 To m_arrancadoresControlCount)
@@ -1599,7 +1808,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarArrancadoresFuerzaControlPET()
+Public Sub CargarArrancadoresFuerzaControlPET()
     On Error GoTo ErrHandler
     
     Set m_arrancadoresFuerzaControlPETIndice = CreateObject("Scripting.Dictionary")
@@ -1607,9 +1816,12 @@ Private Sub CargarArrancadoresFuerzaControlPET()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ArrancadoresFuerzaControlPET")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_arrancadoresFuerzaControlPETCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_arrancadoresFuerzaControlPETArray(1 To m_arrancadoresFuerzaControlPETCount)
@@ -1639,7 +1851,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarTransmisoresTemperatura()
+Public Sub CargarTransmisoresTemperatura()
     On Error GoTo ErrHandler
     
     Set m_transmisoresTemperaturaIndice = CreateObject("Scripting.Dictionary")
@@ -1647,9 +1859,12 @@ Private Sub CargarTransmisoresTemperatura()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TransmisoresTemperatura")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_transmisoresTemperaturaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_transmisoresTemperaturaArray(1 To m_transmisoresTemperaturaCount)
@@ -1658,7 +1873,7 @@ Private Sub CargarTransmisoresTemperatura()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_transmisoresTemperaturaArray(i).TRAT_ID = NzDouble(rs("TRAT_ID"))
+        m_transmisoresTemperaturaArray(i).TRAT_ID = NzLong(rs("TRAT_ID"))
         m_transmisoresTemperaturaArray(i).TRAT_MODELO = NzVBA(rs("TRAT_MODELO"))
         m_transmisoresTemperaturaArray(i).TRAT_DESCRIPCION = NzVBA(rs("TRAT_DESCRIPCION"))
         m_transmisoresTemperaturaArray(i).TRAT_ADVERTENCIA = NzVBA(rs("TRAT_ADVERTENCIA"))
@@ -1679,7 +1894,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarTransmisoresPresion()
+Public Sub CargarTransmisoresPresion()
     On Error GoTo ErrHandler
     
     Set m_transmisoresPresionIndice = CreateObject("Scripting.Dictionary")
@@ -1687,9 +1902,12 @@ Private Sub CargarTransmisoresPresion()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TransmisoresPresion")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_transmisoresPresionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_transmisoresPresionArray(1 To m_transmisoresPresionCount)
@@ -1698,7 +1916,7 @@ Private Sub CargarTransmisoresPresion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_transmisoresPresionArray(i).TRAP_ID = NzDouble(rs("TRAP_ID"))
+        m_transmisoresPresionArray(i).TRAP_ID = NzLong(rs("TRAP_ID"))
         m_transmisoresPresionArray(i).TRAP_MODELO = NzVBA(rs("TRAP_MODELO"))
         m_transmisoresPresionArray(i).TRAP_DESCRIPCION = NzVBA(rs("TRAP_DESCRIPCION"))
         m_transmisoresPresionArray(i).TRAP_ADVERTENCIA = NzVBA(rs("TRAP_ADVERTENCIA"))
@@ -1719,7 +1937,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarTermometros()
+Public Sub CargarTermometros()
     On Error GoTo ErrHandler
     
     Set m_termometrosIndice = CreateObject("Scripting.Dictionary")
@@ -1727,9 +1945,12 @@ Private Sub CargarTermometros()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Termometros")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_termometrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_termometrosArray(1 To m_termometrosCount)
@@ -1738,7 +1959,7 @@ Private Sub CargarTermometros()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_termometrosArray(i).TERM_ID = NzDouble(rs("TERM_ID"))
+        m_termometrosArray(i).TERM_ID = NzLong(rs("TERM_ID"))
         m_termometrosArray(i).TERM_MODELO = NzVBA(rs("TERM_MODELO"))
         m_termometrosArray(i).TERM_DESCRIPCION = NzVBA(rs("TERM_DESCRIPCION"))
         m_termometrosArray(i).TERM_ADVERTENCIA = NzVBA(rs("TERM_ADVERTENCIA"))
@@ -1759,7 +1980,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarElectrovalvulasRegulacion()
+Public Sub CargarElectrovalvulasRegulacion()
     On Error GoTo ErrHandler
     
     Set m_electrovalvulasRegulacionIndice = CreateObject("Scripting.Dictionary")
@@ -1767,9 +1988,12 @@ Private Sub CargarElectrovalvulasRegulacion()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ElectrovalvulasRegulacion")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_electrovalvulasRegulacionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_electrovalvulasRegulacionArray(1 To m_electrovalvulasRegulacionCount)
@@ -1778,7 +2002,7 @@ Private Sub CargarElectrovalvulasRegulacion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_electrovalvulasRegulacionArray(i).ELER_ID = NzDouble(rs("ELER_ID"))
+        m_electrovalvulasRegulacionArray(i).ELER_ID = NzLong(rs("ELER_ID"))
         m_electrovalvulasRegulacionArray(i).ELER_MODELO = NzVBA(rs("ELER_MODELO"))
         m_electrovalvulasRegulacionArray(i).ELER_DESCRIPCION = NzVBA(rs("ELER_DESCRIPCION"))
         m_electrovalvulasRegulacionArray(i).ELER_ADVERTENCIA = NzVBA(rs("ELER_ADVERTENCIA"))
@@ -1800,7 +2024,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarSensoresCaidaVastago()
+Public Sub CargarSensoresCaidaVastago()
     On Error GoTo ErrHandler
     
     Set m_sensoresCaidaVastagoIndice = CreateObject("Scripting.Dictionary")
@@ -1808,9 +2032,12 @@ Private Sub CargarSensoresCaidaVastago()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM SensoresCaidaVastago")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_sensoresCaidaVastagoCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_sensoresCaidaVastagoArray(1 To m_sensoresCaidaVastagoCount)
@@ -1819,7 +2046,7 @@ Private Sub CargarSensoresCaidaVastago()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_sensoresCaidaVastagoArray(i).SECV_ID = NzDouble(rs("SECV_ID"))
+        m_sensoresCaidaVastagoArray(i).SECV_ID = NzLong(rs("SECV_ID"))
         m_sensoresCaidaVastagoArray(i).SECV_MODELO = NzVBA(rs("SECV_MODELO"))
         m_sensoresCaidaVastagoArray(i).SECV_DESCRIPCION = NzVBA(rs("SECV_DESCRIPCION"))
         m_sensoresCaidaVastagoArray(i).SECV_ADVERTENCIA = NzVBA(rs("SECV_ADVERTENCIA"))
@@ -1840,7 +2067,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarInterruptoresVibracion()
+Public Sub CargarInterruptoresVibracion()
     On Error GoTo ErrHandler
     
     Set m_interruptoresVibracionIndice = CreateObject("Scripting.Dictionary")
@@ -1848,9 +2075,12 @@ Private Sub CargarInterruptoresVibracion()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM InterruptoresVibracion")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_interruptoresVibracionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_interruptoresVibracionArray(1 To m_interruptoresVibracionCount)
@@ -1859,7 +2089,7 @@ Private Sub CargarInterruptoresVibracion()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_interruptoresVibracionArray(i).INTV_ID = NzDouble(rs("INTV_ID"))
+        m_interruptoresVibracionArray(i).INTV_ID = NzLong(rs("INTV_ID"))
         m_interruptoresVibracionArray(i).INTV_MODELO = NzVBA(rs("INTV_MODELO"))
         m_interruptoresVibracionArray(i).INTV_DESCRIPCION = NzVBA(rs("INTV_DESCRIPCION"))
         m_interruptoresVibracionArray(i).INTV_ADVERTENCIA = NzVBA(rs("INTV_ADVERTENCIA"))
@@ -1880,7 +2110,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarInterruptoresNivelAceite()
+Public Sub CargarInterruptoresNivelAceite()
     On Error GoTo ErrHandler
     
     Set m_interruptoresNivelAceiteIndice = CreateObject("Scripting.Dictionary")
@@ -1888,9 +2118,12 @@ Private Sub CargarInterruptoresNivelAceite()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM InterruptoresNivelAceite")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_interruptoresNivelAceiteCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_interruptoresNivelAceiteArray(1 To m_interruptoresNivelAceiteCount)
@@ -1899,7 +2132,7 @@ Private Sub CargarInterruptoresNivelAceite()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_interruptoresNivelAceiteArray(i).INTA_ID = NzDouble(rs("INTA_ID"))
+        m_interruptoresNivelAceiteArray(i).INTA_ID = NzLong(rs("INTA_ID"))
         m_interruptoresNivelAceiteArray(i).INTA_MODELO = NzVBA(rs("INTA_MODELO"))
         m_interruptoresNivelAceiteArray(i).INTA_DESCRIPCION = NzVBA(rs("INTA_DESCRIPCION"))
         m_interruptoresNivelAceiteArray(i).INTA_ADVERTENCIA = NzVBA(rs("INTA_ADVERTENCIA"))
@@ -1920,7 +2153,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarNivelesCondensados()
+Public Sub CargarNivelesCondensados()
     On Error GoTo ErrHandler
     
     Set m_nivelesCondensadosIndice = CreateObject("Scripting.Dictionary")
@@ -1928,9 +2161,12 @@ Private Sub CargarNivelesCondensados()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM NivelesCondensados")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_nivelesCondensadosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_nivelesCondensadosArray(1 To m_nivelesCondensadosCount)
@@ -1939,7 +2175,7 @@ Private Sub CargarNivelesCondensados()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_nivelesCondensadosArray(i).NIVC_ID = NzDouble(rs("NIVC_ID"))
+        m_nivelesCondensadosArray(i).NIVC_ID = NzLong(rs("NIVC_ID"))
         m_nivelesCondensadosArray(i).NIVC_MODELO = NzVBA(rs("NIVC_MODELO"))
         m_nivelesCondensadosArray(i).NIVC_DESCRIPCION = NzVBA(rs("NIVC_DESCRIPCION"))
         m_nivelesCondensadosArray(i).NIVC_ADVERTENCIA = NzVBA(rs("NIVC_ADVERTENCIA"))
@@ -1960,7 +2196,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarValvulasTermostaticas()
+Public Sub CargarValvulasTermostaticas()
     On Error GoTo ErrHandler
     
     Set m_valvulasTermostaticasIndice = CreateObject("Scripting.Dictionary")
@@ -1968,9 +2204,12 @@ Private Sub CargarValvulasTermostaticas()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ValvulasTermostaticas")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_valvulasTermostaticasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_valvulasTermostaticasArray(1 To m_valvulasTermostaticasCount)
@@ -1979,7 +2218,7 @@ Private Sub CargarValvulasTermostaticas()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_valvulasTermostaticasArray(i).VATE_ID = NzDouble(rs("VATE_ID"))
+        m_valvulasTermostaticasArray(i).VATE_ID = NzLong(rs("VATE_ID"))
         m_valvulasTermostaticasArray(i).VATE_MODELO = NzVBA(rs("VATE_MODELO"))
         m_valvulasTermostaticasArray(i).VATE_DESCRIPCION = NzVBA(rs("VATE_DESCRIPCION"))
         m_valvulasTermostaticasArray(i).VATE_ADVERTENCIA = NzVBA(rs("VATE_ADVERTENCIA"))
@@ -2000,7 +2239,7 @@ ErrHandler:
         "Error: " & Err.Description
 End Sub
 
-Private Sub CargarInstrumentaciones()
+Public Sub CargarInstrumentaciones()
     On Error GoTo ErrHandler
     
     Set m_instrumentacionesIndice = CreateObject("Scripting.Dictionary")
@@ -2008,9 +2247,12 @@ Private Sub CargarInstrumentaciones()
     Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Instrumentaciones")
     
     ' Contar registros
-    rs.MoveLast
-    rs.MoveFirst
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
     m_instrumentacionesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
     
     ' Redimensionar array
     ReDim m_instrumentacionesArray(1 To m_instrumentacionesCount)
@@ -2019,29 +2261,29 @@ Private Sub CargarInstrumentaciones()
     Dim i As Long
     i = 1
     Do While Not rs.EOF
-        m_instrumentacionesArray(i).INTR_ID = NzDouble(rs("INTR_ID"))
+        m_instrumentacionesArray(i).INTR_ID = NzLong(rs("INTR_ID"))
         m_instrumentacionesArray(i).INTR_MODELO = NzVBA(rs("INTR_MODELO"))
         m_instrumentacionesArray(i).INTR_DESCRIPCION = NzVBA(rs("INTR_DESCRIPCION"))
         m_instrumentacionesArray(i).INTR_ADVERTENCIA = NzVBA(rs("INTR_ADVERTENCIA"))
-        m_instrumentacionesArray(i).INTR_TRAT_ID = NzLong(rs("INTR_TRAT_ID"))
+        m_instrumentacionesArray(i).TRAT_ID = NzLong(rs("TRAT_ID"))
         m_instrumentacionesArray(i).INTR_TRAT_CANTIDAD = NzLong(rs("INTR_TRAT_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_TRAP_ID = NzLong(rs("INTR_TRAP_ID"))
+        m_instrumentacionesArray(i).TRAP_ID = NzLong(rs("TRAP_ID"))
         m_instrumentacionesArray(i).INTR_TRAP_CANTIDAD = NzLong(rs("INTR_TRAP_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_TERM_ID = NzLong(rs("INTR_TERM_ID"))
+        m_instrumentacionesArray(i).TERM_ID = NzLong(rs("TERM_ID"))
         m_instrumentacionesArray(i).INTR_TERM_CANTIDAD = NzLong(rs("INTR_TERM_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_MANO_ID = NzLong(rs("INTR_MANO_ID"))
+        m_instrumentacionesArray(i).MANO_ID = NzLong(rs("MANO_ID"))
         m_instrumentacionesArray(i).INTR_MANO_CANTIDAD = NzLong(rs("INTR_MANO_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_ELER_ID = NzLong(rs("INTR_ELER_ID"))
+        m_instrumentacionesArray(i).ELER_ID = NzLong(rs("ELER_ID"))
         m_instrumentacionesArray(i).INTR_ELER_CANTIDAD = NzLong(rs("INTR_ELER_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_SECV_ID = NzLong(rs("INTR_SECV_ID"))
+        m_instrumentacionesArray(i).SECV_ID = NzLong(rs("SECV_ID"))
         m_instrumentacionesArray(i).INTR_SECV_CANTIDAD = NzLong(rs("INTR_SECV_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_INTV_ID = NzLong(rs("INTR_INTV_ID"))
+        m_instrumentacionesArray(i).INTV_ID = NzLong(rs("INTV_ID"))
         m_instrumentacionesArray(i).INTR_INTV_CANTIDAD = NzLong(rs("INTR_INTV_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_INTA_ID = NzLong(rs("INTR_INTA_ID"))
+        m_instrumentacionesArray(i).INTA_ID = NzLong(rs("INTA_ID"))
         m_instrumentacionesArray(i).INTR_INTA_CANTIDAD = NzLong(rs("INTR_INTA_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_NIVC_ID = NzLong(rs("INTR_NIVC_ID"))
+        m_instrumentacionesArray(i).NIVC_ID = NzLong(rs("NIVC_ID"))
         m_instrumentacionesArray(i).INTR_NIVC_CANTIDAD = NzLong(rs("INTR_NIVC_CANTIDAD"))
-        m_instrumentacionesArray(i).INTR_VATE_ID = NzLong(rs("INTR_VATE_ID"))
+        m_instrumentacionesArray(i).VATE_ID = NzLong(rs("VATE_ID"))
         m_instrumentacionesArray(i).INTR_VATE_CANTIDAD = NzLong(rs("INTR_VATE_CANTIDAD"))
         
         ' Agregar al índice
@@ -2058,6 +2300,818 @@ ErrHandler:
     Err.Raise Err.Number, "clsCatalogos.CargarInstrumentaciones", _
         "Error: " & Err.Description
 End Sub
+Public Sub CargarTiposMaterial()
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TiposMaterial")
+    
+    If rs.EOF Then Exit Sub
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    
+    m_tiposMaterialCount = rs.RecordCount
+    ReDim m_tiposMaterialArray(1 To m_tiposMaterialCount)
+    Set m_tiposMaterialIndice = CreateObject("Scripting.Dictionary")
+    
+    Dim i As Long
+    i = 1
+    
+    Do While Not rs.EOF
+        m_tiposMaterialArray(i).TIMA_ID = NzLong(rs("TIMA_ID"))
+        m_tiposMaterialArray(i).TIMA_MATERIAL = NzVBA(rs("TIMA_MATERIAL"))
+        
+        m_tiposMaterialIndice(m_tiposMaterialArray(i).TIMA_ID) = i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    
+    rs.Close
+    Set rs = Nothing
+End Sub
+
+Public Sub CargarCalderinesPredeterminados()
+    On Error GoTo ErrHandler
+    
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM CalderinesPredeterminados")
+    
+    If rs.EOF Then Exit Sub
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    
+    m_calderinesPredeterminadosCount = rs.RecordCount
+    ReDim m_calderinesPredeterminadosArray(1 To m_calderinesPredeterminadosCount)
+    Set m_calderinesPredeterminadosIndice = CreateObject("Scripting.Dictionary")
+    
+    Dim i As Long
+    i = 1
+    
+    Do While Not rs.EOF
+        m_calderinesPredeterminadosArray(i).CALP_ID = NzLong(rs("CALP_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_MODELO = NzVBA(rs("CALP_MODELO"))
+        m_calderinesPredeterminadosArray(i).CVA1_ID = NzLong(rs("CVA1_ID"))
+        m_calderinesPredeterminadosArray(i).CLA1_ID = NzLong(rs("CLA1_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA1_CANTIDAD = NzLong(rs("CALP_CLA1_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE1_ID = NzLong(rs("CVE1_ID"))
+        m_calderinesPredeterminadosArray(i).CLE1_ID = NzLong(rs("CLE1_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE1_CANTIDAD = NzLong(rs("CALP_CLE1_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVA2_ID = NzLong(rs("CVA2_ID"))
+        m_calderinesPredeterminadosArray(i).CLA2_ID = NzLong(rs("CLA2_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA2_CANTIDAD = NzLong(rs("CALP_CLA2_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE2_ID = NzLong(rs("CVE2_ID"))
+        m_calderinesPredeterminadosArray(i).CLE2_ID = NzLong(rs("CLE2_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE2_CANTIDAD = NzLong(rs("CALP_CLE2_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVA3_ID = NzLong(rs("CVA3_ID"))
+        m_calderinesPredeterminadosArray(i).CLA3_ID = NzLong(rs("CLA3_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA3_CANTIDAD = NzLong(rs("CALP_CLA3_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE3_ID = NzLong(rs("CVE3_ID"))
+        m_calderinesPredeterminadosArray(i).CLE3_ID = NzLong(rs("CLE3_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE3_CANTIDAD = NzLong(rs("CALP_CLE3_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVA4_ID = NzLong(rs("CVA4_ID"))
+        m_calderinesPredeterminadosArray(i).CLA4_ID = NzLong(rs("CLA4_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA4_CANTIDAD = NzLong(rs("CALP_CLA4_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE4_ID = NzLong(rs("CVE4_ID"))
+        m_calderinesPredeterminadosArray(i).CLE4_ID = NzLong(rs("CLE4_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE4_CANTIDAD = NzLong(rs("CALP_CLE4_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVA5_ID = NzLong(rs("CVA5_ID"))
+        m_calderinesPredeterminadosArray(i).CLA5_ID = NzLong(rs("CLA5_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA5_CANTIDAD = NzLong(rs("CALP_CLA5_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE5_ID = NzLong(rs("CVE5_ID"))
+        m_calderinesPredeterminadosArray(i).CLE5_ID = NzLong(rs("CLE5_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE5_CANTIDAD = NzLong(rs("CALP_CLE5_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVA6_ID = NzLong(rs("CVA6_ID"))
+        m_calderinesPredeterminadosArray(i).CLA6_ID = NzLong(rs("CLA6_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLA6_CANTIDAD = NzLong(rs("CALP_CLA6_CANTIDAD"))
+        m_calderinesPredeterminadosArray(i).CVE6_ID = NzLong(rs("CVE6_ID"))
+        m_calderinesPredeterminadosArray(i).CLE6_ID = NzLong(rs("CLE6_ID"))
+        m_calderinesPredeterminadosArray(i).CALP_CLE6_CANTIDAD = NzLong(rs("CALP_CLE6_CANTIDAD"))
+        
+        m_calderinesPredeterminadosIndice(m_calderinesPredeterminadosArray(i).CALP_ID) = i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    
+    rs.Close
+    Set rs = Nothing
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarCalderinesPredeterminados", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarManoObraCabezales()
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ManoObraCabezales")
+    
+    If rs.EOF Then Exit Sub
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    
+    m_manoObraCabezalesCount = rs.RecordCount
+    ReDim m_manoObraCabezalesArray(1 To m_manoObraCabezalesCount)
+    Set m_manoObraCabezalesIndice = CreateObject("Scripting.Dictionary")
+    
+    Dim i As Long
+    i = 1
+    
+    Do While Not rs.EOF
+        m_manoObraCabezalesArray(i).MAOC_ID = NzLong(rs("MAOC_ID"))
+        m_manoObraCabezalesArray(i).MAOC_MODELO = NzVBA(rs("MAOC_MODELO"))
+        m_manoObraCabezalesArray(i).MAOC_FASE1_HORAS = NzDouble(rs("MAOC_FASE1_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_FASE1_PRECIO = NzDouble(rs("MAOC_FASE1_PRECIO"))
+        m_manoObraCabezalesArray(i).MAOC_FASE2_HORAS = NzDouble(rs("MAOC_FASE2_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_FASE2_PRECIO = NzDouble(rs("MAOC_FASE2_PRECIO"))
+        m_manoObraCabezalesArray(i).MAOC_SOLDA_HORAS = NzDouble(rs("MAOC_SOLDA_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_SOLDA_PRECIO = NzDouble(rs("MAOC_SOLDA_PRECIO"))
+        m_manoObraCabezalesArray(i).MAOC_PROBA_HORAS = NzDouble(rs("MAOC_PROBA_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_PROBA_PRECIO = NzDouble(rs("MAOC_PROBA_PRECIO"))
+        m_manoObraCabezalesArray(i).MAOC_PINTU_HORAS = NzDouble(rs("MAOC_PINTU_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_PINTU_PRECIO = NzDouble(rs("MAOC_PINTU_PRECIO"))
+        m_manoObraCabezalesArray(i).MAOC_ELECT_HORAS = NzDouble(rs("MAOC_ELECT_HORAS"))
+        m_manoObraCabezalesArray(i).MAOC_ELECT_PRECIO = NzDouble(rs("MAOC_ELECT_PRECIO"))
+        
+        m_manoObraCabezalesIndice(m_manoObraCabezalesArray(i).MAOC_ID) = i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    
+    rs.Close
+    Set rs = Nothing
+End Sub
+
+Public Sub CargarManoObraIngenierias()
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ManoObraIngenierias")
+    
+    If rs.EOF Then Exit Sub
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    
+    m_manoObraIngenieriasCount = rs.RecordCount
+    ReDim m_manoObraIngenieriasArray(1 To m_manoObraIngenieriasCount)
+    Set m_manoObraIngenieriasIndice = CreateObject("Scripting.Dictionary")
+    
+    Dim i As Long
+    i = 1
+    
+    Do While Not rs.EOF
+        m_manoObraIngenieriasArray(i).MAOI_ID = NzLong(rs("MAOI_ID"))
+        m_manoObraIngenieriasArray(i).MAOI_MODELO = NzVBA(rs("MAOI_MODELO"))
+        m_manoObraIngenieriasArray(i).MAOI_INGEN_HORAS = NzDouble(rs("MAOI_INGEN_HORAS"))
+        m_manoObraIngenieriasArray(i).MAOI_INGEN_PRECIO = NzDouble(rs("MAOI_INGEN_PRECIO"))
+        
+        m_manoObraIngenieriasIndice(m_manoObraIngenieriasArray(i).MAOI_ID) = i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    
+    rs.Close
+    Set rs = Nothing
+End Sub
+
+Public Sub CargarAreas()
+    On Error GoTo ErrHandler
+    
+    Set m_AreasIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Areas")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_AreasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_AreasArray(1 To m_AreasCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_AreasArray(i).AREA_ID = NzLong(rs("AREA_ID"))
+        m_AreasArray(i).AREA_DENOMINACION = NzLong(rs("AREA_DENOMINACION"))
+        m_AreasArray(i).AREA_GENE_NOMBRE = NzLong(rs("AREA_GENE_NOMBRE"))
+        m_AreasArray(i).AREA_NUMERO_CAMPO = NzLong(rs("AREA_NUMERO_CAMPO"))
+        
+        m_AreasIndice.Add m_AreasArray(i).AREA_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarAreas", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarCalderinesCostes()
+    On Error GoTo ErrHandler
+    
+    Set m_CalderinesCostesIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM CalderinesCostes")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_CalderinesCostesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_CalderinesCostesArray(1 To m_CalderinesCostesCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_CalderinesCostesArray(i).CACO_ID = NzLong(rs("CACO_ID"))
+        m_CalderinesCostesArray(i).CALD_ID = NzLong(rs("CALD_ID"))
+        m_CalderinesCostesArray(i).VOLU_ID = NzLong(rs("VOLU_ID"))
+        m_CalderinesCostesArray(i).CACO_PRE_COSTE = NzDouble(rs("CACO_PRE_COSTE"))
+        m_CalderinesCostesArray(i).CACO_DESCRIPCION = NzDouble(rs("CACO_DESCRIPCION"))
+        
+        m_CalderinesCostesIndice.Add m_CalderinesCostesArray(i).CACO_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarCalderinesCostes", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarDepositosEntrada()
+    On Error GoTo ErrHandler
+    
+    Set m_DepositosEntradaIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM DepositosEntrada")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_DepositosEntradaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_DepositosEntradaArray(1 To m_DepositosEntradaCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_DepositosEntradaArray(i).DEPE_ID = NzLong(rs("DEPE_ID"))
+        m_DepositosEntradaArray(i).DEPE_MODELO = NzVBA(rs("DEPE_MODELO"))
+        m_DepositosEntradaArray(i).DEPE_DESCRIPCION = NzVBA(rs("DEPE_DESCRIPCION"))
+        m_DepositosEntradaArray(i).DEPE_ADVERTENCIA = NzVBA(rs("DEPE_ADVERTENCIA"))
+        m_DepositosEntradaArray(i).DEPE_PRE_COSTE = NzDouble(rs("DEPE_PRE_COSTE"))
+        
+        m_DepositosEntradaIndice.Add m_DepositosEntradaArray(i).DEPE_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarDepositosEntrada", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarDepositosFinal()
+    On Error GoTo ErrHandler
+    
+    Set m_DepositosFinalIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM DepositosFinal")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_DepositosFinalCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_DepositosFinalArray(1 To m_DepositosFinalCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_DepositosFinalArray(i).DEPF_ID = NzLong(rs("DEPF_ID"))
+        m_DepositosFinalArray(i).DEPF_MODELO = NzVBA(rs("DEPF_MODELO"))
+        m_DepositosFinalArray(i).DEPF_DESCRIPCION = NzVBA(rs("DEPF_DESCRIPCION"))
+        m_DepositosFinalArray(i).DEPF_ADVERTENCIA = NzVBA(rs("DEPF_ADVERTENCIA"))
+        m_DepositosFinalArray(i).DEPF_PRE_COSTE = NzDouble(rs("DEPF_PRE_COSTE"))
+        
+        m_DepositosFinalIndice.Add m_DepositosFinalArray(i).DEPF_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarDepositosFinal", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarMotoresClass()
+    On Error GoTo ErrHandler
+    
+    Set m_MotoresClassIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM MotoresClass")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_MotoresClassCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_MotoresClassArray(1 To m_MotoresClassCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_MotoresClassArray(i).MTCL_ID = NzLong(rs("MTCL_ID"))
+        m_MotoresClassArray(i).MTCL_NOMBRE = NzVBA(rs("MTCL_NOMBRE"))
+        
+        m_MotoresClassIndice.Add m_MotoresClassArray(i).MTCL_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarMotoresClass", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarMotoresEspeciales()
+    On Error GoTo ErrHandler
+    
+    Set m_MotoresEspecialesIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM MotoresEspeciales")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_MotoresEspecialesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_MotoresEspecialesArray(1 To m_MotoresEspecialesCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_MotoresEspecialesArray(i).MTSP_ID = NzLong(rs("MTSP_ID"))
+        m_MotoresEspecialesArray(i).MTSP_MODELO = NzVBA(rs("MTSP_MODELO"))
+        m_MotoresEspecialesArray(i).MTSP_PRE_COSTE = NzDouble(rs("MTSP_PRE_COSTE"))
+        
+        m_MotoresEspecialesIndice.Add m_MotoresEspecialesArray(i).MTSP_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarMotoresEspeciales", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarMotoresFabrica()
+    On Error GoTo ErrHandler
+    
+    Set m_MotoresFabricaIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM MotoresFabrica")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_MotoresFabricaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_MotoresFabricaArray(1 To m_MotoresFabricaCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_MotoresFabricaArray(i).MTFB_ID = NzLong(rs("MTFB_ID"))
+        m_MotoresFabricaArray(i).MTFB_NOMBRE = NzVBA(rs("MTFB_NOMBRE"))
+        
+        m_MotoresFabricaIndice.Add m_MotoresFabricaArray(i).MTFB_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarMotoresFabrica", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarMotoresNormativas()
+    On Error GoTo ErrHandler
+    
+    Set m_MotoresNormativasIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM MotoresNormativas")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_MotoresNormativasCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_MotoresNormativasArray(1 To m_MotoresNormativasCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_MotoresNormativasArray(i).MTNO_ID = NzLong(rs("MTNO_ID"))
+        m_MotoresNormativasArray(i).MTNO_NOMBRE = NzVBA(rs("MTNO_NOMBRE"))
+        
+        m_MotoresNormativasIndice.Add m_MotoresNormativasArray(i).MTNO_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarMotoresNormativas", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarMotoresTension()
+    On Error GoTo ErrHandler
+    
+    Set m_MotoresTensionIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM MotoresTension")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_MotoresTensionCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_MotoresTensionArray(1 To m_MotoresTensionCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_MotoresTensionArray(i).MTTN_ID = NzLong(rs("MTTN_ID"))
+        m_MotoresTensionArray(i).MTTN_NOMBRE = NzVBA(rs("MTTN_NOMBRE"))
+        
+        m_MotoresTensionIndice.Add m_MotoresTensionArray(i).MTTN_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarMotoresTension", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarParametros()
+    On Error GoTo ErrHandler
+    
+    Set m_ParametrosIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM Parametros")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_ParametrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_ParametrosArray(1 To m_ParametrosCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_ParametrosArray(i).PARA_ID = NzLong(rs("PARA_ID"))
+        m_ParametrosArray(i).PARA_CALD_EXTRA = NzDouble(rs("PARA_CALD_EXTRA"))
+        m_ParametrosArray(i).PARA_CALD_RADIO = NzLong(rs("PARA_CALD_RADIO"))
+        m_ParametrosArray(i).PARA_CALD_ASME = NzDouble(rs("PARA_CALD_ASME"))
+        m_ParametrosArray(i).PARA_CALD_INOX = NzDouble(rs("PARA_CALD_INOX"))
+        m_ParametrosArray(i).PARA_CALD_SELLO = NzLong(rs("PARA_CALD_SELLO"))
+        m_ParametrosArray(i).PARA_FEC_ULT_MODIF = NzDate(rs("PARA_FEC_ULT_MODIF"))
+        
+        m_ParametrosIndice.Add m_ParametrosArray(i).PARA_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarParametros", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarRefrigeradoresCostes()
+    On Error GoTo ErrHandler
+    
+    Set m_RefrigeradoresCostesIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM RefrigeradoresCostes")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_RefrigeradoresCostesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_RefrigeradoresCostesArray(1 To m_RefrigeradoresCostesCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_RefrigeradoresCostesArray(i).RECO_ID = NzLong(rs("RECO_ID"))
+        m_RefrigeradoresCostesArray(i).REFR_ID = NzLong(rs("REFR_ID"))
+        m_RefrigeradoresCostesArray(i).TIPN_ID = NzLong(rs("TIPN_ID"))
+        m_RefrigeradoresCostesArray(i).RECO_INOX_PRE_COSTE = NzDouble(rs("RECO_INOX_PRE_COSTE"))
+        m_RefrigeradoresCostesArray(i).RECO_COBRE_PRE_COSTE = NzDouble(rs("RECO_COBRE_PRE_COSTE"))
+        m_RefrigeradoresCostesArray(i).RECO_CENT_PRE_COSTE = NzDouble(rs("RECO_CENT_PRE_COSTE"))
+        m_RefrigeradoresCostesArray(i).RECO_CSAL_PRE_COSTE = NzDouble(rs("RECO_CSAL_PRE_COSTE"))
+        
+        m_RefrigeradoresCostesIndice.Add m_RefrigeradoresCostesArray(i).RECO_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarRefrigeradoresCostes", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarRefrigeradoresEspeciales()
+    On Error GoTo ErrHandler
+    
+    Set m_RefrigeradoresEspecialesIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM RefrigeradoresEspeciales")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_RefrigeradoresEspecialesCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_RefrigeradoresEspecialesArray(1 To m_RefrigeradoresEspecialesCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_RefrigeradoresEspecialesArray(i).REES_ID = NzLong(rs("REES_ID"))
+        m_RefrigeradoresEspecialesArray(i).REES_MODELO = NzVBA(rs("REES_MODELO"))
+        m_RefrigeradoresEspecialesArray(i).REES_DESCRIPCION = NzVBA(rs("REES_DESCRIPCION"))
+        m_RefrigeradoresEspecialesArray(i).REES_ADVERTENCIA = NzVBA(rs("REES_ADVERTENCIA"))
+        m_RefrigeradoresEspecialesArray(i).REES_PRE_COSTE = NzDouble(rs("REES_PRE_COSTE"))
+        
+        m_RefrigeradoresEspecialesIndice.Add m_RefrigeradoresEspecialesArray(i).REES_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarRefrigeradoresEspeciales", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarTiposPresionNominal()
+    On Error GoTo ErrHandler
+    
+    Set m_TiposPresionNominalIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TiposPresionNominal")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_TiposPresionNominalCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_TiposPresionNominalArray(1 To m_TiposPresionNominalCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_TiposPresionNominalArray(i).TIPN_ID = NzLong(rs("TIPN_ID"))
+        m_TiposPresionNominalArray(i).TIPN_PRESION = NzLong(rs("TIPN_PRESION"))
+        
+        m_TiposPresionNominalIndice.Add m_TiposPresionNominalArray(i).TIPN_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarTiposPresionNominal", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarTiposTubos()
+    On Error GoTo ErrHandler
+    
+    Set m_TiposTubosIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TiposTubos")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_TiposTubosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_TiposTubosArray(1 To m_TiposTubosCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_TiposTubosArray(i).TITU_ID = NzLong(rs("TITU_ID"))
+        m_TiposTubosArray(i).TITU_MATERIAL = NzVBA(rs("TITU_MATERIAL"))
+        
+        m_TiposTubosIndice.Add m_TiposTubosArray(i).TITU_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarTiposTubos", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarTuberiasAgua()
+    On Error GoTo ErrHandler
+    
+    Set m_TuberiasAguaIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TuberiasAgua")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_TuberiasAguaCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_TuberiasAguaArray(1 To m_TuberiasAguaCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_TuberiasAguaArray(i).TUAG_ID = NzLong(rs("TUAG_ID"))
+        m_TuberiasAguaArray(i).TUAG_MODELO = NzVBA(rs("TUAG_MODELO"))
+        m_TuberiasAguaArray(i).TUAG_DESCRIPCION = NzVBA(rs("TUAG_DESCRIPCION"))
+        m_TuberiasAguaArray(i).TUAG_ADVERTENCIA = NzVBA(rs("TUAG_ADVERTENCIA"))
+        m_TuberiasAguaArray(i).TUAG_PRE_COSTE = NzDouble(rs("TUAG_PRE_COSTE"))
+        
+        m_TuberiasAguaIndice.Add m_TuberiasAguaArray(i).TUAG_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarTuberiasAgua", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarTuberiasAire()
+    On Error GoTo ErrHandler
+    
+    Set m_TuberiasAireIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TuberiasAire")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_TuberiasAireCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_TuberiasAireArray(1 To m_TuberiasAireCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_TuberiasAireArray(i).TUAI_ID = NzLong(rs("TUAI_ID"))
+        m_TuberiasAireArray(i).TUAI_MODELO = NzVBA(rs("TUAI_MODELO"))
+        
+        m_TuberiasAireIndice.Add m_TuberiasAireArray(i).TUAI_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarTuberiasAire", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarTuberiasAireDiametros()
+    On Error GoTo ErrHandler
+    
+    Set m_TuberiasAireDiametrosIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM TuberiasAireDiametros")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_TuberiasAireDiametrosCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_TuberiasAireDiametrosArray(1 To m_TuberiasAireDiametrosCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_TuberiasAireDiametrosArray(i).TUDI_ID = NzLong(rs("TUDI_ID"))
+        m_TuberiasAireDiametrosArray(i).TUAI_ID = NzLong(rs("TUAI_ID"))
+        m_TuberiasAireDiametrosArray(i).TUDI_DIAMETRO = NzDouble(rs("TUDI_DIAMETRO"))
+        m_TuberiasAireDiametrosArray(i).TUDI_MODELO = NzVBA(rs("TUDI_MODELO"))
+        m_TuberiasAireDiametrosArray(i).TUDI_DESCRIPCION = NzVBA(rs("TUDI_DESCRIPCION"))
+        m_TuberiasAireDiametrosArray(i).TUDI_ADVERTENCIA = NzVBA(rs("TUDI_ADVERTENCIA"))
+        m_TuberiasAireDiametrosArray(i).TUDI_PRE_COSTE = NzDouble(rs("TUDI_PRE_COSTE"))
+        
+        m_TuberiasAireDiametrosIndice.Add m_TuberiasAireDiametrosArray(i).TUDI_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarTuberiasAireDiametros", "Error: " & Err.Description
+End Sub
+
+Public Sub CargarValvulasSeguridad()
+    On Error GoTo ErrHandler
+    
+    Set m_ValvulasSeguridadIndice = CreateObject("Scripting.Dictionary")
+    Dim rs As Object
+    Set rs = m_Ctx.AbrirRecordset("SELECT * FROM ValvulasSeguridad")
+    
+    If Not rs.EOF Then
+        rs.MoveLast
+        rs.MoveFirst
+    End If
+    m_ValvulasSeguridadCount = rs.RecordCount
+    If rs.RecordCount = 0 Then Exit Sub
+    ReDim m_ValvulasSeguridadArray(1 To m_ValvulasSeguridadCount)
+    
+    Dim i As Long
+    i = 1
+    Do While Not rs.EOF
+        m_ValvulasSeguridadArray(i).VASE_ID = NzLong(rs("VASE_ID"))
+        m_ValvulasSeguridadArray(i).VASE_MODELO = NzVBA(rs("VASE_MODELO"))
+        m_ValvulasSeguridadArray(i).VASE_DESCRIPCION = NzVBA(rs("VASE_DESCRIPCION"))
+        m_ValvulasSeguridadArray(i).VASE_ADVERTENCIA = NzVBA(rs("VASE_ADVERTENCIA"))
+        m_ValvulasSeguridadArray(i).VASE_PRE_COSTE = NzDouble(rs("VASE_PRE_COSTE"))
+        
+        m_ValvulasSeguridadIndice.Add m_ValvulasSeguridadArray(i).VASE_ID, i
+        i = i + 1
+        rs.MoveNext
+    Loop
+    rs.Close
+    Exit Sub
+    
+ErrHandler:
+    If Not rs Is Nothing Then rs.Close
+    Err.Raise Err.Number, "clsCatalogos.CargarValvulasSeguridad", "Error: " & Err.Description
+End Sub
+
+
 
 '=========================================================
 ' MÉTODOS PÚBLICOS OBTENER - CATÁLOGOS ORIGINALES (15)
@@ -2571,3 +3625,256 @@ Public Function ObtenerInstrumentaciones(ByVal INTR_ID As Long) As tCatalogInstr
     idx = m_instrumentacionesIndice(INTR_ID)
     ObtenerInstrumentaciones = m_instrumentacionesArray(idx)
 End Function
+
+Public Function ObtenerTiposMaterial(ByVal TIMA_ID As Long) As tCatalogTiposMaterial
+    If TIMA_ID <= 0 Then Exit Function
+    If Not m_tiposMaterialIndice.Exists(TIMA_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_tiposMaterialIndice(TIMA_ID)
+    ObtenerTiposMaterial = m_tiposMaterialArray(idx)
+End Function
+
+Public Function ObtenerCalderinesPredeterminados(ByVal CALP_ID As Long) As tCatalogCalderinesPredeterminados
+    If CALP_ID <= 0 Then Exit Function
+    If Not m_calderinesPredeterminadosIndice.Exists(CALP_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_calderinesPredeterminadosIndice(CALP_ID)
+    ObtenerCalderinesPredeterminados = m_calderinesPredeterminadosArray(idx)
+End Function
+
+Public Function ObtenerManoObraCabezales(ByVal MAOC_ID As Long) As tCatalogManoObraCabezales
+    If MAOC_ID <= 0 Then Exit Function
+    If Not m_manoObraCabezalesIndice.Exists(MAOC_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_manoObraCabezalesIndice(MAOC_ID)
+    ObtenerManoObraCabezales = m_manoObraCabezalesArray(idx)
+End Function
+
+Public Function ObtenerManoObraIngenierias(ByVal MAOI_ID As Long) As tCatalogManoObraIngenierias
+    If MAOI_ID <= 0 Then Exit Function
+    If Not m_manoObraIngenieriasIndice.Exists(MAOI_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_manoObraIngenieriasIndice(MAOI_ID)
+    ObtenerManoObraIngenierias = m_manoObraIngenieriasArray(idx)
+End Function
+'@Description: Obtiene un registro de Areas por ID
+'@Param AREA_ID: Clave primaria
+'@Returns: tCatalogAreas
+Public Function ObtenerAreas(ByVal AREA_ID As Long) As tCatalogAreas
+    If AREA_ID <= 0 Then Exit Function
+    If Not m_AreasIndice.Exists(AREA_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_AreasIndice(AREA_ID)
+    ObtenerAreas = m_AreasArray(idx)
+End Function
+
+'@Description: Obtiene un registro de CalderinesCostes por ID
+'@Param CACO_ID: Clave primaria
+'@Returns: tCatalogCalderinesCostes
+Public Function ObtenerCalderinesCostes(ByVal CACO_ID As Long) As tCatalogCalderinesCostes
+    If CACO_ID <= 0 Then Exit Function
+    If Not m_CalderinesCostesIndice.Exists(CACO_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_CalderinesCostesIndice(CACO_ID)
+    ObtenerCalderinesCostes = m_CalderinesCostesArray(idx)
+End Function
+
+'@Description: Obtiene un registro de DepositosEntrada por ID
+'@Param DEPE_ID: Clave primaria
+'@Returns: tCatalogDepositosEntrada
+Public Function ObtenerDepositosEntrada(ByVal DEPE_ID As Long) As tCatalogDepositosEntrada
+    If DEPE_ID <= 0 Then Exit Function
+    If Not m_DepositosEntradaIndice.Exists(DEPE_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_DepositosEntradaIndice(DEPE_ID)
+    ObtenerDepositosEntrada = m_DepositosEntradaArray(idx)
+End Function
+
+'@Description: Obtiene un registro de DepositosFinal por ID
+'@Param DEPF_ID: Clave primaria
+'@Returns: tCatalogDepositosFinal
+Public Function ObtenerDepositosFinal(ByVal DEPF_ID As Long) As tCatalogDepositosFinal
+    If DEPF_ID <= 0 Then Exit Function
+    If Not m_DepositosFinalIndice.Exists(DEPF_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_DepositosFinalIndice(DEPF_ID)
+    ObtenerDepositosFinal = m_DepositosFinalArray(idx)
+End Function
+
+'@Description: Obtiene un registro de MotoresClass por ID
+'@Param MTCL_ID: Clave primaria
+'@Returns: tCatalogMotoresClass
+Public Function ObtenerMotoresClass(ByVal MTCL_ID As Long) As tCatalogMotoresClass
+    If MTCL_ID <= 0 Then Exit Function
+    If Not m_MotoresClassIndice.Exists(MTCL_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_MotoresClassIndice(MTCL_ID)
+    ObtenerMotoresClass = m_MotoresClassArray(idx)
+End Function
+
+'@Description: Obtiene un registro de MotoresEspeciales por ID
+'@Param MTSP_ID: Clave primaria
+'@Returns: tCatalogMotoresEspeciales
+Public Function ObtenerMotoresEspeciales(ByVal MTSP_ID As Long) As tCatalogMotoresEspeciales
+    If MTSP_ID <= 0 Then Exit Function
+    If Not m_MotoresEspecialesIndice.Exists(MTSP_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_MotoresEspecialesIndice(MTSP_ID)
+    ObtenerMotoresEspeciales = m_MotoresEspecialesArray(idx)
+End Function
+
+'@Description: Obtiene un registro de MotoresFabrica por ID
+'@Param MTFB_ID: Clave primaria
+'@Returns: tCatalogMotoresFabrica
+Public Function ObtenerMotoresFabrica(ByVal MTFB_ID As Long) As tCatalogMotoresFabrica
+    If MTFB_ID <= 0 Then Exit Function
+    If Not m_MotoresFabricaIndice.Exists(MTFB_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_MotoresFabricaIndice(MTFB_ID)
+    ObtenerMotoresFabrica = m_MotoresFabricaArray(idx)
+End Function
+
+'@Description: Obtiene un registro de MotoresNormativas por ID
+'@Param MTNO_ID: Clave primaria
+'@Returns: tCatalogMotoresNormativas
+Public Function ObtenerMotoresNormativas(ByVal MTNO_ID As Long) As tCatalogMotoresNormativas
+    If MTNO_ID <= 0 Then Exit Function
+    If Not m_MotoresNormativasIndice.Exists(MTNO_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_MotoresNormativasIndice(MTNO_ID)
+    ObtenerMotoresNormativas = m_MotoresNormativasArray(idx)
+End Function
+
+'@Description: Obtiene un registro de MotoresTension por ID
+'@Param MTTN_ID: Clave primaria
+'@Returns: tCatalogMotoresTension
+Public Function ObtenerMotoresTension(ByVal MTTN_ID As Long) As tCatalogMotoresTension
+    If MTTN_ID <= 0 Then Exit Function
+    If Not m_MotoresTensionIndice.Exists(MTTN_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_MotoresTensionIndice(MTTN_ID)
+    ObtenerMotoresTension = m_MotoresTensionArray(idx)
+End Function
+
+'@Description: Obtiene un registro de Parametros por ID
+'@Param PARA_ID: Clave primaria
+'@Returns: tCatalogParametros
+Public Function ObtenerParametros(ByVal PARA_ID As Long) As tCatalogParametros
+    If PARA_ID <= 0 Then Exit Function
+    If Not m_ParametrosIndice.Exists(PARA_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_ParametrosIndice(PARA_ID)
+    ObtenerParametros = m_ParametrosArray(idx)
+End Function
+
+'@Description: Obtiene un registro de RefrigeradoresCostes por ID
+'@Param RECO_ID: Clave primaria
+'@Returns: tCatalogRefrigeradoresCostes
+Public Function ObtenerRefrigeradoresCostes(ByVal RECO_ID As Long) As tCatalogRefrigeradoresCostes
+    If RECO_ID <= 0 Then Exit Function
+    If Not m_RefrigeradoresCostesIndice.Exists(RECO_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_RefrigeradoresCostesIndice(RECO_ID)
+    ObtenerRefrigeradoresCostes = m_RefrigeradoresCostesArray(idx)
+End Function
+
+'@Description: Obtiene un registro de RefrigeradoresEspeciales por ID
+'@Param REES_ID: Clave primaria
+'@Returns: tCatalogRefrigeradoresEspeciales
+Public Function ObtenerRefrigeradoresEspeciales(ByVal REES_ID As Long) As tCatalogRefrigeradoresEspeciales
+    If REES_ID <= 0 Then Exit Function
+    If Not m_RefrigeradoresEspecialesIndice.Exists(REES_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_RefrigeradoresEspecialesIndice(REES_ID)
+    ObtenerRefrigeradoresEspeciales = m_RefrigeradoresEspecialesArray(idx)
+End Function
+
+'@Description: Obtiene un registro de TiposPresionNominal por ID
+'@Param TIPN_ID: Clave primaria
+'@Returns: tCatalogTiposPresionNominal
+Public Function ObtenerTiposPresionNominal(ByVal TIPN_ID As Long) As tCatalogTiposPresionNominal
+    If TIPN_ID <= 0 Then Exit Function
+    If Not m_TiposPresionNominalIndice.Exists(TIPN_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_TiposPresionNominalIndice(TIPN_ID)
+    ObtenerTiposPresionNominal = m_TiposPresionNominalArray(idx)
+End Function
+
+'@Description: Obtiene un registro de TiposTubos por ID
+'@Param TITU_ID: Clave primaria
+'@Returns: tCatalogTiposTubos
+Public Function ObtenerTiposTubos(ByVal TITU_ID As Long) As tCatalogTiposTubos
+    If TITU_ID <= 0 Then Exit Function
+    If Not m_TiposTubosIndice.Exists(TITU_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_TiposTubosIndice(TITU_ID)
+    ObtenerTiposTubos = m_TiposTubosArray(idx)
+End Function
+
+'@Description: Obtiene un registro de TuberiasAgua por ID
+'@Param TUAG_ID: Clave primaria
+'@Returns: tCatalogTuberiasAgua
+Public Function ObtenerTuberiasAgua(ByVal TUAG_ID As Long) As tCatalogTuberiasAgua
+    If TUAG_ID <= 0 Then Exit Function
+    If Not m_TuberiasAguaIndice.Exists(TUAG_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_TuberiasAguaIndice(TUAG_ID)
+    ObtenerTuberiasAgua = m_TuberiasAguaArray(idx)
+End Function
+
+'@Description: Obtiene un registro de TuberiasAire por ID
+'@Param TUAI_ID: Clave primaria
+'@Returns: tCatalogTuberiasAire
+Public Function ObtenerTuberiasAire(ByVal TUAI_ID As Long) As tCatalogTuberiasAire
+    If TUAI_ID <= 0 Then Exit Function
+    If Not m_TuberiasAireIndice.Exists(TUAI_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_TuberiasAireIndice(TUAI_ID)
+    ObtenerTuberiasAire = m_TuberiasAireArray(idx)
+End Function
+
+'@Description: Obtiene un registro de TuberiasAireDiametros por ID
+'@Param TUDI_ID: Clave primaria
+'@Returns: tCatalogTuberiasAireDiametros
+Public Function ObtenerTuberiasAireDiametros(ByVal TUDI_ID As Long) As tCatalogTuberiasAireDiametros
+    If TUDI_ID <= 0 Then Exit Function
+    If Not m_TuberiasAireDiametrosIndice.Exists(TUDI_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_TuberiasAireDiametrosIndice(TUDI_ID)
+    ObtenerTuberiasAireDiametros = m_TuberiasAireDiametrosArray(idx)
+End Function
+
+'@Description: Obtiene un registro de ValvulasSeguridad por ID
+'@Param VASE_ID: Clave primaria
+'@Returns: tCatalogValvulasSeguridad
+Public Function ObtenerValvulasSeguridad(ByVal VASE_ID As Long) As tCatalogValvulasSeguridad
+    If VASE_ID <= 0 Then Exit Function
+    If Not m_ValvulasSeguridadIndice.Exists(VASE_ID) Then Exit Function
+    
+    Dim idx As Long
+    idx = m_ValvulasSeguridadIndice(VASE_ID)
+    ObtenerValvulasSeguridad = m_ValvulasSeguridadArray(idx)
+End Function
+
+

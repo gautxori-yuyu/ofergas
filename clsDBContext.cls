@@ -12,7 +12,9 @@ Attribute VB_Exposed = False
 '@Purpose: Encapsular conexión ADODB y operaciones básicas
 '=========================================================
 Option Explicit
-
+'TODO: migrar **La parte de lectura de registros** de este sistema de conexiones, si es posible, al sistema que expone VBA y Excel: Workbook.Connections; Workbook.Quieries
+' (Para escribir registros hay que seguir usando el método CreateObject("ADODB.Connection"); Haciendo la lectura con este método se puede visualizar la relación de tablas
+' Desde la interfaz de Excel y ello permite Acceder a funcionalidades avanzadas de tablas dinámicas etc)
 Private m_Cnn As Object ' ADODB.Connection
 
 '@Description: Conecta a la base de datos Access

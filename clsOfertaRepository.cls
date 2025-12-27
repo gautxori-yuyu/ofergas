@@ -9,8 +9,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '=========================================================
 '@Description: Repositorio para lectura/escritura de ofertas
-'@Purpose: Capa de acceso a datos optimizada con cat?logos
-'@NOTE: Este archivo contiene versiones ABREVIADAS de algunos m?todos
+'@Purpose: Capa de acceso a datos optimizada con catálogos
+'@NOTE: Este archivo contiene versiones ABREVIADAS de algunos métodos
 '       Debes completarlas copiando desde clsOfertaRepository_SECCIONES.txt
 '=========================================================
 Option Explicit
@@ -68,7 +68,7 @@ Public Function LeerPorOferID(ByVal OferID As String) As clsOferta
     On Error GoTo ErrHandler
     
     If OferID = "" Or Not isGUID(OferID) Then
-        Err.Raise 5, "clsOfertaRepository.LeerPorOferID", "OferID inv?lido."
+        Err.Raise 5, "clsOfertaRepository.LeerPorOferID", "OferID inválido."
     End If
 
     Dim of As New clsOferta
@@ -101,16 +101,16 @@ ErrHandler:
 End Function
 
 '=========================================================
-' M?TODOS PRIVADOS DE CARGA - UNO POR TABLA
+' MÉTODOS PRIVADOS DE CARGA - UNO POR TABLA
 ' NOTA: CargarCabezal, CargarCalderines, CargarRefrigeradores,
 '       CargarAccesorios, CargarInstrumentacion y CargarExtras
-'       est?n ABREVIADOS. Debes completarlos desde el archivo
+'       están ABREVIADOS. Debes completarlos desde el archivo
 '       clsOfertaRepository_SECCIONES.txt
 '=========================================================
 
 '
 ' TODO: Copiar las versiones completas desde clsOfertaRepository_SECCIONES.txt
-'       de los siguientes m?todos:
+'       de los siguientes métodos:
 '       - CargarCabezal (6 cilindros)
 '       - CargarCalderines (6 etapas)
 '       - CargarRefrigeradores (6 refrigeradores)
@@ -119,8 +119,8 @@ End Function
 '       - CargarExtras
 '
 
-Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' IMPLEMENTACI?N COMPLETA - NO MODIFICAR
+Private Sub CargarDatosGenerales(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
 
     Dim rs As Object
@@ -144,7 +144,7 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         .OFER_FECHA = NzDate(rs("OFER_FECHA"))
         .OFER_CLIENTE = NzVBA(rs("OFER_CLIENTE"))
         .OFER_USUARIO_FINAL = NzVBA(rs("OFER_USUARIO_FINAL"))
-        .PAIS_ID = NzLong(rs("PAIS_ID"))
+        .pais_id = NzLong(rs("PAIS_ID"))
         .COME_ID = NzLong(rs("COME_ID"))
         .OFER_NUM_CALCULO = NzVBA(rs("OFER_NUM_CALCULO"))
         .GASE_ID = NzLong(rs("GASE_ID"))
@@ -159,9 +159,9 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         .OFER_CALD_SELLO = NzLong(rs("OFER_CALD_SELLO"))
 
         ' Resolver FKs de datos generales
-        If .PAIS_ID > 0 Then
+        If .pais_id > 0 Then
             Dim pais As tCatalogPaises
-            pais = m_Catalogos.ObtenerPaises(.PAIS_ID)
+            pais = m_Catalogos.ObtenerPaises(.pais_id)
             .pais_nombre = pais.pais_nombre
         End If
 
@@ -184,7 +184,7 @@ Private Sub CargarDatosGenerales(ByVal Oferta As clsOferta, ByVal OferID As Stri
         End If
     End With
 
-    Oferta.DatosGenerales = dg
+    oferta.DatosGenerales = dg
     rs.Close
     Exit Sub
     
@@ -193,8 +193,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarDatosGenerales", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarManoObra(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' IMPLEMENTACI?N COMPLETA - NO MODIFICAR
+Private Sub CargarManoObra(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
     Dim rs As Object
@@ -207,7 +207,7 @@ Private Sub CargarManoObra(ByVal Oferta As clsOferta, ByVal OferID As String)
         With mo
             .OFMA_ID = NormalizarGUID(rs("OFMA_ID"))
             .OFER_ID = NormalizarGUID(rs("OFER_ID"))
-            .MOCA_ID = NzDouble(rs("MOCA_ID"))
+            .MOCA_ID = NzLong(rs("MOCA_ID"))
             .OFMA_MOCA_FASE1_HORAS = NzDouble(rs("OFMA_MOCA_FASE1_HORAS"))
             .OFMA_MOCA_FASE1_PRECIO = NzDouble(rs("OFMA_MOCA_FASE1_PRECIO"))
             .OFMA_MOCA_FASE2_HORAS = NzDouble(rs("OFMA_MOCA_FASE2_HORAS"))
@@ -220,13 +220,13 @@ Private Sub CargarManoObra(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFMA_MOCA_PINTU_PRECIO = NzDouble(rs("OFMA_MOCA_PINTU_PRECIO"))
             .OFMA_MOCA_ELECT_HORAS = NzDouble(rs("OFMA_MOCA_ELECT_HORAS"))
             .OFMA_MOCA_ELECT_PRECIO = NzDouble(rs("OFMA_MOCA_ELECT_PRECIO"))
-            .MOIN_ID = NzDouble(rs("MOIN_ID"))
+            .MOIN_ID = NzLong(rs("MOIN_ID"))
             .OFMA_MOIN_INGEN_HORAS = NzDouble(rs("OFMA_MOIN_INGEN_HORAS"))
             .OFMA_MOIN_INGEN_PRECIO = NzDouble(rs("OFMA_MOIN_INGEN_PRECIO"))
             .OFMA_IMPORTE = NzDouble(rs("OFMA_IMPORTE"))
             .ImporteCalculado = (NzDouble(rs("OFMA_IMPORTE")) > 0)
         End With
-        Oferta.ManoObra = mo
+        oferta.ManoObra = mo
     End If
     
     rs.Close
@@ -237,8 +237,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarManoObra", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' IMPLEMENTACI?N COMPLETA - NO MODIFICAR
+Private Sub CargarModelo(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
     Dim rs As Object
@@ -251,25 +251,25 @@ Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
         With tm
             .OFMO_ID = NormalizarGUID(rs("OFMO_ID"))
             .OFER_ID = NormalizarGUID(rs("OFER_ID"))
-            .CHAS_ID = NzDouble(rs("CHAS_ID"))
+            .CHAS_ID = NzLong(rs("CHAS_ID"))
             .OFMO_CHAS_PRE_COSTE = NzDouble(rs("OFMO_CHAS_PRE_COSTE"))
             .OFMO_CHAS_IMPORTE = NzDouble(rs("OFMO_CHAS_IMPORTE"))
             .OFMO_CHAS_DESCRIPCION = NzVBA(rs("OFMO_CHAS_DESCRIPCION"))
             .OFMO_CHAS_OBSERVA = NzVBA(rs("OFMO_CHAS_OBSERVA"))
             .OFMO_CHAS_ADVERTENCIA = NzVBA(rs("OFMO_CHAS_ADVERTENCIA"))
-            .CORR_ID = NzDouble(rs("CORR_ID"))
+            .CORR_ID = NzLong(rs("CORR_ID"))
             .OFMO_CORR_PRE_COSTE = NzDouble(rs("OFMO_CORR_PRE_COSTE"))
             .OFMO_CORR_IMPORTE = NzDouble(rs("OFMO_CORR_IMPORTE"))
             .OFMO_CORR_DESCRIPCION = NzVBA(rs("OFMO_CORR_DESCRIPCION"))
             .OFMO_CORR_OBSERVA = NzVBA(rs("OFMO_CORR_OBSERVA"))
             .OFMO_CORR_ADVERTENCIA = NzVBA(rs("OFMO_CORR_ADVERTENCIA"))
-            .ACOD_ID = NzDouble(rs("ACOD_ID"))
+            .ACOD_ID = NzLong(rs("ACOD_ID"))
             .OFMO_ACOD_PRE_COSTE = NzDouble(rs("OFMO_ACOD_PRE_COSTE"))
             .OFMO_ACOD_IMPORTE = NzDouble(rs("OFMO_ACOD_IMPORTE"))
             .OFMO_ACOD_DESCRIPCION = NzVBA(rs("OFMO_ACOD_DESCRIPCION"))
             .OFMO_ACOD_OBSERVA = NzVBA(rs("OFMO_ACOD_OBSERVA"))
             .OFMO_ACOD_ADVERTENCIA = NzVBA(rs("OFMO_ACOD_ADVERTENCIA"))
-            .REDU_ID = NzDouble(rs("REDU_ID"))
+            .REDU_ID = NzLong(rs("REDU_ID"))
             .OFMO_REDU_PRE_COSTE = NzDouble(rs("OFMO_REDU_PRE_COSTE"))
             .OFMO_REDU_IMPORTE = NzDouble(rs("OFMO_REDU_IMPORTE"))
             .OFMO_REDU_DESCRIPCION = NzVBA(rs("OFMO_REDU_DESCRIPCION"))
@@ -279,14 +279,14 @@ Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFMO_ATEX_SN = NzVBA(rs("OFMO_ATEX_SN"))
             .OFMO_ATEX_PRE_COSTE = NzDouble(rs("OFMO_ATEX_PRE_COSTE"))
             .TUAI_ID = NzLong(rs("TUAI_ID"))
-            .TUDI_ID = NzDouble(rs("TUDI_ID"))
+            .TUDI_ID = NzLong(rs("TUDI_ID"))
             .OFMO_TUDI_PRE_COSTE = NzDouble(rs("OFMO_TUDI_PRE_COSTE"))
             .OFMO_TUDI_IMPORTE = NzDouble(rs("OFMO_TUDI_IMPORTE"))
             .OFMO_TUDI_DESCRIPCION = NzVBA(rs("OFMO_TUDI_DESCRIPCION"))
             .OFMO_TUDI_OBSERVA = NzVBA(rs("OFMO_TUDI_OBSERVA"))
             .OFMO_TUDI_ADVERTENCIA = NzVBA(rs("OFMO_TUDI_ADVERTENCIA"))
             .OFMO_TUDI_CANTIDAD = NzLong(rs("OFMO_TUDI_CANTIDAD"))
-            .TUAG_ID = NzDouble(rs("TUAG_ID"))
+            .TUAG_ID = NzLong(rs("TUAG_ID"))
             .OFMO_TUAG_PRE_COSTE = NzDouble(rs("OFMO_TUAG_PRE_COSTE"))
             .OFMO_TUAG_IMPORTE = NzDouble(rs("OFMO_TUAG_IMPORTE"))
             .OFMO_TUAG_DESCRIPCION = NzVBA(rs("OFMO_TUAG_DESCRIPCION"))
@@ -294,7 +294,7 @@ Private Sub CargarModelo(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFMO_TUAG_ADVERTENCIA = NzVBA(rs("OFMO_TUAG_ADVERTENCIA"))
             .ImporteCalculado = False
         End With
-        Oferta.Modelo = tm
+        oferta.Modelo = tm
     End If
     
     rs.Close
@@ -305,8 +305,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarModelo", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarOpciones(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' IMPLEMENTACI?N COMPLETA - NO MODIFICAR
+Private Sub CargarOpciones(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
     
     Dim rs As Object
@@ -319,44 +319,44 @@ Private Sub CargarOpciones(ByVal Oferta As clsOferta, ByVal OferID As String)
         With op
             .OFOP_ID = NormalizarGUID(rs("OFOP_ID"))
             .OFER_ID = NormalizarGUID(rs("OFER_ID"))
-            .VARE_ID = NzDouble(rs("VARE_ID"))
+            .VARE_ID = NzLong(rs("VARE_ID"))
             .OFOP_VARE_PRE_COSTE = NzDouble(rs("OFOP_VARE_PRE_COSTE"))
             .OFOP_VARE_IMPORTE = NzDouble(rs("OFOP_VARE_IMPORTE"))
             .OFOP_VARE_DESCRIPCION = NzVBA(rs("OFOP_VARE_DESCRIPCION"))
             .OFOP_VARE_OBSERVA = NzVBA(rs("OFOP_VARE_OBSERVA"))
             .OFOP_VARE_ADVERTENCIA = NzVBA(rs("OFOP_VARE_ADVERTENCIA"))
-            .ELEC_ID = NzDouble(rs("ELEC_ID"))
+            .ELEC_ID = NzLong(rs("ELEC_ID"))
             .OFOP_ELEC_PRE_COSTE = NzDouble(rs("OFOP_ELEC_PRE_COSTE"))
             .OFOP_ELEC_IMPORTE = NzDouble(rs("OFOP_ELEC_IMPORTE"))
             .OFOP_ELEC_DESCRIPCION = NzVBA(rs("OFOP_ELEC_DESCRIPCION"))
             .OFOP_ELEC_OBSERVA = NzVBA(rs("OFOP_ELEC_OBSERVA"))
             .OFOP_ELEC_ADVERTENCIA = NzVBA(rs("OFOP_ELEC_ADVERTENCIA"))
-            .VAPR_ID = NzDouble(rs("VAPR_ID"))
+            .VAPR_ID = NzLong(rs("VAPR_ID"))
             .OFOP_VAPR_PRE_COSTE = NzDouble(rs("OFOP_VAPR_PRE_COSTE"))
             .OFOP_VAPR_IMPORTE = NzDouble(rs("OFOP_VAPR_IMPORTE"))
             .OFOP_VAPR_DESCRIPCION = NzVBA(rs("OFOP_VAPR_DESCRIPCION"))
             .OFOP_VAPR_OBSERVA = NzVBA(rs("OFOP_VAPR_OBSERVA"))
             .OFOP_VAPR_ADVERTENCIA = NzVBA(rs("OFOP_VAPR_ADVERTENCIA"))
-            .ENCI_ID = NzDouble(rs("ENCI_ID"))
+            .ENCI_ID = NzLong(rs("ENCI_ID"))
             .OFOP_ENCI_PRE_COSTE = NzDouble(rs("OFOP_ENCI_PRE_COSTE"))
             .OFOP_ENCI_IMPORTE = NzDouble(rs("OFOP_ENCI_IMPORTE"))
             .OFOP_ENCI_DESCRIPCION = NzVBA(rs("OFOP_ENCI_DESCRIPCION"))
             .OFOP_ENCI_OBSERVA = NzVBA(rs("OFOP_ENCI_OBSERVA"))
             .OFOP_ENCI_ADVERTENCIA = NzVBA(rs("OFOP_ENCI_ADVERTENCIA"))
-            .PURG_ID = NzDouble(rs("PURG_ID"))
+            .PURG_ID = NzLong(rs("PURG_ID"))
             .OFOP_PURG_PRE_COSTE = NzDouble(rs("OFOP_PURG_PRE_COSTE"))
             .OFOP_PURG_IMPORTE = NzDouble(rs("OFOP_PURG_IMPORTE"))
             .OFOP_PURG_DESCRIPCION = NzVBA(rs("OFOP_PURG_DESCRIPCION"))
             .OFOP_PURG_OBSERVA = NzVBA(rs("OFOP_PURG_OBSERVA"))
             .OFOP_PURG_ADVERTENCIA = NzVBA(rs("OFOP_PURG_ADVERTENCIA"))
             .OFOP_PURG_CANTIDAD = NzInteger(rs("OFOP_PURG_CANTIDAD"))
-            .RESC_ID = NzDouble(rs("RESC_ID"))
+            .RESC_ID = NzLong(rs("RESC_ID"))
             .OFOP_RESC_PRE_COSTE = NzDouble(rs("OFOP_RESC_PRE_COSTE"))
             .OFOP_RESC_IMPORTE = NzDouble(rs("OFOP_RESC_IMPORTE"))
             .OFOP_RESC_DESCRIPCION = NzVBA(rs("OFOP_RESC_DESCRIPCION"))
             .OFOP_RESC_OBSERVA = NzVBA(rs("OFOP_RESC_OBSERVA"))
             .OFOP_RESC_ADVERTENCIA = NzVBA(rs("OFOP_RESC_ADVERTENCIA"))
-            .VARG_ID = NzDouble(rs("VARG_ID"))
+            .VARG_ID = NzLong(rs("VARG_ID"))
             .OFOP_VARG_PRE_COSTE = NzDouble(rs("OFOP_VARG_PRE_COSTE"))
             .OFOP_VARG_IMPORTE = NzDouble(rs("OFOP_VARG_IMPORTE"))
             .OFOP_VARG_DESCRIPCION = NzVBA(rs("OFOP_VARG_DESCRIPCION"))
@@ -421,7 +421,7 @@ Private Sub CargarOpciones(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Opciones = op
+        oferta.Opciones = op
     End If
     
     rs.Close
@@ -433,11 +433,11 @@ ErrHandler:
 End Sub
 
 '
-' ?? IMPORTANTE: Las siguientes funciones est?n ABREVIADAS
+' ?? IMPORTANTE: Las siguientes funciones están ABREVIADAS
 ' Debes copiar las versiones completas desde clsOfertaRepository_SECCIONES.txt
 '
 
-Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarCabezal(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim cb As tOfertasCabezal
@@ -447,7 +447,7 @@ Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFCA_ID = NormalizarGUID(rs("OFCA_ID"))
             .OFER_ID = NormalizarGUID(rs("OFER_ID"))
             ' Cabezal
-            .CABE_ID = NzDouble(rs("CABE_ID"))
+            .CABE_ID = NzLong(rs("CABE_ID"))
             .OFCA_CABE_PRE_COSTE = NzDouble(rs("OFCA_CABE_PRE_COSTE"))
             .OFCA_CABE_IMPORTE = NzDouble(rs("OFCA_CABE_IMPORTE"))
             .OFCA_CABE_DESCRIPCION = NzVBA(rs("OFCA_CABE_DESCRIPCION"))
@@ -553,7 +553,7 @@ Private Sub CargarCabezal(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Cabezal = cb
+        oferta.Cabezal = cb
     End If
     rs.Close
     Exit Sub
@@ -562,8 +562,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarCabezal", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarCalderines(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' TODO: COPIAR VERSI?N COMPLETA desde clsOfertaRepository_SECCIONES.txt
+Private Sub CargarCalderines(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim cl As tOfertasCalderines
@@ -572,7 +572,7 @@ Private Sub CargarCalderines(ByVal Oferta As clsOferta, ByVal OferID As String)
         cl.OFCL_ID = NzLong(rs("OFCL_ID"))
         cl.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         ' ... FALTA IMPLEMENTAR 6 ETAPAS ...
-        Oferta.Calderines = cl
+        oferta.Calderines = cl
     End If
     rs.Close
     Exit Sub
@@ -581,8 +581,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarCalderines", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarRefrigeradores(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' TODO: COPIAR VERSI?N COMPLETA desde clsOfertaRepository_SECCIONES.txt
+Private Sub CargarRefrigeradores(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' TODO: COPIAR VERSIÓN COMPLETA desde clsOfertaRepository_SECCIONES.txt
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim rf As tOfertasRefrigeradores
@@ -591,7 +591,7 @@ Private Sub CargarRefrigeradores(ByVal Oferta As clsOferta, ByVal OferID As Stri
         rf.OFRF_ID = NormalizarGUID(rs("OFRF_ID"))
         rf.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         ' ... FALTA IMPLEMENTAR 6 REFRIGERADORES ...
-        Oferta.Refrigeradores = rf
+        oferta.Refrigeradores = rf
     End If
     rs.Close
     Exit Sub
@@ -600,7 +600,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarRefrigeradores", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarAccesorios(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim ac As tOfertasAccesorios
@@ -643,28 +643,28 @@ Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
             .OFAC_FILT_OBSERVA = NzVBA(rs("OFAC_FILT_OBSERVA"))
             .OFAC_FILT_ADVERTENCIA = NzVBA(rs("OFAC_FILT_ADVERTENCIA"))
             ' Aero
-            .AERO_ID = NzDouble(rs("AERO_ID"))
+            .AERO_ID = NzLong(rs("AERO_ID"))
             .OFAC_AERO_PRE_COSTE = NzDouble(rs("OFAC_AERO_PRE_COSTE"))
             .OFAC_AERO_IMPORTE = NzDouble(rs("OFAC_AERO_IMPORTE"))
             .OFAC_AERO_DESCRIPCION = NzVBA(rs("OFAC_AERO_DESCRIPCION"))
             .OFAC_AERO_OBSERVA = NzVBA(rs("OFAC_AERO_OBSERVA"))
             .OFAC_AERO_ADVERTENCIA = NzVBA(rs("OFAC_AERO_ADVERTENCIA"))
             ' Llave entrada
-            .LLEN_ID = NzDouble(rs("LLEN_ID"))
+            .LLEN_ID = NzLong(rs("LLEN_ID"))
             .OFAC_LLEN_PRE_COSTE = NzDouble(rs("OFAC_LLEN_PRE_COSTE"))
             .OFAC_LLEN_IMPORTE = NzDouble(rs("OFAC_LLEN_IMPORTE"))
             .OFAC_LLEN_DESCRIPCION = NzVBA(rs("OFAC_LLEN_DESCRIPCION"))
             .OFAC_LLEN_OBSERVA = NzVBA(rs("OFAC_LLEN_OBSERVA"))
             .OFAC_LLEN_ADVERTENCIA = NzVBA(rs("OFAC_LLEN_ADVERTENCIA"))
             ' Llave salida
-            .LLSA_ID = NzDouble(rs("LLSA_ID"))
+            .LLSA_ID = NzLong(rs("LLSA_ID"))
             .OFAC_LLSA_PRE_COSTE = NzDouble(rs("OFAC_LLSA_PRE_COSTE"))
             .OFAC_LLSA_IMPORTE = NzDouble(rs("OFAC_LLSA_IMPORTE"))
             .OFAC_LLSA_DESCRIPCION = NzVBA(rs("OFAC_LLSA_DESCRIPCION"))
             .OFAC_LLSA_OBSERVA = NzVBA(rs("OFAC_LLSA_OBSERVA"))
             .OFAC_LLSA_ADVERTENCIA = NzVBA(rs("OFAC_LLSA_ADVERTENCIA"))
             ' Grupo engrase
-            .GREN_ID = NzDouble(rs("GREN_ID"))
+            .GREN_ID = NzLong(rs("GREN_ID"))
             .OFAC_GREN_PRE_COSTE = NzDouble(rs("OFAC_GREN_PRE_COSTE"))
             .OFAC_GREN_IMPORTE = NzDouble(rs("OFAC_GREN_IMPORTE"))
             .OFAC_GREN_DESCRIPCION = NzVBA(rs("OFAC_GREN_DESCRIPCION"))
@@ -738,7 +738,7 @@ Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
                 End If
             End If
 
-            ' Resolver FK de arrancador con l?gica especial seg?n OFAC_ARRA_TIPO
+            ' Resolver FK de arrancador con lógica especial según OFAC_ARRA_TIPO
             If .ARRA_ID > 0 And .OFAC_ARRA_TIPO > 0 Then
                 Select Case .OFAC_ARRA_TIPO
                     Case 1  ' ArrancadoresFuerza
@@ -782,7 +782,7 @@ Private Sub CargarAccesorios(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Accesorios = ac
+        oferta.Accesorios = ac
     End If
     rs.Close
     Exit Sub
@@ -791,7 +791,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarAccesorios", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarInstrumentacion(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim inst As tOfertasInstrumentacion
@@ -800,61 +800,61 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
         With inst
             .OFIN_ID = NormalizarGUID(rs("OFIN_ID"))
             .OFER_ID = NormalizarGUID(rs("OFER_ID"))
-            ' Base instrumentaci?n
-            .INTR_ID = NzDouble(rs("INTR_ID"))
+            ' Base instrumentación
+            .INTR_ID = NzLong(rs("INTR_ID"))
             .OFIN_INTR_DESCRIPCION = NzVBA(rs("OFIN_INTR_DESCRIPCION"))
             .OFIN_INTR_OBSERVA = NzVBA(rs("OFIN_INTR_OBSERVA"))
             .OFIN_INTR_ADVERTENCIA = NzVBA(rs("OFIN_INTR_ADVERTENCIA"))
             ' Transmisor temperatura
-            .TRAT_ID = NzDouble(rs("TRAT_ID"))
+            .TRAT_ID = NzLong(rs("TRAT_ID"))
             .OFIN_TRAT_PRE_COSTE = NzDouble(rs("OFIN_TRAT_PRE_COSTE"))
             .OFIN_TRAT_IMPORTE = NzDouble(rs("OFIN_TRAT_IMPORTE"))
             .OFIN_TRAT_DESCRIPCION = NzVBA(rs("OFIN_TRAT_DESCRIPCION"))
             .OFIN_TRAT_OBSERVA = NzVBA(rs("OFIN_TRAT_OBSERVA"))
             .OFIN_TRAT_ADVERTENCIA = NzVBA(rs("OFIN_TRAT_ADVERTENCIA"))
             .OFIN_TRAT_CANTIDAD = NzLong(rs("OFIN_TRAT_CANTIDAD"))
-            ' Transmisor presi?n
-            .TRAP_ID = NzDouble(rs("TRAP_ID"))
+            ' Transmisor presión
+            .TRAP_ID = NzLong(rs("TRAP_ID"))
             .OFIN_TRAP_PRE_COSTE = NzDouble(rs("OFIN_TRAP_PRE_COSTE"))
             .OFIN_TRAP_IMPORTE = NzDouble(rs("OFIN_TRAP_IMPORTE"))
             .OFIN_TRAP_DESCRIPCION = NzVBA(rs("OFIN_TRAP_DESCRIPCION"))
             .OFIN_TRAP_OBSERVA = NzVBA(rs("OFIN_TRAP_OBSERVA"))
             .OFIN_TRAP_ADVERTENCIA = NzVBA(rs("OFIN_TRAP_ADVERTENCIA"))
             .OFIN_TRAP_CANTIDAD = NzLong(rs("OFIN_TRAP_CANTIDAD"))
-            ' Term?metro
-            .TERM_ID = NzDouble(rs("TERM_ID"))
+            ' Termómetro
+            .TERM_ID = NzLong(rs("TERM_ID"))
             .OFIN_TERM_PRE_COSTE = NzDouble(rs("OFIN_TERM_PRE_COSTE"))
             .OFIN_TERM_IMPORTE = NzDouble(rs("OFIN_TERM_IMPORTE"))
             .OFIN_TERM_DESCRIPCION = NzVBA(rs("OFIN_TERM_DESCRIPCION"))
             .OFIN_TERM_OBSERVA = NzVBA(rs("OFIN_TERM_OBSERVA"))
             .OFIN_TERM_ADVERTENCIA = NzVBA(rs("OFIN_TERM_ADVERTENCIA"))
             .OFIN_TERM_CANTIDAD = NzLong(rs("OFIN_TERM_CANTIDAD"))
-            ' Man?metro
-            .MANO_ID = NzDouble(rs("MANO_ID"))
+            ' Manómetro
+            .MANO_ID = NzLong(rs("MANO_ID"))
             .OFIN_MANO_PRE_COSTE = NzDouble(rs("OFIN_MANO_PRE_COSTE"))
             .OFIN_MANO_IMPORTE = NzDouble(rs("OFIN_MANO_IMPORTE"))
             .OFIN_MANO_DESCRIPCION = NzVBA(rs("OFIN_MANO_DESCRIPCION"))
             .OFIN_MANO_OBSERVA = NzVBA(rs("OFIN_MANO_OBSERVA"))
             .OFIN_MANO_ADVERTENCIA = NzVBA(rs("OFIN_MANO_ADVERTENCIA"))
             .OFIN_MANO_CANTIDAD = NzLong(rs("OFIN_MANO_CANTIDAD"))
-            ' Electrov?lvula regulaci?n
-            .ELER_ID = NzDouble(rs("ELER_ID"))
+            ' Electroválvula regulación
+            .ELER_ID = NzLong(rs("ELER_ID"))
             .OFIN_ELER_PRE_COSTE = NzDouble(rs("OFIN_ELER_PRE_COSTE"))
             .OFIN_ELER_IMPORTE = NzDouble(rs("OFIN_ELER_IMPORTE"))
             .OFIN_ELER_DESCRIPCION = NzVBA(rs("OFIN_ELER_DESCRIPCION"))
             .OFIN_ELER_OBSERVA = NzVBA(rs("OFIN_ELER_OBSERVA"))
             .OFIN_ELER_ADVERTENCIA = NzVBA(rs("OFIN_ELER_ADVERTENCIA"))
             .OFIN_ELER_CANTIDAD = NzLong(rs("OFIN_ELER_CANTIDAD"))
-            ' Sensor ca?da v?stago
-            .SECV_ID = NzDouble(rs("SECV_ID"))
+            ' Sensor caída vástago
+            .SECV_ID = NzLong(rs("SECV_ID"))
             .OFIN_SECV_PRE_COSTE = NzDouble(rs("OFIN_SECV_PRE_COSTE"))
             .OFIN_SECV_IMPORTE = NzDouble(rs("OFIN_SECV_IMPORTE"))
             .OFIN_SECV_DESCRIPCION = NzVBA(rs("OFIN_SECV_DESCRIPCION"))
             .OFIN_SECV_OBSERVA = NzVBA(rs("OFIN_SECV_OBSERVA"))
             .OFIN_SECV_ADVERTENCIA = NzVBA(rs("OFIN_SECV_ADVERTENCIA"))
             .OFIN_SECV_CANTIDAD = NzLong(rs("OFIN_SECV_CANTIDAD"))
-            ' Interruptor vibraci?n
-            .INTV_ID = NzDouble(rs("INTV_ID"))
+            ' Interruptor vibración
+            .INTV_ID = NzLong(rs("INTV_ID"))
             .OFIN_INTV_PRE_COSTE = NzDouble(rs("OFIN_INTV_PRE_COSTE"))
             .OFIN_INTV_IMPORTE = NzDouble(rs("OFIN_INTV_IMPORTE"))
             .OFIN_INTV_DESCRIPCION = NzVBA(rs("OFIN_INTV_DESCRIPCION"))
@@ -862,7 +862,7 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
             .OFIN_INTV_ADVERTENCIA = NzVBA(rs("OFIN_INTV_ADVERTENCIA"))
             .OFIN_INTV_CANTIDAD = NzLong(rs("OFIN_INTV_CANTIDAD"))
             ' Interruptor nivel aceite
-            .INTA_ID = NzDouble(rs("INTA_ID"))
+            .INTA_ID = NzLong(rs("INTA_ID"))
             .OFIN_INTA_PRE_COSTE = NzDouble(rs("OFIN_INTA_PRE_COSTE"))
             .OFIN_INTA_IMPORTE = NzDouble(rs("OFIN_INTA_IMPORTE"))
             .OFIN_INTA_DESCRIPCION = NzVBA(rs("OFIN_INTA_DESCRIPCION"))
@@ -870,22 +870,22 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
             .OFIN_INTA_ADVERTENCIA = NzVBA(rs("OFIN_INTA_ADVERTENCIA"))
             .OFIN_INTA_CANTIDAD = NzLong(rs("OFIN_INTA_CANTIDAD"))
             ' Nivel condensados
-            .NIVC_ID = NzDouble(rs("NIVC_ID"))
+            .NIVC_ID = NzLong(rs("NIVC_ID"))
             .OFIN_NIVC_PRE_COSTE = NzDouble(rs("OFIN_NIVC_PRE_COSTE"))
             .OFIN_NIVC_IMPORTE = NzDouble(rs("OFIN_NIVC_IMPORTE"))
             .OFIN_NIVC_DESCRIPCION = NzVBA(rs("OFIN_NIVC_DESCRIPCION"))
             .OFIN_NIVC_OBSERVA = NzVBA(rs("OFIN_NIVC_OBSERVA"))
             .OFIN_NIVC_ADVERTENCIA = NzVBA(rs("OFIN_NIVC_ADVERTENCIA"))
             .OFIN_NIVC_CANTIDAD = NzLong(rs("OFIN_NIVC_CANTIDAD"))
-            ' V?lvula termost?tica
-            .VATE_ID = NzDouble(rs("VATE_ID"))
+            ' Válvula termostática
+            .VATE_ID = NzLong(rs("VATE_ID"))
             .OFIN_VATE_PRE_COSTE = NzDouble(rs("OFIN_VATE_PRE_COSTE"))
             .OFIN_VATE_IMPORTE = NzDouble(rs("OFIN_VATE_IMPORTE"))
             .OFIN_VATE_DESCRIPCION = NzVBA(rs("OFIN_VATE_DESCRIPCION"))
             .OFIN_VATE_OBSERVA = NzVBA(rs("OFIN_VATE_OBSERVA"))
             .OFIN_VATE_ADVERTENCIA = NzVBA(rs("OFIN_VATE_ADVERTENCIA"))
             .OFIN_VATE_CANTIDAD = NzLong(rs("OFIN_VATE_CANTIDAD"))
-            ' Instrumentaci?n libre (7 l?neas)
+            ' Instrumentación libre (7 líneas)
             .OFIN_INS1_TEXTO = NzVBA(rs("OFIN_INS1_TEXTO"))
             .OFIN_INS1_CANTIDAD = NzInteger(rs("OFIN_INS1_CANTIDAD"))
             .OFIN_INS1_IMPORTE = NzDouble(rs("OFIN_INS1_IMPORTE"))
@@ -908,7 +908,7 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
             .OFIN_INS7_CANTIDAD = NzInteger(rs("OFIN_INS7_CANTIDAD"))
             .OFIN_INS7_IMPORTE = NzDouble(rs("OFIN_INS7_IMPORTE"))
 
-            ' Resolver FKs de instrumentaci?n
+            ' Resolver FKs de instrumentación
             If .TRAT_ID > 0 Then
                 Dim trat As tCatalogTransmisoresTemperatura
                 trat = m_Catalogos.ObtenerTransmisoresTemperatura(.TRAT_ID)
@@ -1021,7 +1021,7 @@ Private Sub CargarInstrumentacion(ByVal Oferta As clsOferta, ByVal OferID As Str
 
             .ImporteCalculado = False
         End With
-        Oferta.Instrumentacion = inst
+        oferta.Instrumentacion = inst
     End If
     rs.Close
     Exit Sub
@@ -1030,7 +1030,7 @@ ErrHandler:
     Err.Raise Err.Number, "CargarInstrumentacion", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarExtras(ByVal Oferta As clsOferta, ByVal OferID As String)
+Private Sub CargarExtras(ByVal oferta As clsOferta, ByVal OferID As String)
     On Error GoTo ErrHandler
     Dim rs As Object
     Dim ex As tOfertasExtras
@@ -1169,7 +1169,7 @@ Private Sub CargarExtras(ByVal Oferta As clsOferta, ByVal OferID As String)
 
             .ImporteCalculado = False
         End With
-        Oferta.Extras = ex
+        oferta.Extras = ex
     End If
     rs.Close
     Exit Sub
@@ -1178,8 +1178,8 @@ ErrHandler:
     Err.Raise Err.Number, "CargarExtras", "Error: " & Err.Description
 End Sub
 
-Private Sub CargarOtros(ByVal Oferta As clsOferta, ByVal OferID As String)
-    ' IMPLEMENTACI?N COMPLETA - NO MODIFICAR
+Private Sub CargarOtros(ByVal oferta As clsOferta, ByVal OferID As String)
+    ' IMPLEMENTACIÓN COMPLETA - NO MODIFICAR
     On Error GoTo ErrHandler
 
     Dim rs As Object
@@ -1187,14 +1187,15 @@ Private Sub CargarOtros(ByVal Oferta As clsOferta, ByVal OferID As String)
     Set rs = m_Ctx.AbrirRecordset( _
         "SELECT * FROM OfertasOtros WHERE OFER_ID={" & OferID & "} ORDER BY OFOT_LINEA")
 
+    Dim it As New clsOfertaOtro
     Do While Not rs.EOF
-        Dim it As New clsOfertaOtro
+        Set it = New clsOfertaOtro
         it.OFOT_ID = NormalizarGUID(rs("OFOT_ID"))
         it.OFER_ID = NormalizarGUID(rs("OFER_ID"))
         it.OFOT_LINEA = NzLong(rs("OFOT_LINEA"))
         it.OFOT_DESCRIPCION = NzVBA(rs("OFOT_DESCRIPCION"))
         it.OFOT_PRE_COSTE = NzDouble(rs("OFOT_PRE_COSTE"))
-        Oferta.AgregarOtro it
+        oferta.AgregarOtro it
         rs.MoveNext
     Loop
     rs.Close
@@ -1213,26 +1214,6 @@ Private Function NormalizarGUID(ByVal v As Variant) As String
     NormalizarGUID = Replace(Replace(v, "{", ""), "}", "")
 End Function
 
-Private Function NzVBA(ByVal v As Variant) As String
-    If IsNull(v) Then NzVBA = "" Else NzVBA = CStr(v)
-End Function
-
-Private Function NzLong(ByVal v As Variant) As Long
-    If IsNull(v) Then NzLong = 0 Else NzLong = CLng(v)
-End Function
-
-Private Function NzDouble(ByVal v As Variant) As Double
-    If IsNull(v) Then NzDouble = 0 Else NzDouble = CDbl(v)
-End Function
-
-Private Function NzDate(ByVal v As Variant) As Date
-    If IsNull(v) Then NzDate = 0 Else NzDate = CDate(v)
-End Function
-
-Private Function NzInteger(ByVal v As Variant) As Integer
-    If IsNull(v) Then NzInteger = 0 Else NzInteger = CInt(v)
-End Function
-
 Private Function isGUID(ByVal strGUID As Variant) As Boolean
     On Error GoTo ErrHandler
     If IsNull(strGUID) Or IsEmpty(strGUID) Then
@@ -1248,3 +1229,5 @@ Private Function isGUID(ByVal strGUID As Variant) As Boolean
 ErrHandler:
     isGUID = False
 End Function
+
+
