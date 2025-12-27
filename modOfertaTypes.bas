@@ -7,6 +7,158 @@ Attribute VB_Name = "modOfertaTypes"
 Option Explicit
 
 '=========================================================
+' FUNCIONES DE CONVENIENCIA
+'=========================================================
+
+Function NzVBA(ByVal v As Variant) As String
+    If IsNull(v) Then NzVBA = "" Else NzVBA = CStr(v)
+End Function
+
+Function NzLong(ByVal v As Variant) As Long
+    If IsNull(v) Then NzLong = 0 Else NzLong = CLng(v)
+End Function
+
+Function NzDouble(ByVal v As Variant) As Double
+    If IsNull(v) Then NzDouble = 0 Else NzDouble = CDbl(v)
+End Function
+
+Function NzDate(ByVal v As Variant) As Date
+    If IsNull(v) Then NzDate = 0 Else NzDate = CDate(v)
+End Function
+
+Function NzInteger(ByVal v As Variant) As Integer
+    If IsNull(v) Then NzInteger = 0 Else NzInteger = CInt(v)
+End Function
+
+'=========================================================
+' TIPOS PARA CATÁLOGOS IMPLEMENTADOS (15 originales)
+'=========================================================
+
+Public Type tCatalogChasis
+    CHAS_ID As Long
+    CHAS_MODELO As String
+    CHAS_DESCRIPCION As String
+    CHAS_ADVERTENCIA As String
+    CHAS_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogCorreas
+    CORR_ID As Long
+    CORR_MODELO As String
+    CORR_DESCRIPCION As String
+    CORR_ADVERTENCIA As String
+    CORR_PRE_COSTE As Double
+    CORR_ATEX_COSTE As Double
+End Type
+
+Public Type tCatalogCabezales
+    CABE_ID As Long
+    CABE_MODELO As String
+    CABE_DESCRIPCION As String
+    CABE_ADVERTENCIA As String
+    CABE_PRE_COSTE As Double
+    CABE_BLOQUE_SAS As String
+End Type
+
+Public Type tCatalogCilindros
+    CILI_ID As Long
+    CILI_MODELO As String
+    CILI_DESCRIPCION As String
+    CILI_ADVERTENCIA As String
+    CILI_PRE_COSTE As Double
+    CILI_T2_COSTE As Double
+    CILI_CO2_COSTE As Double
+    CILI_CPI_COSTE As Double
+    CILI_SAS_COSTE As Double
+    CILI_EMP_COSTE As Double
+End Type
+
+Public Type tCatalogMotores
+    MOTO_ID As Long
+    MOTO_MODELO As String
+    MOTO_DESCRIPCION As String
+    MOTO_ADVERTENCIA As String
+    MOTO_PRE_COSTE As Double
+    MTNO_ID As Long
+    MTCL_ID As Long
+    MTFB_ID As Long
+    MTTN_ID As Long
+End Type
+
+Public Type tCatalogGases
+    GASE_ID As Long
+    GASE_DENOMINACION As String
+End Type
+
+Public Type tCatalogRefrigeradores
+    REFR_ID As Long
+    REFR_MODELO As String
+    REFR_DESCRIPCION As String
+    REFR_ADVERTENCIA As String
+End Type
+
+Public Type tCatalogCalderines
+    CALD_ID As Long
+    CALD_MODELO As String
+    CALD_DESCRIPCION As String
+    CALD_ADVERTENCIA As String
+End Type
+
+Public Type tCatalogVolumenes
+    VOLU_ID As Long
+    VOLU_CANTIDAD As String
+End Type
+
+Public Type tCatalogAcoplamientosDirecto
+    ACOD_ID As Long
+    ACOD_MODELO As String
+    ACOD_DESCRIPCION As String
+    ACOD_ADVERTENCIA As String
+    ACOD_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogReductores
+    REDU_ID As Long
+    REDU_MODELO As String
+    REDU_DESCRIPCION As String
+    REDU_ADVERTENCIA As String
+    REDU_PRE_COSTE As Double
+    REDU_ATEX_COSTE As Double
+End Type
+
+Public Type tCatalogValvulasRetencion
+    VARE_ID As Long
+    VARE_MODELO As String
+    VARE_DESCRIPCION As String
+    VARE_ADVERTENCIA As String
+    VARE_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogElectrovalvulas
+    ELEC_ID As Long
+    ELEC_MODELO As String
+    ELEC_DESCRIPCION As String
+    ELEC_ADVERTENCIA As String
+    ELEC_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogFiltros
+    FILT_ID As Long
+    FILT_MODELO As String
+    FILT_DESCRIPCION As String
+    FILT_ADVERTENCIA As String
+    FILT_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogManometros
+    MANO_ID As Long
+    MANO_MODELO As String
+    MANO_DESCRIPCION As String
+    MANO_ADVERTENCIA As String
+    MANO_PRE_COSTE As Double
+End Type
+
+'=========================================================
 ' TIPOS PARA DATOS GENERALES DE OFERTA
 '=========================================================
 
@@ -764,132 +916,12 @@ Public Type tOfertasExtras
     ImporteCalculado As Boolean
 End Type
 
-'=========================================================
-' TIPOS PARA CATÁLOGOS IMPLEMENTADOS (15 originales)
-'=========================================================
-
-Public Type tCatalogChasis
-    CHAS_ID As Long
-    CHAS_MODELO As String
-    CHAS_DESCRIPCION As String
-    CHAS_ADVERTENCIA As String
-    CHAS_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogCorreas
-    CORR_ID As Long
-    CORR_MODELO As String
-    CORR_DESCRIPCION As String
-    CORR_ADVERTENCIA As String
-    CORR_PRE_COSTE As Double
-    CORR_ATEX_COSTE As Double
-End Type
-
-Public Type tCatalogCabezales
-    CABE_ID As Long
-    CABE_MODELO As String
-    CABE_DESCRIPCION As String
-    CABE_ADVERTENCIA As String
-    CABE_PRE_COSTE As Double
-    CABE_BLOQUE_SAS As String
-End Type
-
-Public Type tCatalogCilindros
-    CILI_ID As Long
-    CILI_MODELO As String
-    CILI_DESCRIPCION As String
-    CILI_ADVERTENCIA As String
-    CILI_PRE_COSTE As Double
-    CILI_T2_COSTE As Double
-    CILI_CO2_COSTE As Double
-    CILI_CPI_COSTE As Double
-    CILI_SAS_COSTE As Double
-    CILI_EMP_COSTE As Double
-End Type
-
-Public Type tCatalogMotores
-    MOTO_ID As Long
-    MOTO_MODELO As String
-    MOTO_DESCRIPCION As String
-    MOTO_ADVERTENCIA As String
-    MOTO_PRE_COSTE As Double
-    MTNO_ID As Long
-    MTCL_ID As Long
-    MTFB_ID As Long
-    MTTN_ID As Long
-End Type
-
-Public Type tCatalogGases
-    GASE_ID As Long
-    GASE_DENOMINACION As String
-End Type
-
-Public Type tCatalogRefrigeradores
-    REFR_ID As Long
-    REFR_MODELO As String
-    REFR_DESCRIPCION As String
-    REFR_ADVERTENCIA As String
-End Type
-
-Public Type tCatalogCalderines
-    CALD_ID As Long
-    CALD_MODELO As String
-    CALD_DESCRIPCION As String
-    CALD_ADVERTENCIA As String
-End Type
-
-Public Type tCatalogVolumenes
-    VOLU_ID As Long
-    VOLU_CANTIDAD As String
-End Type
-
-Public Type tCatalogAcoplamientosDirecto
-    ACOD_ID As Long
-    ACOD_MODELO As String
-    ACOD_DESCRIPCION As String
-    ACOD_ADVERTENCIA As String
-    ACOD_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogReductores
-    REDU_ID As Long
-    REDU_MODELO As String
-    REDU_DESCRIPCION As String
-    REDU_ADVERTENCIA As String
-    REDU_PRE_COSTE As Double
-    REDU_ATEX_COSTE As Double
-End Type
-
-Public Type tCatalogValvulasRetencion
-    VARE_ID As Long
-    VARE_MODELO As String
-    VARE_DESCRIPCION As String
-    VARE_ADVERTENCIA As String
-    VARE_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogElectrovalvulas
-    ELEC_ID As Long
-    ELEC_MODELO As String
-    ELEC_DESCRIPCION As String
-    ELEC_ADVERTENCIA As String
-    ELEC_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogFiltros
-    FILT_ID As Long
-    FILT_MODELO As String
-    FILT_DESCRIPCION As String
-    FILT_ADVERTENCIA As String
-    FILT_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogManometros
-    MANO_ID As Long
-    MANO_MODELO As String
-    MANO_DESCRIPCION As String
-    MANO_ADVERTENCIA As String
-    MANO_PRE_COSTE As Double
+Public Type tOfertasOtros
+    OFOT_ID As String
+    OFER_ID As String
+    OFOT_LINEA As Long
+    OFOT_DESCRIPCION As String
+    OFOT_PRE_COSTE As Double
 End Type
 
 '=========================================================
@@ -1070,6 +1102,131 @@ Public Type tCatalogArrancadoresControl
     ARR3_PRE_COSTE As Double
 End Type
 
+Public Type tCatalogAdvertencias
+    ADVG_ID As Long
+    GASE_ID As Long
+    AREA_ID As Long
+    ADVG_GENE_ID As Long
+    ADVG_ADVERTENCIA As String
+End Type
+Public Type tCatalogAreas
+    AREA_ID As Long
+    AREA_DENOMINACION As String
+    AREA_GENE_NOMBRE As String
+    AREA_NUMERO_CAMPO As Long
+End Type
+Public Type tCatalogCalderinesCostes
+    CACO_ID As Long
+    CALD_ID As Long
+    VOLU_ID As Double
+    CACO_PRE_COSTE As Double
+    CACO_DESCRIPCION As String
+End Type
+Public Type tCatalogDepositosEntrada
+    DEPE_ID As Long
+    DEPE_MODELO As String
+    DEPE_DESCRIPCION As String
+    DEPE_ADVERTENCIA As String
+    DEPE_PRE_COSTE As Double
+End Type
+Public Type tCatalogDepositosFinal
+    DEPF_ID As Long
+    DEPF_MODELO As String
+    DEPF_DESCRIPCION As String
+    DEPF_ADVERTENCIA As String
+    DEPF_PRE_COSTE As Double
+End Type
+
+Public Type tCatalogElectrovalvulasRegulacion
+    ELER_ID As Long
+    ELER_MODELO As String
+    ELER_DESCRIPCION As String
+    ELER_ADVERTENCIA As String
+    ELER_PRE_COSTE As Double
+    Campo1 As Long
+End Type
+Public Type tCatalogMotoresClass
+    MTCL_ID As Long
+    MTCL_NOMBRE As String
+End Type
+Public Type tCatalogMotoresEspeciales
+    MTSP_ID As Long
+    MTSP_MODELO As String
+    MTSP_PRE_COSTE As Double
+End Type
+Public Type tCatalogMotoresFabrica
+    MTFB_ID As Long
+    MTFB_NOMBRE As String
+End Type
+Public Type tCatalogMotoresNormativas
+    MTNO_ID As Long
+    MTNO_NOMBRE As String
+End Type
+Public Type tCatalogMotoresTension
+    MTTN_ID As Long
+    MTTN_NOMBRE As String
+End Type
+Public Type tCatalogParametros
+    PARA_ID As Long
+    PARA_CALD_EXTRA As Double
+    PARA_CALD_RADIO As Long
+    PARA_CALD_ASME As Double
+    PARA_CALD_INOX As Double
+    PARA_CALD_SELLO As Long
+    PARA_FEC_ULT_MODIF As Date
+End Type
+Public Type tCatalogRefrigeradoresCostes
+    REFR_ID As Long
+    RECO_ID As Long
+    TIPN_ID As Long
+    RECO_INOX_PRE_COSTE As Double
+    RECO_COBRE_PRE_COSTE As Double
+    RECO_CENT_PRE_COSTE As Double
+    RECO_CSAL_PRE_COSTE As Double
+End Type
+Public Type tCatalogRefrigeradoresEspeciales
+    REES_ID As Long
+    REES_MODELO As String
+    REES_DESCRIPCION As String
+    REES_ADVERTENCIA As String
+    REES_PRE_COSTE As Double
+End Type
+Public Type tCatalogTiposPresionNominal
+    TIPN_ID As Long
+    TIPN_PRESION As Long
+End Type
+Public Type tCatalogTiposTubos
+    TITU_ID As Long
+    TITU_MATERIAL As String
+End Type
+Public Type tCatalogTuberiasAgua
+    TUAG_ID As Long
+    TUAG_MODELO As String
+    TUAG_DESCRIPCION As String
+    TUAG_ADVERTENCIA As String
+    TUAG_PRE_COSTE As Double
+End Type
+Public Type tCatalogTuberiasAire
+    TUAI_ID As Long
+    TUAI_MODELO As String
+End Type
+Public Type tCatalogTuberiasAireDiametros
+    TUDI_ID As Long
+    TUAI_ID As Long
+    TUDI_DIAMETRO As Double
+    TUDI_MODELO As String
+    TUDI_DESCRIPCION As String
+    TUDI_ADVERTENCIA As String
+    TUDI_PRE_COSTE As Double
+End Type
+Public Type tCatalogValvulasSeguridad
+    VASE_ID As Long
+    VASE_MODELO As String
+    VASE_DESCRIPCION As String
+    VASE_ADVERTENCIA As String
+    VASE_PRE_COSTE As Double
+End Type
+
 Public Type tCatalogArrancadoresFuerzaControlPET
     ARR4_ID As Long
     ARR4_MODELO As String
@@ -1102,14 +1259,6 @@ Public Type tCatalogTermometros
     TERM_DESCRIPCION As String
     TERM_ADVERTENCIA As String
     TERM_PRE_COSTE As Double
-End Type
-
-Public Type tCatalogElectrovalvulasRegulacion
-    ELER_ID As Long
-    ELER_MODELO As String
-    ELER_DESCRIPCION As String
-    ELER_ADVERTENCIA As String
-    ELER_PRE_COSTE As Double
 End Type
 
 Public Type tCatalogSensoresCaidaVastago
@@ -1179,3 +1328,73 @@ Public Type tCatalogInstrumentaciones
     INTR_VATE_CANTIDAD As Long
 End Type
 
+
+Public Type tCatalogTiposMaterial
+    TIMA_ID As Long
+    TIMA_MATERIAL As String
+End Type
+
+Public Type tCatalogCalderinesPredeterminados
+    CALP_ID As Long
+    CALP_MODELO As String
+    CVA1_ID As Long
+    CLA1_ID As Long
+    CALP_CLA1_CANTIDAD As Long
+    CVE1_ID As Long
+    CLE1_ID As Long
+    CALP_CLE1_CANTIDAD As Long
+    CVA2_ID As Long
+    CLA2_ID As Long
+    CALP_CLA2_CANTIDAD As Long
+    CVE2_ID As Long
+    CLE2_ID As Long
+    CALP_CLE2_CANTIDAD As Long
+    CVA3_ID As Long
+    CLA3_ID As Long
+    CALP_CLA3_CANTIDAD As Long
+    CVE3_ID As Long
+    CLE3_ID As Long
+    CALP_CLE3_CANTIDAD As Long
+    CVA4_ID As Long
+    CLA4_ID As Long
+    CALP_CLA4_CANTIDAD As Long
+    CVE4_ID As Long
+    CLE4_ID As Long
+    CALP_CLE4_CANTIDAD As Long
+    CVA5_ID As Long
+    CLA5_ID As Long
+    CALP_CLA5_CANTIDAD As Long
+    CVE5_ID As Long
+    CLE5_ID As Long
+    CALP_CLE5_CANTIDAD As Long
+    CVA6_ID As Long
+    CLA6_ID As Long
+    CALP_CLA6_CANTIDAD As Long
+    CVE6_ID As Long
+    CLE6_ID As Long
+    CALP_CLE6_CANTIDAD As Long
+End Type
+
+Public Type tCatalogManoObraCabezales
+    MAOC_ID As Long
+    MAOC_MODELO As String
+    MAOC_FASE1_HORAS As Double
+    MAOC_FASE1_PRECIO As Double
+    MAOC_FASE2_HORAS As Double
+    MAOC_FASE2_PRECIO As Double
+    MAOC_SOLDA_HORAS As Double
+    MAOC_SOLDA_PRECIO As Double
+    MAOC_PROBA_HORAS As Double
+    MAOC_PROBA_PRECIO As Double
+    MAOC_PINTU_HORAS As Double
+    MAOC_PINTU_PRECIO As Double
+    MAOC_ELECT_HORAS As Double
+    MAOC_ELECT_PRECIO As Double
+End Type
+
+Public Type tCatalogManoObraIngenierias
+    MAOI_ID As Long
+    MAOI_MODELO As String
+    MAOI_INGEN_HORAS As Double
+    MAOI_INGEN_PRECIO As Double
+End Type
