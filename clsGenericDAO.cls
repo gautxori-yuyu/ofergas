@@ -143,10 +143,17 @@ End Function
 ' BORRAR gen�rico
 ' ������������������������������������������������������
 Public Function DeleteRecord(ByVal tableName As String, ByVal idValue As String, ByVal idFieldName As String) As Boolean
+    On Error GoTo ErrorHandler
+
     Dim sql As String
     sql = "DELETE FROM [" & tableName & "] WHERE [" & idFieldName & "] = '" & EscapeString(idValue) & "'"
     m_dbConn.Connection.Execute sql
     DeleteRecord = True
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] DeleteRecord(" & tableName & "): " & Err.Description
+    DeleteRecord = False
 End Function
 
 ' ������������������������������������������������������
@@ -297,6 +304,32 @@ Public Function SelectRecords(ByVal tableName As String, _
 ErrorHandler:
     Debug.Print "[ERR] SelectRecords(" & tableName & "): " & Err.Description
     Set SelectRecords = CreateObject("System.Collections.ArrayList")
+End Function
+
+' ══════════════════════════════════════════════════════════
+' GET RECORD - Obtener un solo registro por ID
+' ══════════════════════════════════════════════════════════
+Public Function GetRecord(ByVal tableName As String, _
+                         ByVal idValue As String, _
+                         ByVal idFieldName As String) As Object
+    On Error GoTo ErrorHandler
+
+    Dim whereClause As String
+    whereClause = "[" & idFieldName & "] = " & EscapeValue(idValue)
+
+    Dim results As Object
+    Set results = SelectRecords(tableName, whereClause, "", 1)
+
+    If results.Count > 0 Then
+        Set GetRecord = results(0)
+    Else
+        Set GetRecord = Nothing
+    End If
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] GetRecord(" & tableName & "): " & Err.Description
+    Set GetRecord = Nothing
 End Function
 
 ' ══════════════════════════════════════════════════════════
@@ -560,6 +593,8 @@ End Function
 ' ══════════════════════════════════════════════════════════
 Public Function ValidateForeignKeys(ByVal data As Object, _
                                     ByVal fkValidations As Variant) As Object
+    On Error GoTo ErrorHandler
+
     ' Devuelve Dictionary con errores: {campo: mensajeError}
     Dim errors As Object
     Set errors = CreateObject("Scripting.Dictionary")
@@ -600,5 +635,10 @@ Public Function ValidateForeignKeys(ByVal data As Object, _
         End If
     Next i
 
+    Set ValidateForeignKeys = errors
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] ValidateForeignKeys: " & Err.Description
     Set ValidateForeignKeys = errors
 End Function
