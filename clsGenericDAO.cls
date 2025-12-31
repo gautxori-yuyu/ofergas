@@ -18,14 +18,14 @@ End Property
 Public Property Get DBConnection() As clsDBConnection
     Set DBConnection = m_dbConn
 End Property
-' ——————————————————————————————————————————————————————
-' INSERTA un registro (1:1) o múltiples (1:N)
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+' INSERTA un registro (1:1) o mï¿½ltiples (1:N)
 ' data:
 '   - Dictionary ? 1 registro
 '   - System.Collections.ArrayList de Dictionary ? N registros
 ' Devuelve un Dictionary con {campoAutonum => valorGenerado} del primer registro,
-' o Nothing si fallo. Para múltiples registros, solo devuelve del primero (como Access).
-' ——————————————————————————————————————————————————————
+' o Nothing si fallo. Para mï¿½ltiples registros, solo devuelve del primero (como Access).
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
                               Optional ByVal idFieldName As String = "OFER_ID") As Object
     On Error GoTo ErrorHandler
@@ -84,7 +84,7 @@ Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
         sql = "INSERT INTO [" & tableName & "] (" & listaCampos & ") VALUES (" & listaValores & ")"
         m_dbConn.Connection.Execute sql
         
-        ' Solo recuperar autonuméricos del PRIMER registro (como hace tu Access)
+        ' Solo recuperar autonumï¿½ricos del PRIMER registro (como hace tu Access)
         If i = 0 Then
             Dim k As Long
             For k = LBound(autoFields) To UBound(autoFields)
@@ -106,9 +106,9 @@ ErrorHandler:
     Set InsertRecord = Nothing
 End Function
 
-' ——————————————————————————————————————————————————————
-' DUPLICAR genérico (como tu DuplicarRegistroEnTablas)
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+' DUPLICAR genï¿½rico (como tu DuplicarRegistroEnTablas)
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Function DuplicateRecord(ByVal tableName As String, ByVal idOrigen As String, ByVal idNuevo As String, ByVal idFieldName As String) As Boolean
     On Error GoTo ErrorHandler
     
@@ -139,9 +139,9 @@ ErrorHandler:
     DuplicateRecord = False
 End Function
 
-' ——————————————————————————————————————————————————————
-' BORRAR genérico
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+' BORRAR genï¿½rico
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Function DeleteRecord(ByVal tableName As String, ByVal idValue As String, ByVal idFieldName As String) As Boolean
     Dim sql As String
     sql = "DELETE FROM [" & tableName & "] WHERE [" & idFieldName & "] = '" & EscapeString(idValue) & "'"
@@ -149,9 +149,9 @@ Public Function DeleteRecord(ByVal tableName As String, ByVal idValue As String,
     DeleteRecord = True
 End Function
 
-' ——————————————————————————————————————————————————————
-' RECUPERAR valor de un campo autonumérico específico (no solo OFER_ID)
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+' RECUPERAR valor de un campo autonumï¿½rico especï¿½fico (no solo OFER_ID)
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' En clsGenericDAO.cls
 Public Function GetLastAutoID(ByVal tableName As String, ByVal idFieldName As String, ByVal uniqueFields As Object) As String
     ' uniqueFields: Dictionary {"campo1": valor1, "campo2": valor2}
@@ -180,12 +180,12 @@ Public Function GetLastAutoID(ByVal tableName As String, ByVal idFieldName As St
     rs.Close
 End Function
 
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' FUNCIONES AUXILIARES
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 Private Function RecoveryIDForField(ByVal tableName As String, ByVal fieldName As String, ByVal data As Object) As String
-    ' Estrategia: buscar por campos únicos + orden descendente
+    ' Estrategia: buscar por campos ï¿½nicos + orden descendente
     ' Para OFER_ID: OFER_NUM_OFERTA + OFER_FECHA
     If fieldName = "OFER_ID" And data.Exists("OFER_NUM_OFERTA") And data.Exists("OFER_FECHA") Then
         Dim num As String: num = EscapeString(data("OFER_NUM_OFERTA"))
@@ -207,8 +207,8 @@ Private Function RecoveryIDForField(ByVal tableName As String, ByVal fieldName A
         End If
         rs.Close
     End If
-    ' Para otros campos autonuméricos (ej: OFMO_ID), implementar lógica específica si es necesaria
-    ' Por ahora, solo OFER_ID tiene recuperación definida
+    ' Para otros campos autonumï¿½ricos (ej: OFMO_ID), implementar lï¿½gica especï¿½fica si es necesaria
+    ' Por ahora, solo OFER_ID tiene recuperaciï¿½n definida
 End Function
 Private Function EscapeValue(ByVal val As Variant) As String
     If IsNull(val) Or val = "" Then
@@ -241,4 +241,364 @@ Private Function IsInArray(ByVal value As String, ByRef arr As Variant) As Boole
             Exit Function
         End If
     Next i
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' SELECT/READ GENÃ‰RICO - Recuperar registros
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function SelectRecords(ByVal tableName As String, _
+                              Optional ByVal whereClause As String = "", _
+                              Optional ByVal orderBy As String = "", _
+                              Optional ByVal limit As Long = 0) As Object
+    On Error GoTo ErrorHandler
+
+    Dim sql As String
+    sql = "SELECT "
+
+    ' Aplicar lÃ­mite si se especifica (TOP N en Access)
+    If limit > 0 Then sql = sql & "TOP " & limit & " "
+
+    sql = sql & "* FROM [" & tableName & "]"
+
+    ' Aplicar filtro WHERE si existe
+    If whereClause <> "" Then
+        sql = sql & " WHERE " & whereClause
+    End If
+
+    ' Aplicar ordenamiento si existe
+    If orderBy <> "" Then
+        sql = sql & " ORDER BY " & orderBy
+    End If
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.Execute(sql)
+
+    ' Convertir recordset a ArrayList de Dictionary
+    Dim results As Object
+    Set results = CreateObject("System.Collections.ArrayList")
+
+    Do While Not rs.EOF
+        Dim record As Object
+        Set record = CreateObject("Scripting.Dictionary")
+
+        Dim i As Long
+        For i = 0 To rs.Fields.Count - 1
+            record.Add rs.Fields(i).Name, NzVariant(rs.Fields(i).Value)
+        Next i
+
+        results.Add record
+        rs.MoveNext
+    Loop
+
+    rs.Close
+    Set SelectRecords = results
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] SelectRecords(" & tableName & "): " & Err.Description
+    Set SelectRecords = CreateObject("System.Collections.ArrayList")
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' BÃšSQUEDA/FILTRADO AVANZADO con operadores dinÃ¡micos
+' filters: Dictionary con {campo: {operador: valor}}
+' Ejemplo: {"OFER_FECHA": {">": #2025/01/01#}, "OFER_CLIENTE": {"LIKE": "%Acme%"}}
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function SearchRecords(ByVal tableName As String, _
+                              ByVal filters As Object, _
+                              Optional ByVal orderBy As String = "", _
+                              Optional ByVal limit As Long = 0) As Object
+    On Error GoTo ErrorHandler
+
+    ' Construir clÃ¡usula WHERE dinÃ¡mica
+    Dim whereClause As String
+    Dim campo As Variant
+
+    For Each campo In filters.Keys
+        Dim filterDef As Object
+        Set filterDef = filters(campo)
+
+        Dim operador As Variant
+        For Each operador In filterDef.Keys
+            Dim valor As Variant
+            valor = filterDef(operador)
+
+            If whereClause <> "" Then whereClause = whereClause & " AND "
+
+            ' Construir condiciÃ³n segÃºn operador
+            Select Case UCase(Trim$(operador))
+                Case "=", "<", ">", "<=", ">=", "<>"
+                    whereClause = whereClause & "[" & campo & "] " & operador & " " & EscapeValue(valor)
+                Case "LIKE"
+                    whereClause = whereClause & "[" & campo & "] LIKE " & EscapeValue(valor)
+                Case "IN"
+                    ' valor debe ser Array
+                    whereClause = whereClause & "[" & campo & "] IN (" & BuildINList(valor) & ")"
+                Case "BETWEEN"
+                    ' valor debe ser Array(min, max)
+                    whereClause = whereClause & "[" & campo & "] BETWEEN " & EscapeValue(valor(0)) & " AND " & EscapeValue(valor(1))
+                Case "IS NULL"
+                    whereClause = whereClause & "[" & campo & "] IS NULL"
+                Case "IS NOT NULL"
+                    whereClause = whereClause & "[" & campo & "] IS NOT NULL"
+            End Select
+        Next operador
+    Next campo
+
+    ' Usar SelectRecords con WHERE construido
+    Set SearchRecords = SelectRecords(tableName, whereClause, orderBy, limit)
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] SearchRecords(" & tableName & "): " & Err.Description
+    Set SearchRecords = CreateObject("System.Collections.ArrayList")
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' UPDATE GENÃ‰RICO - Actualizar registro(s)
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function UpdateRecord(ByVal tableName As String, _
+                            ByVal data As Object, _
+                            ByVal whereClause As String) As Boolean
+    On Error GoTo ErrorHandler
+
+    ' Construir SET clause
+    Dim setClause As String
+    Dim campo As Variant
+
+    For Each campo In data.Keys
+        If setClause <> "" Then setClause = setClause & ", "
+        setClause = setClause & "[" & campo & "] = " & EscapeValue(data(campo))
+    Next campo
+
+    If setClause = "" Then
+        UpdateRecord = False
+        Exit Function
+    End If
+
+    ' Construir y ejecutar SQL
+    Dim sql As String
+    sql = "UPDATE [" & tableName & "] SET " & setClause
+
+    If whereClause <> "" Then
+        sql = sql & " WHERE " & whereClause
+    End If
+
+    m_dbConn.Connection.Execute sql
+    UpdateRecord = True
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] UpdateRecord(" & tableName & "): " & Err.Description
+    UpdateRecord = False
+End Function
+
+Private Function NzVariant(ByVal v As Variant) As Variant
+    If IsNull(v) Then
+        NzVariant = Empty
+    Else
+        NzVariant = v
+    End If
+End Function
+
+Private Function BuildINList(ByVal arr As Variant) As String
+    If Not IsArray(arr) Then Exit Function
+
+    Dim i As Long, lista As String
+    For i = LBound(arr) To UBound(arr)
+        If lista <> "" Then lista = lista & ","
+        lista = lista & EscapeValue(arr(i))
+    Next i
+
+    BuildINList = lista
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' CASCADE DELETE - Eliminar registro principal y todos sus hijos
+' childTables: Array de Dictionary con {tabla: "NombreTabla", fkField: "CAMPO_FK"}
+' Ejemplo: Array(Dict("tabla"="OfertasManoObra", "fkField"="OFER_ID"))
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function DeleteRecordCascade(ByVal tableName As String, _
+                                   ByVal idValue As String, _
+                                   ByVal idFieldName As String, _
+                                   ByVal childTables As Variant) As Boolean
+    On Error GoTo ErrorHandler
+
+    ' Iniciar transacciÃ³n
+    Dim ws As Object
+    Set ws = m_dbConn.DAOWorkspace
+    ws.BeginTrans
+
+    ' 1. Eliminar todos los registros hijos
+    If IsArray(childTables) Then
+        Dim i As Long
+        For i = LBound(childTables) To UBound(childTables)
+            Dim childDef As Object
+            Set childDef = childTables(i)
+
+            Dim childTable As String, fkField As String
+            childTable = childDef("tabla")
+            fkField = childDef("fkField")
+
+            ' Delete hijos
+            Dim sqlChild As String
+            sqlChild = "DELETE FROM [" & childTable & "] WHERE [" & fkField & "] = '" & EscapeString(idValue) & "'"
+            m_dbConn.Connection.Execute sqlChild
+            Debug.Print "[OK] Deleted children from " & childTable
+        Next i
+    End If
+
+    ' 2. Eliminar registro principal
+    Dim sqlMain As String
+    sqlMain = "DELETE FROM [" & tableName & "] WHERE [" & idFieldName & "] = '" & EscapeString(idValue) & "'"
+    m_dbConn.Connection.Execute sqlMain
+
+    ws.CommitTrans
+    DeleteRecordCascade = True
+    Debug.Print "[OK] Cascade delete completed for " & tableName & " id=" & idValue
+    Exit Function
+
+ErrorHandler:
+    If Not ws Is Nothing Then
+        On Error Resume Next
+        ws.Rollback
+    End If
+    Debug.Print "[ERR] DeleteRecordCascade(" & tableName & "): " & Err.Description
+    DeleteRecordCascade = False
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' BULK INSERT - InserciÃ³n masiva optimizada con transacciÃ³n
+' data: ArrayList de Dictionary
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function BulkInsert(ByVal tableName As String, _
+                          ByVal data As Object) As Boolean
+    On Error GoTo ErrorHandler
+
+    If TypeName(data) <> "ArrayList" Then
+        Debug.Print "[ERR] BulkInsert: data debe ser ArrayList"
+        BulkInsert = False
+        Exit Function
+    End If
+
+    If data.Count = 0 Then
+        BulkInsert = True
+        Exit Function
+    End If
+
+    ' Iniciar transacciÃ³n para performance
+    Dim ws As Object
+    Set ws = m_dbConn.DAOWorkspace
+    ws.BeginTrans
+
+    ' Obtener campos excluyendo autonumÃ©ricos
+    Dim autoFields As Variant
+    autoFields = CamposAutonumericos(m_dbConn.Connection, tableName)
+
+    Dim camposDestino As String
+    camposDestino = CamposSin(m_dbConn.Connection, tableName, autoFields)
+
+    If camposDestino = "" Then
+        ws.Rollback
+        BulkInsert = False
+        Exit Function
+    End If
+
+    Dim camposArray() As String
+    camposArray = Split(camposDestino, ",")
+
+    ' Insertar cada registro
+    Dim i As Long
+    For i = 0 To data.Count - 1
+        Dim reg As Object
+        Set reg = data(i)
+
+        Dim listaCampos As String, listaValores As String
+        Dim j As Long
+
+        For j = 0 To UBound(camposArray)
+            Dim campoBD As String
+            campoBD = Trim$(Replace$(Replace$(camposArray(j), "[", ""), "]", ""))
+
+            Dim valorSQL As String
+            If reg.Exists(campoBD) Then
+                valorSQL = EscapeValue(reg(campoBD))
+            Else
+                valorSQL = "NULL"
+            End If
+
+            If listaCampos <> "" Then listaCampos = listaCampos & ","
+            listaCampos = listaCampos & "[" & campoBD & "]"
+
+            If listaValores <> "" Then listaValores = listaValores & ","
+            listaValores = listaValores & valorSQL
+        Next j
+
+        Dim sql As String
+        sql = "INSERT INTO [" & tableName & "] (" & listaCampos & ") VALUES (" & listaValores & ")"
+        m_dbConn.Connection.Execute sql
+    Next i
+
+    ws.CommitTrans
+    BulkInsert = True
+    Debug.Print "[OK] BulkInsert: " & data.Count & " registros insertados en " & tableName
+    Exit Function
+
+ErrorHandler:
+    If Not ws Is Nothing Then
+        On Error Resume Next
+        ws.Rollback
+    End If
+    Debug.Print "[ERR] BulkInsert(" & tableName & "): " & Err.Description
+    BulkInsert = False
+End Function
+
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+' VALIDACIÃ“N DE FOREIGN KEYS - Verifica que FK exista en tabla referenciada
+' fkValidations: Array de Dictionary con {campo, tablaRef, campoRef}
+' Ejemplo: Array(Dict("campo"="PAIS_ID", "tablaRef"="Paises", "campoRef"="pais_id"))
+' â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Public Function ValidateForeignKeys(ByVal data As Object, _
+                                    ByVal fkValidations As Variant) As Object
+    ' Devuelve Dictionary con errores: {campo: mensajeError}
+    Dim errors As Object
+    Set errors = CreateObject("Scripting.Dictionary")
+
+    If Not IsArray(fkValidations) Then
+        Set ValidateForeignKeys = errors
+        Exit Function
+    End If
+
+    Dim i As Long
+    For i = LBound(fkValidations) To UBound(fkValidations)
+        Dim fkDef As Object
+        Set fkDef = fkValidations(i)
+
+        Dim campo As String, tablaRef As String, campoRef As String
+        campo = fkDef("campo")
+        tablaRef = fkDef("tablaRef")
+        campoRef = fkDef("campoRef")
+
+        ' Si el campo existe en data y no es nulo/vacÃ­o
+        If data.Exists(campo) Then
+            Dim valorFK As Variant
+            valorFK = data(campo)
+
+            If Not IsNull(valorFK) And valorFK <> "" And valorFK <> 0 Then
+                ' Verificar existencia en tabla referenciada
+                Dim sql As String
+                sql = "SELECT COUNT(*) FROM [" & tablaRef & "] WHERE [" & campoRef & "] = " & EscapeValue(valorFK)
+
+                Dim rs As Object
+                Set rs = m_dbConn.Connection.Execute(sql)
+
+                If rs(0) = 0 Then
+                    errors.Add campo, "FK invÃ¡lida: " & campo & "=" & valorFK & " no existe en " & tablaRef
+                End If
+                rs.Close
+            End If
+        End If
+    Next i
+
+    Set ValidateForeignKeys = errors
 End Function
