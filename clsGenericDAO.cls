@@ -31,10 +31,10 @@ Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
     On Error GoTo ErrorHandler
     
     Dim autoFields As Variant
-    autoFields = CamposAutonumericos(m_dbConn.Connection, tableName)
-    
+    autoFields = GetAutoNumericFields(tableName)
+
     Dim camposDestino As String
-    camposDestino = CamposSin(m_dbConn.Connection, tableName, autoFields)
+    camposDestino = GetFieldsExcept(tableName, autoFields)
     If camposDestino = "" Then
         Set InsertRecord = Nothing
         Exit Function
@@ -113,10 +113,10 @@ Public Function DuplicateRecord(ByVal tableName As String, ByVal idOrigen As Str
     On Error GoTo ErrorHandler
     
     Dim autoFields As Variant
-    autoFields = CamposAutonumericos(m_dbConn.Connection, tableName)
-    
+    autoFields = GetAutoNumericFields(tableName)
+
     Dim camposDestino As String
-    camposDestino = CamposSin(m_dbConn.Connection, tableName, autoFields)
+    camposDestino = GetFieldsExcept(tableName, autoFields)
     If camposDestino = "" Then
         DuplicateRecord = True
         Exit Function
@@ -124,7 +124,7 @@ Public Function DuplicateRecord(ByVal tableName As String, ByVal idOrigen As Str
     
     Dim camposOrigen As String
     camposOrigen = camposDestino
-    camposOrigen = ReemplazarCampoSQL(camposOrigen, idFieldName, "'" & idNuevo & "'")
+    camposOrigen = ReplaceFieldInSQL(camposOrigen, idFieldName, "'" & idNuevo & "'")
     
     Dim sql As String
     sql = "INSERT INTO [" & tableName & "] (" & camposDestino & ") " & _
@@ -526,10 +526,10 @@ Public Function BulkInsert(ByVal tableName As String, _
 
     ' Obtener campos excluyendo autonuméricos
     Dim autoFields As Variant
-    autoFields = CamposAutonumericos(m_dbConn.Connection, tableName)
+    autoFields = GetAutoNumericFields(tableName)
 
     Dim camposDestino As String
-    camposDestino = CamposSin(m_dbConn.Connection, tableName, autoFields)
+    camposDestino = GetFieldsExcept(tableName, autoFields)
 
     If camposDestino = "" Then
         ws.Rollback
@@ -641,4 +641,114 @@ Public Function ValidateForeignKeys(ByVal data As Object, _
 ErrorHandler:
     Debug.Print "[ERR] ValidateForeignKeys: " & Err.Description
     Set ValidateForeignKeys = errors
+End Function
+
+' ══════════════════════════════════════════════════════════
+' FUNCIONES DE INTROSPECCIÓN (movidas desde modSchema)
+' ══════════════════════════════════════════════════════════
+
+Private Function GetFieldsExcept(ByVal tableName As String, ByVal fieldsToExclude As Variant) As String
+    ' Retorna lista de campos de tabla EXCEPTO los especificados
+    ' fieldsToExclude: String o Array de Strings
+    On Error GoTo ErrHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(4, Array(Empty, Empty, tableName)) ' adSchemaColumns = 4
+
+    Dim campo As String, lista As String
+    Dim i As Long, excluir As Boolean
+
+    Do Until rs.EOF
+        campo = rs("COLUMN_NAME")
+        excluir = False
+
+        If IsArray(fieldsToExclude) Then
+            For i = LBound(fieldsToExclude) To UBound(fieldsToExclude)
+                If StrComp(campo, fieldsToExclude(i), vbTextCompare) = 0 Then
+                    excluir = True
+                    Exit For
+                End If
+            Next i
+        Else
+            If Not IsEmpty(fieldsToExclude) Then
+                excluir = (StrComp(campo, fieldsToExclude, vbTextCompare) = 0)
+            End If
+        End If
+
+        If Not excluir Then
+            lista = lista & "[" & campo & "],"
+        End If
+
+        rs.MoveNext
+    Loop
+
+    rs.Close
+    If Len(lista) > 0 Then lista = Left$(lista, Len(lista) - 1)
+    GetFieldsExcept = lista
+    Exit Function
+
+ErrHandler:
+    Debug.Print "[ERR] GetFieldsExcept: " & Err.Description
+    GetFieldsExcept = ""
+End Function
+
+Private Function GetAutoNumericFields(ByVal tableName As String) As Variant
+    ' Detecta campos autonuméricos (GUID con GenGUID() o Integer con flags específicos)
+    On Error GoTo ErrHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(4, Array(Empty, Empty, tableName))
+
+    Dim campos() As String
+    Dim contador As Long
+    Const adInteger = 3
+    Const adGUID = 72
+
+    Do Until rs.EOF
+        Dim tipo As Long: tipo = CLng(rs("DATA_TYPE"))
+        Dim flags As Long: flags = NzVariant(rs("COLUMN_FLAGS"))
+        If VarType(flags) <> vbLong Then flags = 0&
+        Dim defaultVal As String: defaultVal = NzVariant(rs("COLUMN_DEFAULT"))
+        If VarType(defaultVal) <> vbString Then defaultVal = ""
+        Dim nombre As String: nombre = rs("COLUMN_NAME")
+
+        Dim esAutonum As Boolean
+        esAutonum = ( _
+            (tipo = adGUID And defaultVal = "GenGUID()") Or _
+            (tipo = adInteger And (flags = 17 Or flags = 90)) _
+        )
+
+        If esAutonum Then
+            ReDim Preserve campos(contador)
+            campos(contador) = nombre
+            contador = contador + 1
+        End If
+
+        rs.MoveNext
+    Loop
+
+    rs.Close
+    If contador = 0 Then
+        GetAutoNumericFields = Array()
+    Else
+        GetAutoNumericFields = campos
+    End If
+    Exit Function
+
+ErrHandler:
+    Debug.Print "[ERR] GetAutoNumericFields: " & Err.Description
+    GetAutoNumericFields = Array()
+End Function
+
+Private Function ReplaceFieldInSQL(ByVal fieldList As String, ByVal fieldName As String, ByVal newValue As String) As String
+    ' Reemplaza un campo en lista SQL con nuevo valor
+    Dim partes() As String
+    partes = Split(fieldList, ",")
+    Dim i As Long
+    For i = 0 To UBound(partes)
+        If Trim$(partes(i)) = "[" & fieldName & "]" Then
+            partes(i) = newValue
+        End If
+    Next i
+    ReplaceFieldInSQL = Join(partes, ",")
 End Function
