@@ -689,6 +689,138 @@ ErrorHandler:
 End Function
 
 ' ══════════════════════════════════════════════════════════
+' DESCUBRIMIENTO DINÁMICO DE ESTRUCTURA DE BD
+' ══════════════════════════════════════════════════════════
+
+Public Function GetAllTables() As Variant
+    ' Retorna array con nombres de todas las tablas de la BD
+    On Error GoTo ErrorHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(20) ' adSchemaTables = 20
+
+    Dim tables As Object
+    Set tables = CreateObject("System.Collections.ArrayList")
+
+    Do Until rs.EOF
+        Dim tableType As String
+        tableType = NzVariant(rs("TABLE_TYPE"))
+
+        ' Solo tablas (no vistas, ni tablas del sistema)
+        If tableType = "TABLE" Then
+            Dim tableName As String
+            tableName = rs("TABLE_NAME")
+
+            ' Excluir tablas del sistema (MSys*)
+            If Left$(tableName, 4) <> "MSys" And Left$(tableName, 1) <> "~" Then
+                tables.Add tableName
+            End If
+        End If
+        rs.MoveNext
+    Loop
+
+    rs.Close
+
+    ' Convertir ArrayList a Array
+    Dim result() As String
+    If tables.Count > 0 Then
+        ReDim result(tables.Count - 1)
+        Dim i As Long
+        For i = 0 To tables.Count - 1
+            result(i) = tables(i)
+        Next i
+        GetAllTables = result
+    Else
+        GetAllTables = Array()
+    End If
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] GetAllTables: " & Err.Description
+    GetAllTables = Array()
+End Function
+
+Public Function GetChildTablesForFK(ByVal fkFieldName As String) As Variant
+    ' Descubre dinámicamente todas las tablas que tienen un campo FK específico
+    ' y ese campo NO es autonumérico (son tablas hijas)
+    ' Retorna Array de nombres de tablas hijas
+    On Error GoTo ErrorHandler
+
+    Dim allTables As Variant
+    allTables = GetAllTables()
+
+    Dim childTables As Object
+    Set childTables = CreateObject("System.Collections.ArrayList")
+
+    Dim i As Long
+    For i = LBound(allTables) To UBound(allTables)
+        Dim tableName As String
+        tableName = allTables(i)
+
+        ' Verificar si la tabla tiene el campo FK
+        If TableHasField(tableName, fkFieldName) Then
+            ' Verificar que el campo NO sea autonumérico (si es autonumérico, es tabla maestra)
+            If Not IsFieldAutoNumeric(tableName, fkFieldName) Then
+                childTables.Add tableName
+            End If
+        End If
+    Next i
+
+    ' Convertir ArrayList a Array
+    Dim result() As String
+    If childTables.Count > 0 Then
+        ReDim result(childTables.Count - 1)
+        For i = 0 To childTables.Count - 1
+            result(i) = childTables(i)
+        Next i
+        GetChildTablesForFK = result
+    Else
+        GetChildTablesForFK = Array()
+    End If
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] GetChildTablesForFK: " & Err.Description
+    GetChildTablesForFK = Array()
+End Function
+
+Public Function GetTableFields(ByVal tableName As String) As Variant
+    ' Retorna Array de nombres de campos de una tabla
+    On Error GoTo ErrorHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(4, Array(Empty, Empty, tableName)) ' adSchemaColumns = 4
+
+    Dim fields As Object
+    Set fields = CreateObject("System.Collections.ArrayList")
+
+    Do Until rs.EOF
+        fields.Add rs("COLUMN_NAME")
+        rs.MoveNext
+    Loop
+
+    rs.Close
+
+    ' Convertir ArrayList a Array
+    Dim result() As String
+    If fields.Count > 0 Then
+        ReDim result(fields.Count - 1)
+        Dim i As Long
+        For i = 0 To fields.Count - 1
+            result(i) = fields(i)
+        Next i
+        GetTableFields = result
+    Else
+        GetTableFields = Array()
+    End If
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] GetTableFields: " & Err.Description
+    GetTableFields = Array()
+End Function
+
+' ══════════════════════════════════════════════════════════
 ' FUNCIONES DE INTROSPECCIÓN (movidas desde modSchema)
 ' ══════════════════════════════════════════════════════════
 
@@ -837,4 +969,54 @@ Private Function CombineArrays(ByVal arr1 As Variant, ByVal arr2 As Variant) As 
     Next i
 
     CombineArrays = result
+End Function
+
+Private Function TableHasField(ByVal tableName As String, ByVal fieldName As String) As Boolean
+    ' Verifica si una tabla tiene un campo específico
+    On Error GoTo ErrorHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(4, Array(Empty, Empty, tableName, fieldName)) ' adSchemaColumns = 4
+
+    TableHasField = Not rs.EOF
+    rs.Close
+    Exit Function
+
+ErrorHandler:
+    TableHasField = False
+End Function
+
+Private Function IsFieldAutoNumeric(ByVal tableName As String, ByVal fieldName As String) As Boolean
+    ' Verifica si un campo es autonumérico (GUID o Integer con flags específicos)
+    On Error GoTo ErrorHandler
+
+    Dim rs As Object
+    Set rs = m_dbConn.Connection.OpenSchema(4, Array(Empty, Empty, tableName, fieldName))
+
+    If Not rs.EOF Then
+        Dim tipo As Long
+        tipo = CLng(rs("DATA_TYPE"))
+        Dim flags As Long
+        flags = NzVariant(rs("COLUMN_FLAGS"))
+        If VarType(flags) <> vbLong Then flags = 0&
+        Dim defaultVal As String
+        defaultVal = NzVariant(rs("COLUMN_DEFAULT"))
+        If VarType(defaultVal) <> vbString Then defaultVal = ""
+
+        Const adInteger = 3
+        Const adGUID = 72
+
+        IsFieldAutoNumeric = ( _
+            (tipo = adGUID And defaultVal = "GenGUID()") Or _
+            (tipo = adInteger And (flags = 17 Or flags = 90)) _
+        )
+    Else
+        IsFieldAutoNumeric = False
+    End If
+
+    rs.Close
+    Exit Function
+
+ErrorHandler:
+    IsFieldAutoNumeric = False
 End Function

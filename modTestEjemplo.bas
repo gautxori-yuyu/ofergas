@@ -84,28 +84,34 @@ ErrorHandler:
 End Sub
 
 Sub DuplicarOfertaExistente()
+    ' Duplica oferta usando OFER_NUM_OFERTA en lugar de GUID
     Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
-    
+
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
     Set dao.DBConnection = conn
-    
+
     Dim oferta As clsOferta: Set oferta = New clsOferta
     Set oferta.GenericDAO = dao
-    
-    Dim idOrigen As String
-    idOrigen = "{11111111-1111-1111-1111-111111111111}"
-    
+
+    ' Usar OFER_NUM_OFERTA en lugar de GUID
+    Dim numOfertaOrigen As String
+    numOfertaOrigen = "OF-001"  ' Número de oferta origen
+
+    Dim nuevoNumOferta As String
+    nuevoNumOferta = "OF-COPIA-001"
+
     Dim idNuevo As String
-    idNuevo = oferta.DuplicarOferta(idOrigen, "OF-COPIA-001")
-    
+    idNuevo = oferta.DuplicarOferta(numOfertaOrigen, nuevoNumOferta)
+
+    Debug.Print "[OK] Oferta duplicada. Nuevo OFER_ID: " & idNuevo
+
     conn.Disconnect
 End Sub
-Private Function GetChildTables() As Variant
-    GetChildTables = Array("OfertasManoObra", "OfertasModelo", "OfertasOpciones", _
-        "OfertasOtros", "OfertasRefrigeradores", "OfertasAccesorios", _
-        "OfertasCabezal", "OfertasCalderines", "OfertasExtras", _
-        "OfertasInstrumentacion")
+
+Private Function GetChildTables(ByVal dao As clsGenericDAO) As Variant
+    ' Descubrir tablas hijas dinámicamente
+    GetChildTables = dao.GetChildTablesForFK("OFER_ID")
 End Function
 
 ' ══════════════════════════════════════════════════════════
@@ -224,9 +230,19 @@ Sub Test_DeleteRecordCascade()
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
     Set dao.DBConnection = conn
 
-    ' Definir tablas hijas
-    Dim childTables As Variant
-    childTables = GetChildTablesArray()
+    ' Descubrir tablas hijas dinámicamente
+    Dim childTablesNames As Variant
+    childTablesNames = dao.GetChildTablesForFK("OFER_ID")
+
+    ' Convertir nombres a Array de Dictionary para DeleteRecordCascade
+    Dim childTables() As Object
+    ReDim childTables(UBound(childTablesNames))
+    Dim i As Long
+    For i = 0 To UBound(childTablesNames)
+        Set childTables(i) = CreateObject("Scripting.Dictionary")
+        childTables(i).Add "tabla", childTablesNames(i)
+        childTables(i).Add "fkField", "OFER_ID"
+    Next i
 
     ' Eliminar con cascade
     Dim idToDelete As String
@@ -407,49 +423,3 @@ Sub Test_BackupRestore()
     dbMgr.Disconnect
 End Sub
 
-Private Function GetChildTablesArray() As Variant
-    ' Devuelve array de Dictionary para cascade delete
-    Dim tables(0 To 9) As Object
-
-    Set tables(0) = CreateObject("Scripting.Dictionary")
-    tables(0).Add "tabla", "OfertasManoObra"
-    tables(0).Add "fkField", "OFER_ID"
-
-    Set tables(1) = CreateObject("Scripting.Dictionary")
-    tables(1).Add "tabla", "OfertasModelo"
-    tables(1).Add "fkField", "OFER_ID"
-
-    Set tables(2) = CreateObject("Scripting.Dictionary")
-    tables(2).Add "tabla", "OfertasOpciones"
-    tables(2).Add "fkField", "OFER_ID"
-
-    Set tables(3) = CreateObject("Scripting.Dictionary")
-    tables(3).Add "tabla", "OfertasOtros"
-    tables(3).Add "fkField", "OFER_ID"
-
-    Set tables(4) = CreateObject("Scripting.Dictionary")
-    tables(4).Add "tabla", "OfertasRefrigeradores"
-    tables(4).Add "fkField", "OFER_ID"
-
-    Set tables(5) = CreateObject("Scripting.Dictionary")
-    tables(5).Add "tabla", "OfertasAccesorios"
-    tables(5).Add "fkField", "OFER_ID"
-
-    Set tables(6) = CreateObject("Scripting.Dictionary")
-    tables(6).Add "tabla", "OfertasCabezal"
-    tables(6).Add "fkField", "OFER_ID"
-
-    Set tables(7) = CreateObject("Scripting.Dictionary")
-    tables(7).Add "tabla", "OfertasCalderines"
-    tables(7).Add "fkField", "OFER_ID"
-
-    Set tables(8) = CreateObject("Scripting.Dictionary")
-    tables(8).Add "tabla", "OfertasExtras"
-    tables(8).Add "fkField", "OFER_ID"
-
-    Set tables(9) = CreateObject("Scripting.Dictionary")
-    tables(9).Add "tabla", "OfertasInstrumentacion"
-    tables(9).Add "fkField", "OFER_ID"
-
-    GetChildTablesArray = tables
-End Function

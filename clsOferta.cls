@@ -20,13 +20,13 @@ Public Property Set GenericDAO(ByVal dao As clsGenericDAO)
     Set m_dao = dao
 End Property
 
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' CREA OFERTA COMPLETA (maestra + todas las tablas hijas)
 ' data: Dictionary con tabla => datos
 '   - OfertasDatosGenerales: Dictionary (1 registro)
 '   - OfertasManoObra: ArrayList de Dictionary (1:N)
-' Devuelve OFER_ID nuevo si éxito, "" si fallo
-' ——————————————————————————————————————————————————————
+' Devuelve OFER_ID nuevo si ï¿½xito, "" si fallo
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Function CrearOfertaCompleta(ByVal data As Object) As String
     On Error GoTo ErrorHandler
     
@@ -39,7 +39,7 @@ Public Function CrearOfertaCompleta(ByVal data As Object) As String
     Dim db As Object
     Set db = m_dao.DBConnection.Connection
     
-    ' === TRANSACCIÓN DAO (como tu Access) ===
+    ' === TRANSACCIï¿½N DAO (como tu Access) ===
     Dim ws As Object
     On Error Resume Next
     Set ws = m_dao.DBConnection.DAOWorkspace
@@ -59,7 +59,7 @@ Public Function CrearOfertaCompleta(ByVal data As Object) As String
     If resultMaestra.Exists("OFER_ID") Then
         idOferta = resultMaestra("OFER_ID")
     Else
-        Err.Raise vbObjectError + 5002, "CrearOfertaCompleta", "No se recuperó OFER_ID"
+        Err.Raise vbObjectError + 5002, "CrearOfertaCompleta", "No se recuperï¿½ OFER_ID"
     End If
     
     ' 2. Propagar OFER_ID a todas las hijas y insertar
@@ -91,7 +91,7 @@ ErrorHandler:
     msg = "Error en CrearOfertaCompleta: " & Err.Description & " (Err=" & Err.Number & ")"
     LogError "CrearOfertaCompleta", msg
     
-    ' Intentar limpiar maestra si se creó
+    ' Intentar limpiar maestra si se creï¿½
     If idOferta <> "" Then
         On Error Resume Next
         m_dao.DeleteRecord "OfertasDatosGenerales", idOferta, "OFER_ID"
@@ -100,25 +100,40 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.CrearOfertaCompleta", Err.Description
 End Function
 
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' DUPLICA OFERTA (como tu DuplicarOferta)
 ' Devuelve nuevo OFER_ID
-' ——————————————————————————————————————————————————————
-Public Function DuplicarOferta(ByVal idOrigen As String, ByVal nuevoNumOferta As String) As String
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Public Function DuplicarOferta(ByVal numOfertaOrigen As String, ByVal nuevoNumOferta As String) As String
     On Error GoTo ErrorHandler
     
     ' Validar unicidad (como tu Access)
+    ' Obtener OFER_ID de la oferta origen usando OFER_NUM_OFERTA
+    sql = "SELECT OFER_ID FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = '" & Replace(numOfertaOrigen, "'", "'''") & "'"
+    Set rs = m_dao.DBConnection.Connection.Execute(sql)
+    If rs.EOF Then
+        rs.Close
+        Err.Raise vbObjectError + 5009, "DuplicarOferta", "No existe oferta con nÃºmero: " & numOfertaOrigen
+    End If
+    Dim idOrigen As String
+    idOrigen = NzVBA(rs("OFER_ID"), "")
+    rs.Close
+    
+    If idOrigen = "" Then
+        Err.Raise vbObjectError + 5009, "DuplicarOferta", "OFER_ID vacÃ­o para oferta: " & numOfertaOrigen
+    End If
+
     Dim sql As String
     sql = "SELECT COUNT(*) FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = '" & Replace(nuevoNumOferta, "'", "''") & "'"
     Dim rs As Object
     Set rs = m_dao.DBConnection.Connection.Execute(sql)
     If CLng(rs(0)) > 0 Then
         rs.Close
-        Err.Raise vbObjectError + 5010, "DuplicarOferta", "Ya existe oferta con ese número"
+        Err.Raise vbObjectError + 5010, "DuplicarOferta", "Ya existe oferta con ese nï¿½mero"
     End If
     rs.Close
     
-    ' === TRANSACCIÓN ===
+    ' === TRANSACCIï¿½N ===
     Dim ws As Object
     Set ws = CreateObject("DAO.DBEngine.120").Workspaces(0)
     ws.BeginTrans
@@ -152,18 +167,12 @@ Public Function DuplicarOferta(ByVal idOrigen As String, ByVal nuevoNumOferta As
     If resultMaestra.Exists("OFER_ID") Then
         idNuevo = resultMaestra("OFER_ID")
     Else
-        Err.Raise vbObjectError + 5012, "DuplicarOferta", "No se recuperó OFER_ID"
+        Err.Raise vbObjectError + 5012, "DuplicarOferta", "No se recuperï¿½ OFER_ID"
     End If
     
-    ' 3. Duplicar todas las tablas hijas
+    ' 3. Duplicar todas las tablas hijas dinÃ¡micamente
     Dim hijas As Variant
-    hijas = Array( _
-        "OfertasManoObra", "OfertasModelo", "OfertasOpciones", _
-        "OfertasOtros", "OfertasRefrigeradores", "OfertasAccesorios", _
-        "OfertasCabezal", "OfertasCalderines", "OfertasExtras", _
-        "OfertasInstrumentacion" _
-    )
-    
+    hijas = m_dao.GetChildTablesForFK("OFER_ID")
     Dim t As Variant
     For Each t In hijas
         If Not m_dao.DuplicateRecord(CStr(t), idOrigen, idNuevo, "OFER_ID") Then
@@ -183,7 +192,7 @@ ErrorHandler:
         Set ws = Nothing
     End If
     
-    ' Limpiar maestra si se creó
+    ' Limpiar maestra si se creï¿½
     If idNuevo <> "" Then
         On Error Resume Next
         m_dao.DeleteRecord "OfertasDatosGenerales", idNuevo, "OFER_ID"
@@ -193,31 +202,28 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.DuplicarOferta", Err.Description
 End Function
 
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' BORRAR OFERTA COMPLETA (como tu BorrarOferta)
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Sub BorrarOferta(ByVal idOferta As String)
     On Error GoTo ErrorHandler
     
     Dim ws As Object
     Set ws = CreateObject("DAO.DBEngine.120").Workspaces(0)
     ws.BeginTrans
-    
+
+    ' Descubrir tablas hijas dinÃ¡micamente
     Dim hijas As Variant
-    hijas = Array( _
-        "OfertasManoObra", "OfertasModelo", "OfertasOpciones", _
-        "OfertasOtros", "OfertasRefrigeradores", "OfertasAccesorios", _
-        "OfertasCabezal", "OfertasCalderines", "OfertasExtras", _
-        "OfertasInstrumentacion" _
-    )
-    
+    hijas = m_dao.GetChildTablesForFK("OFER_ID")
+
+    ' Borrar todas las hijas primero
     Dim t As Variant
     For Each t In hijas
         If Not m_dao.DeleteRecord(CStr(t), idOferta, "OFER_ID") Then
             Err.Raise vbObjectError + 5020, "BorrarOferta", "Fallo al borrar " & t
         End If
     Next t
-    
+
     ' Borrar maestra
     If Not m_dao.DeleteRecord("OfertasDatosGenerales", idOferta, "OFER_ID") Then
         Err.Raise vbObjectError + 5021, "BorrarOferta", "Fallo al borrar maestra"
@@ -237,9 +243,9 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.BorrarOferta", Err.Description
 End Sub
 
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ' AUXILIARES
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Private Sub PropagarOFER_ID(ByRef dataItem As Object, ByVal idOferta As String)
     Dim esLista As Boolean
     esLista = TypeName(dataItem) = "ArrayList"
@@ -276,9 +282,9 @@ Private Sub LogError(ByVal method As String, ByVal msg As String)
     m_errors(method) = arr
 End Sub
 
-' ——————————————————————————————————————————————————————
-' ACCESO A ERRORES (para diagnóstico)
-' ——————————————————————————————————————————————————————
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+' ACCESO A ERRORES (para diagnï¿½stico)
+' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 Public Function GetErrors() As Object
     Set GetErrors = m_errors
 End Function
