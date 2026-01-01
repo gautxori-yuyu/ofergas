@@ -1,0 +1,45 @@
+ARCHIVO DE PRUEBA - VERIFICACIÓN DE ENCODING UTF-8
+==================================================
+
+Este archivo contiene todos los caracteres españoles con diacríticos para verificar
+que se guardan correctamente en UTF-8 y se pueden descargar desde GitHub sin problemas.
+
+VOCALES CON TILDES:
+- Minúsculas: á é í ó ú
+- Mayúsculas: Á É Í Ó Ú
+
+LETRA Ñ:
+- Minúscula: ñ
+- Mayúscula: Ñ
+
+DIÉRESIS:
+- Minúscula: ü
+- Mayúscula: Ü
+
+FRASES DE PRUEBA:
+- El niño comió açaí en el año 2025
+- ESPAÑA, MÉXICO, PERÚ, PANAMÁ
+- Clasificación, operación, descripción
+- José Rodríguez trabaja en Álava
+- La solución está en la configuración
+- Número de teléfono: información válida
+
+PALABRAS TÉCNICAS VBA:
+- Función, módulo, creación
+- Búsqueda, validación, conexión
+- Parámetros, dinámica, genérico
+- Operación CRUD: añadir, modificar, eliminar
+
+SÍMBOLOS ESPECIALES:
+- Comillas: "texto" 'texto'
+- Paréntesis: (contenido)
+- Signos: ¿pregunta? ¡exclamación!
+- Euro: €
+- Grados: 25°C
+
+Si todos estos caracteres se ven correctamente cuando descargues este archivo
+desde GitHub, entonces el encoding UTF-8 está funcionando correctamente.
+
+FECHA DE CREACIÓN: 2026-01-01
+AUTOR: Claude Code
+PROPÓSITO: Verificación de encoding
