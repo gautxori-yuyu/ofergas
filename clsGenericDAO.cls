@@ -18,14 +18,14 @@ End Property
 Public Property Get DBConnection() As clsDBManager
     Set DBConnection = m_dbConn
 End Property
-' ������������������������������������������������������
-' INSERTA un registro (1:1) o m�ltiples (1:N)
+' ══════════════════════════════════════════════════════════
+' INSERTA un registro (1:1) o múltiples (1:N)
 ' data:
 '   - Dictionary ? 1 registro
 '   - System.Collections.ArrayList de Dictionary ? N registros
 ' Devuelve un Dictionary con {campoAutonum => valorGenerado} del primer registro,
-' o Nothing si fallo. Para m�ltiples registros, solo devuelve del primero (como Access).
-' ������������������������������������������������������
+' o Nothing si fallo. Para múltiples registros, solo devuelve del primero (como Access).
+' ══════════════════════════════════════════════════════════
 Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
                               Optional ByVal idFieldName As String = "OFER_ID") As Object
     On Error GoTo ErrorHandler
@@ -84,7 +84,7 @@ Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
         sql = "INSERT INTO [" & tableName & "] (" & listaCampos & ") VALUES (" & listaValores & ")"
         m_dbConn.Connection.Execute sql
         
-        ' Solo recuperar autonum�ricos del PRIMER registro (como hace tu Access)
+        ' Solo recuperar autonuméricos del PRIMER registro (como hace tu Access)
         If i = 0 And UBound(autoFields) >= LBound(autoFields) Then
             Dim k As Long
             For k = LBound(autoFields) To UBound(autoFields)
@@ -107,9 +107,9 @@ ErrorHandler:
     Set InsertRecord = Nothing
 End Function
 
-' ������������������������������������������������������
-' DUPLICAR gen�rico (como tu DuplicarRegistroEnTablas)
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════════
+' DUPLICAR genérico (como tu DuplicarRegistroEnTablas)
+' ══════════════════════════════════════════════════════════
 Public Function DuplicateRecord(ByVal tableName As String, ByVal idOrigen As String, ByVal idNuevo As String, ByVal idFieldName As String) As Boolean
     On Error GoTo ErrorHandler
     
@@ -210,9 +210,9 @@ ErrorHandler:
     DuplicateRecordAdvanced = False
 End Function
 
-' ������������������������������������������������������
-' BORRAR gen�rico
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════════
+' BORRAR genérico
+' ══════════════════════════════════════════════════════════
 Public Function DeleteRecord(ByVal tableName As String, ByVal idValue As String, ByVal idFieldName As String) As Boolean
     On Error GoTo ErrorHandler
 
@@ -227,9 +227,9 @@ ErrorHandler:
     DeleteRecord = False
 End Function
 
-' ������������������������������������������������������
-' RECUPERAR valor de un campo autonum�rico espec�fico (no solo OFER_ID)
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════════
+' RECUPERAR valor de un campo autonumérico específico (no solo OFER_ID)
+' ══════════════════════════════════════════════════════════
 ' En clsGenericDAO.cls
 Public Function GetLastAutoID(ByVal tableName As String, ByVal idFieldName As String, ByVal uniqueFields As Object) As String
     ' uniqueFields: Dictionary {"campo1": valor1, "campo2": valor2}
@@ -258,9 +258,9 @@ Public Function GetLastAutoID(ByVal tableName As String, ByVal idFieldName As St
     rs.Close
 End Function
 
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════════
 ' FUNCIONES AUXILIARES
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════════
 
 Private Function EscapeValue(ByVal val As Variant) As String
     If IsNull(val) Or val = "" Then

@@ -1,5 +1,5 @@
 Attribute VB_Name = "modTestEjemplo"
-' modTestEjemplo.bas � Ejemplo fiel a tu Access
+' modTestEjemplo.bas - Ejemplo fiel a tu Access
 Option Explicit
 Sub Test_CrearOfertaCompleta()
     Dim conn As clsDBManager: Set conn = New clsDBManager
@@ -22,7 +22,7 @@ Sub Test_CrearOfertaCompleta()
     Set manoObra = CreateObject("System.Collections.ArrayList")
     Dim linea1 As Object
     Set linea1 = CreateObject("Scripting.Dictionary")
-    linea1("OFMO_DESCRIPCION") = "Instalaci�n el�ctrica"
+    linea1("OFMO_DESCRIPCION") = "Instalación eléctrica"
     linea1("OFMO_HORAS") = 8
     manoObra.Add linea1
     
@@ -46,7 +46,7 @@ Sub Test_CrearOfertaCompleta()
     If resultMaestra.Exists("OFER_ID") Then
         idOferta = resultMaestra("OFER_ID")
     Else
-        Err.Raise vbObjectError + 5201, , "No se recuper� OFER_ID"
+        Err.Raise vbObjectError + 5201, , "No se recuperó OFER_ID"
     End If
     
     ' 2. Propagar OFER_ID a hijas y insertar
