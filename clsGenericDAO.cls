@@ -85,12 +85,13 @@ Public Function InsertRecord(ByVal tableName As String, ByVal data As Object, _
         m_dbConn.Connection.Execute sql
         
         ' Solo recuperar autonum�ricos del PRIMER registro (como hace tu Access)
-        If i = 0 Then
+        If i = 0 And UBound(autoFields) >= LBound(autoFields) Then
             Dim k As Long
             For k = LBound(autoFields) To UBound(autoFields)
                 Dim campoAuto As String: campoAuto = autoFields(k)
                 Dim valorGenerado As String
-                valorGenerado = RecoveryIDForField(tableName, campoAuto, reg)
+                ' Usar GetLastAutoID con los campos del registro como uniqueFields
+                valorGenerado = GetLastAutoID(tableName, campoAuto, reg)
                 If valorGenerado <> "" Then
                     results.Add campoAuto, valorGenerado
                 End If
@@ -137,6 +138,76 @@ Public Function DuplicateRecord(ByVal tableName As String, ByVal idOrigen As Str
 ErrorHandler:
     Debug.Print "[ERR] DuplicateRecord(" & tableName & "): " & Err.Description
     DuplicateRecord = False
+End Function
+
+' ══════════════════════════════════════════════════════════
+' DUPLICAR AVANZADO - Con WHERE dinámico y nuevos valores
+' ══════════════════════════════════════════════════════════
+Public Function DuplicateRecordAdvanced(ByVal tableName As String, _
+                                       ByVal whereClause As String, _
+                                       ByVal newValues As Object, _
+                                       Optional ByVal excludeFields As Variant) As Boolean
+    ' whereClause: Ej: "OFER_NUM_OFERTA = 'OF-001'"
+    ' newValues: Dictionary {"OFER_NUM_OFERTA": "OF-002", "OFER_FECHA": Date}
+    ' excludeFields: Array de campos a excluir (además de autonuméricos)
+    On Error GoTo ErrorHandler
+
+    ' Obtener campos autonuméricos a excluir
+    Dim autoFields As Variant
+    autoFields = GetAutoNumericFields(tableName)
+
+    ' Combinar autoFields con excludeFields
+    Dim allExclude As Variant
+    If Not IsMissing(excludeFields) Then
+        If IsArray(excludeFields) Then
+            ' Combinar arrays
+            allExclude = CombineArrays(autoFields, excludeFields)
+        Else
+            ' excludeFields es un solo valor
+            ReDim allExclude(UBound(autoFields) + 1)
+            Dim i As Long
+            For i = 0 To UBound(autoFields)
+                allExclude(i) = autoFields(i)
+            Next i
+            allExclude(UBound(allExclude)) = excludeFields
+        End If
+    Else
+        allExclude = autoFields
+    End If
+
+    ' Obtener campos de destino (excluyendo autonuméricos y excludeFields)
+    Dim camposDestino As String
+    camposDestino = GetFieldsExcept(tableName, allExclude)
+    If camposDestino = "" Then
+        DuplicateRecordAdvanced = True
+        Exit Function
+    End If
+
+    ' Construir SELECT con nuevos valores
+    Dim camposOrigen As String
+    camposOrigen = camposDestino
+
+    ' Reemplazar campos con nuevos valores
+    If Not newValues Is Nothing Then
+        Dim campo As Variant
+        For Each campo In newValues.Keys
+            camposOrigen = ReplaceFieldInSQL(camposOrigen, CStr(campo), EscapeValue(newValues(campo)))
+        Next campo
+    End If
+
+    ' Construir y ejecutar SQL
+    Dim sql As String
+    sql = "INSERT INTO [" & tableName & "] (" & camposDestino & ") " & _
+          "SELECT " & camposOrigen & " FROM [" & tableName & "] WHERE " & whereClause
+
+    m_dbConn.Connection.Execute sql
+    DuplicateRecordAdvanced = True
+    Debug.Print "[OK] DuplicateRecordAdvanced: " & tableName
+    Exit Function
+
+ErrorHandler:
+    Debug.Print "[ERR] DuplicateRecordAdvanced(" & tableName & "): " & Err.Description
+    DuplicateRecordAdvanced = False
 End Function
 
 ' ������������������������������������������������������
@@ -191,32 +262,6 @@ End Function
 ' FUNCIONES AUXILIARES
 ' ������������������������������������������������������
 
-Private Function RecoveryIDForField(ByVal tableName As String, ByVal fieldName As String, ByVal data As Object) As String
-    ' Estrategia: buscar por campos �nicos + orden descendente
-    ' Para OFER_ID: OFER_NUM_OFERTA + OFER_FECHA
-    If fieldName = "OFER_ID" And data.Exists("OFER_NUM_OFERTA") And data.Exists("OFER_FECHA") Then
-        Dim num As String: num = EscapeString(data("OFER_NUM_OFERTA"))
-        Dim fecha As String: fecha = EscapeDate(data("OFER_FECHA"))
-        
-        Dim sql As String
-        sql = "SELECT [" & fieldName & "] FROM [" & tableName & "] " & _
-              "WHERE [OFER_NUM_OFERTA] = " & num & " AND [OFER_FECHA] = " & fecha & " " & _
-              "ORDER BY [OFER_FECHA] DESC"
-        
-        Dim rs As Object
-        Set rs = m_dbConn.Connection.Execute(sql)
-        If Not rs.EOF Then
-            Dim idRaw As String: idRaw = NzVBA(rs(0), "")
-            If InStr(idRaw, "{guid {") > 0 Then
-                idRaw = Replace(Replace(idRaw, "{guid {", "{"), "}}", "}")
-            End If
-            RecoveryIDForField = idRaw
-        End If
-        rs.Close
-    End If
-    ' Para otros campos autonum�ricos (ej: OFMO_ID), implementar l�gica espec�fica si es necesaria
-    ' Por ahora, solo OFER_ID tiene recuperaci�n definida
-End Function
 Private Function EscapeValue(ByVal val As Variant) As String
     If IsNull(val) Or val = "" Then
         EscapeValue = "NULL"
@@ -751,4 +796,45 @@ Private Function ReplaceFieldInSQL(ByVal fieldList As String, ByVal fieldName As
         End If
     Next i
     ReplaceFieldInSQL = Join(partes, ",")
+End Function
+
+Private Function CombineArrays(ByVal arr1 As Variant, ByVal arr2 As Variant) As Variant
+    ' Combina dos arrays en uno solo
+    If Not IsArray(arr1) Then arr1 = Array()
+    If Not IsArray(arr2) Then arr2 = Array()
+
+    Dim size1 As Long, size2 As Long
+    If UBound(arr1) >= LBound(arr1) Then
+        size1 = UBound(arr1) - LBound(arr1) + 1
+    Else
+        size1 = 0
+    End If
+
+    If UBound(arr2) >= LBound(arr2) Then
+        size2 = UBound(arr2) - LBound(arr2) + 1
+    Else
+        size2 = 0
+    End If
+
+    If size1 = 0 And size2 = 0 Then
+        CombineArrays = Array()
+        Exit Function
+    End If
+
+    Dim result() As Variant
+    ReDim result(size1 + size2 - 1)
+
+    Dim i As Long, idx As Long
+    idx = 0
+    For i = LBound(arr1) To UBound(arr1)
+        result(idx) = arr1(i)
+        idx = idx + 1
+    Next i
+
+    For i = LBound(arr2) To UBound(arr2)
+        result(idx) = arr2(i)
+        idx = idx + 1
+    Next i
+
+    CombineArrays = result
 End Function
