@@ -20,13 +20,13 @@ Public Property Set GenericDAO(ByVal dao As clsGenericDAO)
     Set m_dao = dao
 End Property
 
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 ' CREA OFERTA COMPLETA (maestra + todas las tablas hijas)
 ' data: Dictionary con tabla => datos
 '   - OfertasDatosGenerales: Dictionary (1 registro)
 '   - OfertasManoObra: ArrayList de Dictionary (1:N)
-' Devuelve OFER_ID nuevo si �xito, "" si fallo
-' ������������������������������������������������������
+' Devuelve OFER_ID nuevo si éxito, "" si fallo
+' ══════════════════════════════════════════════════════
 Public Function CrearOfertaCompleta(ByVal data As Object) As String
     On Error GoTo ErrorHandler
     
@@ -39,7 +39,7 @@ Public Function CrearOfertaCompleta(ByVal data As Object) As String
     Dim db As Object
     Set db = m_dao.DBConnection.Connection
     
-    ' === TRANSACCI�N DAO (como tu Access) ===
+    ' === TRANSACCIÓN DAO (como tu Access) ===
     Dim ws As Object
     On Error Resume Next
     Set ws = m_dao.DBConnection.DAOWorkspace
@@ -59,7 +59,7 @@ Public Function CrearOfertaCompleta(ByVal data As Object) As String
     If resultMaestra.Exists("OFER_ID") Then
         idOferta = resultMaestra("OFER_ID")
     Else
-        Err.Raise vbObjectError + 5002, "CrearOfertaCompleta", "No se recuper� OFER_ID"
+        Err.Raise vbObjectError + 5002, "CrearOfertaCompleta", "No se recuperó OFER_ID"
     End If
     
     ' 2. Propagar OFER_ID a todas las hijas y insertar
@@ -91,7 +91,7 @@ ErrorHandler:
     msg = "Error en CrearOfertaCompleta: " & Err.Description & " (Err=" & Err.Number & ")"
     LogError "CrearOfertaCompleta", msg
     
-    ' Intentar limpiar maestra si se cre�
+    ' Intentar limpiar maestra si se creó
     If idOferta <> "" Then
         On Error Resume Next
         m_dao.DeleteRecord "OfertasDatosGenerales", idOferta, "OFER_ID"
@@ -100,40 +100,41 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.CrearOfertaCompleta", Err.Description
 End Function
 
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 ' DUPLICA OFERTA (como tu DuplicarOferta)
 ' Devuelve nuevo OFER_ID
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 Public Function DuplicarOferta(ByVal numOfertaOrigen As String, ByVal nuevoNumOferta As String) As String
     On Error GoTo ErrorHandler
-    
-    ' Validar unicidad (como tu Access)
+
+    Dim sql As String
+    Dim rs As Object
+    Dim idOrigen As String
+
     ' Obtener OFER_ID de la oferta origen usando OFER_NUM_OFERTA
-    sql = "SELECT OFER_ID FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = '" & Replace(numOfertaOrigen, "'", "'''") & "'"
+    sql = "SELECT OFER_ID FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = '" & Replace(numOfertaOrigen, "'", "''") & "'"
     Set rs = m_dao.DBConnection.Connection.Execute(sql)
     If rs.EOF Then
         rs.Close
         Err.Raise vbObjectError + 5009, "DuplicarOferta", "No existe oferta con número: " & numOfertaOrigen
     End If
-    Dim idOrigen As String
     idOrigen = NzVBA(rs("OFER_ID"), "")
     rs.Close
-    
+
     If idOrigen = "" Then
         Err.Raise vbObjectError + 5009, "DuplicarOferta", "OFER_ID vacío para oferta: " & numOfertaOrigen
     End If
 
-    Dim sql As String
+    ' Validar unicidad del nuevo número de oferta
     sql = "SELECT COUNT(*) FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = '" & Replace(nuevoNumOferta, "'", "''") & "'"
-    Dim rs As Object
     Set rs = m_dao.DBConnection.Connection.Execute(sql)
     If CLng(rs(0)) > 0 Then
         rs.Close
-        Err.Raise vbObjectError + 5010, "DuplicarOferta", "Ya existe oferta con ese n�mero"
+        Err.Raise vbObjectError + 5010, "DuplicarOferta", "Ya existe oferta con ese número"
     End If
     rs.Close
     
-    ' === TRANSACCI�N ===
+    ' === TRANSACCIÓN ===
     Dim ws As Object
     Set ws = CreateObject("DAO.DBEngine.120").Workspaces(0)
     ws.BeginTrans
@@ -167,7 +168,7 @@ Public Function DuplicarOferta(ByVal numOfertaOrigen As String, ByVal nuevoNumOf
     If resultMaestra.Exists("OFER_ID") Then
         idNuevo = resultMaestra("OFER_ID")
     Else
-        Err.Raise vbObjectError + 5012, "DuplicarOferta", "No se recuper� OFER_ID"
+        Err.Raise vbObjectError + 5012, "DuplicarOferta", "No se recuperó OFER_ID"
     End If
     
     ' 3. Duplicar todas las tablas hijas dinámicamente
@@ -192,7 +193,7 @@ ErrorHandler:
         Set ws = Nothing
     End If
     
-    ' Limpiar maestra si se cre�
+    ' Limpiar maestra si se creó
     If idNuevo <> "" Then
         On Error Resume Next
         m_dao.DeleteRecord "OfertasDatosGenerales", idNuevo, "OFER_ID"
@@ -202,9 +203,9 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.DuplicarOferta", Err.Description
 End Function
 
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 ' BORRAR OFERTA COMPLETA (como tu BorrarOferta)
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 Public Sub BorrarOferta(ByVal idOferta As String)
     On Error GoTo ErrorHandler
     
@@ -243,9 +244,9 @@ ErrorHandler:
     Err.Raise Err.Number, "clsOferta.BorrarOferta", Err.Description
 End Sub
 
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 ' AUXILIARES
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
 Private Sub PropagarOFER_ID(ByRef dataItem As Object, ByVal idOferta As String)
     Dim esLista As Boolean
     esLista = TypeName(dataItem) = "ArrayList"
@@ -282,9 +283,9 @@ Private Sub LogError(ByVal method As String, ByVal msg As String)
     m_errors(method) = arr
 End Sub
 
-' ������������������������������������������������������
-' ACCESO A ERRORES (para diagn�stico)
-' ������������������������������������������������������
+' ══════════════════════════════════════════════════════
+' ACCESO A ERRORES (para diagnóstico)
+' ══════════════════════════════════════════════════════
 Public Function GetErrors() As Object
     Set GetErrors = m_errors
 End Function
