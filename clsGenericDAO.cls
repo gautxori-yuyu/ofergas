@@ -9,13 +9,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private m_dbConn As clsDBConnection  ' ? cambia de Object ? clsDBConnection
+Private m_dbConn As clsDBManager
 
-Public Property Set DBConnection(ByVal conn As clsDBConnection)
+Public Property Set DBConnection(ByVal conn As clsDBManager)
     Set m_dbConn = conn
 End Property
 
-Public Property Get DBConnection() As clsDBConnection
+Public Property Get DBConnection() As clsDBManager
     Set DBConnection = m_dbConn
 End Property
 ' ������������������������������������������������������

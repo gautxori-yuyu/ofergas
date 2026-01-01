@@ -2,7 +2,7 @@ Attribute VB_Name = "modTestEjemplo"
 ' modTestEjemplo.bas � Ejemplo fiel a tu Access
 Option Explicit
 Sub Test_CrearOfertaCompleta()
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
     
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -84,7 +84,7 @@ ErrorHandler:
 End Sub
 
 Sub DuplicarOfertaExistente()
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
     
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -114,7 +114,7 @@ End Function
 
 Sub Test_GetRecord()
     ' Obtener UN registro específico por ID
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -135,7 +135,7 @@ End Sub
 
 Sub Test_SelectRecords()
     ' Obtener múltiples registros con filtro, orden y límite
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -159,7 +159,7 @@ End Sub
 
 Sub Test_SearchRecords()
     ' Búsqueda avanzada con operadores
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -191,7 +191,7 @@ End Sub
 
 Sub Test_UpdateRecord()
     ' Actualizar registro(s)
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -218,7 +218,7 @@ End Sub
 
 Sub Test_DeleteRecordCascade()
     ' Eliminar oferta con todas sus tablas hijas
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -243,7 +243,7 @@ End Sub
 
 Sub Test_BulkInsert()
     ' Inserción masiva optimizada
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -274,7 +274,7 @@ End Sub
 
 Sub Test_ValidateForeignKeys()
     ' Validar FKs antes de insertar
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -319,7 +319,7 @@ End Sub
 
 Sub Test_ExportImportExcel()
     ' Exportar e importar desde Excel
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -350,7 +350,7 @@ End Sub
 
 Sub Test_ExportImportCSV()
     ' Exportar e importar desde CSV
-    Dim conn As clsDBConnection: Set conn = New clsDBConnection
+    Dim conn As clsDBManager: Set conn = New clsDBManager
     conn.Connect ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
@@ -380,24 +380,31 @@ Sub Test_ExportImportCSV()
 End Sub
 
 Sub Test_BackupRestore()
-    ' Backup y restore de base de datos
+    ' Backup y restore de base de datos usando clsDBManager
     Dim dbPath As String
     dbPath = ThisWorkbook.Path & "\Ofertas_Ejemplo.accdb"
 
     Dim backupPath As String
     backupPath = ThisWorkbook.Path & "\Backups\Ofertas_" & Format(Now, "yyyymmdd_hhnnss") & ".accdb"
 
+    ' Crear instancia de DBManager
+    Dim dbMgr As clsDBManager
+    Set dbMgr = New clsDBManager
+    dbMgr.Connect dbPath
+
     ' 1. Crear backup
-    If BackupDatabase(dbPath, backupPath) Then
+    If dbMgr.Backup(backupPath) Then
         Debug.Print "[OK] Backup creado en " & backupPath
 
         ' 2. Restaurar (ejemplo)
         ' Dim restorePath As String
         ' restorePath = ThisWorkbook.Path & "\Ofertas_Restored.accdb"
-        ' If RestoreDatabase(backupPath, restorePath) Then
+        ' If dbMgr.Restore(backupPath, restorePath) Then
         '     Debug.Print "[OK] Base de datos restaurada"
         ' End If
     End If
+
+    dbMgr.Disconnect
 End Sub
 
 Private Function GetChildTablesArray() As Variant
