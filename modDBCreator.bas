@@ -1,5 +1,5 @@
 Attribute VB_Name = "modDBCreator"
-' modDBCreator.bas ó Crea BD con tu estructura real
+' modDBCreator.bas ‚Äî Crea BD con tu estructura real
 Option Explicit
 
 Public Sub CrearBaseDeDatosEjemplo()
@@ -26,7 +26,7 @@ End Sub
 
 Private Sub CrearBDVacia(ByVal fullPath As String)
     'se requiere:
-    'ìMicrosoft Access Database Engine 2016 Redistributable (64 bits)î
+    '‚ÄúMicrosoft Access Database Engine 2016 Redistributable (64 bits)‚Äù
     'Descargable desde: https://www.microsoft.com/en-us/download/details.aspx?id=54920
     On Error Resume Next: Kill fullPath: On Error GoTo 0
     Dim cat As Object: Set cat = CreateObject("ADOX.Catalog")
@@ -49,17 +49,17 @@ End Sub
 Private Sub CrearTablaGases(ByVal db As Object)
     db.Execute "CREATE TABLE Gases (GASE_ID LONG CONSTRAINT PK_GASE PRIMARY KEY, GASE_DENOMINACION TEXT(50))"
     db.Execute "INSERT INTO Gases (GASE_ID, GASE_DENOMINACION) VALUES (1, 'Aire')"
-    db.Execute "INSERT INTO Gases (GASE_ID, GASE_DENOMINACION) VALUES (2, 'NitrÛgeno')"
+    db.Execute "INSERT INTO Gases (GASE_ID, GASE_DENOMINACION) VALUES (2, 'Nitr√≥geno')"
 End Sub
 
 Private Sub CrearTablaPaises(ByVal db As Object)
     db.Execute "CREATE TABLE Paises (pais_id LONG CONSTRAINT PK_PAIS PRIMARY KEY, pais_nombre TEXT(50))"
-    db.Execute "INSERT INTO Paises (pais_id, pais_nombre) VALUES (1, 'EspaÒa')"
+    db.Execute "INSERT INTO Paises (pais_id, pais_nombre) VALUES (1, 'Espa√±a')"
     db.Execute "INSERT INTO Paises (pais_id, pais_nombre) VALUES (2, 'Francia')"
 End Sub
 
 Private Sub InsertarDatosPrueba(ByVal db As Object)
-    ' Insertar maestra (OFER_ID generado autom·ticamente)
+    ' Insertar maestra (OFER_ID generado autom√°ticamente)
     db.Execute "INSERT INTO OfertasDatosGenerales (OFER_NUM_OFERTA, OFER_FECHA, OFER_CLIENTE, GASE_ID, PAIS_ID) " & _
                "VALUES ('OF-2025-001', #2025/12/28#, 'Cliente A', 1, 1)"
     
@@ -68,16 +68,16 @@ Private Sub InsertarDatosPrueba(ByVal db As Object)
     Set rs = db.Execute("SELECT OFER_ID FROM OfertasDatosGenerales WHERE OFER_NUM_OFERTA = 'OF-2025-001'")
     Dim id1 As String: id1 = NzVBA(rs(0), ""): rs.Close
     
-    ' Insertar hija mÌnima
-    'db.Execute "INSERT INTO OfertasManoObra (OFER_ID, OFMO_DESCRIPCION) VALUES (?, 'InstalaciÛn')", Array(id1)
-    'La lÌnea anterior no es v·lida es para DAO y aquÌ estamos usando ADO (con interpolacion segura)
-'    db.Execute "INSERT INTO OfertasManoObra (OFER_ID, OFMO_DESCRIPCION, OFMO_HORAS) VALUES ('" & Replace(id1, "'", "''") & "', 'InstalaciÛn elÈctrica', 8)"
-    ' OpciÛn B (con tu DAO):
+    ' Insertar hija m√≠nima
+    'db.Execute "INSERT INTO OfertasManoObra (OFER_ID, OFMO_DESCRIPCION) VALUES (?, 'Instalaci√≥n')", Array(id1)
+    'La l√≠nea anterior no es v√°lida es para DAO y aqu√≠ estamos usando ADO (con interpolacion segura)
+'    db.Execute "INSERT INTO OfertasManoObra (OFER_ID, OFMO_DESCRIPCION, OFMO_HORAS) VALUES ('" & Replace(id1, "'", "''") & "', 'Instalaci√≥n el√©ctrica', 8)"
+    ' Opci√≥n B (con tu DAO):
     Dim dao As clsGenericDAO: Set dao = New clsGenericDAO
     Set dao.DBConnection.Connection = db
     Dim data As Object: Set data = CreateObject("Scripting.Dictionary")
     data("OFER_ID") = id1
-    data("OFMO_DESCRIPCION") = "InstalaciÛn elÈctrica"
+    data("OFMO_DESCRIPCION") = "Instalaci√≥n el√©ctrica"
     data("OFMO_HORAS") = 8
     dao.InsertRecord "OfertasManoObra", data
 End Sub

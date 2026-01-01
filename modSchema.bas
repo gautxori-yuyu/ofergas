@@ -1,5 +1,5 @@
 Attribute VB_Name = "modSchema"
-' modSchema.bas — Introspección genérica (late binding ADO)
+' modSchema.bas â€” IntrospecciÃ³n genÃ©rica (late binding ADO)
 ' Fiel a tu CamposSin, CamposAutonumericos, ReemplazarCampoSQL
 Option Explicit
 
